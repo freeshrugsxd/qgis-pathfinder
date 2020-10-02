@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/plugins/copy_source_location/icons" >
+        <file>copy.svg</file>
+        <file>open_in_explorer.svg</file>
+    </qresource>
+</RCC>
