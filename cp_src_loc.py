@@ -26,7 +26,7 @@ import subprocess
 from pathlib import Path
 from platform import system as pf_system
 
-from PyQt5.QtCore import QObject, QEvent, Qt
+from PyQt5.QtCore import QObject, QEvent, QSettings, Qt, QTranslator, QCoreApplication
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QAction, QMenu
 from pandas import Series
@@ -70,6 +70,17 @@ class CopySourceLocation(QObject):
         self.shift_mod = False
         self.locs = []
 
+        plugin_dir = Path(__file__).resolve().parent
+
+        # initialize locale
+        locale = QSettings().value("locale/userLocale")[0:2]
+        locale_path = plugin_dir / 'i18n' / f'cpsrcloc_{locale}.qm'
+
+        if locale_path.exists():
+            self.translator = QTranslator()
+            self.translator.load(str(locale_path))
+            QCoreApplication.installTranslator(self.translator)
+
         # platform specific commands to open the system's *most likely* file explorer
         self.commands = {
             'Windows': 'explorer',
@@ -106,7 +117,7 @@ class CopySourceLocation(QObject):
 
         self.locs = self.get_locations(lyrs)  # list of valid file paths
 
-        cp_action_label = f'Pfad{"e" if len(self.locs) > 1 else ""} kopieren'
+        cp_action_label = self.tr('Copy Paths') if len(self.locs) > 1 else self.tr('Copy Path')
 
         # determine position within context menu based on present separators
         menu_idx = self.set_menu_position(-3, menu)
@@ -115,8 +126,11 @@ class CopySourceLocation(QObject):
         menu.insertSeparator(menu.actions()[menu_idx])  # separator below entry
 
         if self.unique_parent_dirs():
-            open_in_explorer = QAction(QIcon(':/plugins/copy_source_location/icons/open_in_explorer.svg'),
-                                       'In Explorer öffnen', menu)
+            open_in_explorer = QAction(
+                QIcon(':/plugins/copy_source_location/icons/open_in_explorer.svg'),
+                self.tr('Show in Explorer'),
+                menu
+            )
 
             open_in_explorer.triggered.connect(self.open_in_explorer)
             menu.insertAction(menu.actions()[menu_idx], open_in_explorer)
@@ -124,13 +138,21 @@ class CopySourceLocation(QObject):
         if any([is_file(loc) for loc in self.locs]):  # only show entries if there are actual file layers
             # give option to copy location with double backslash when shift modifier is pressed
             if self.system == 'Windows' and self.shift_mod:
-                cp_src_double_backslash = QAction(QIcon(':/plugins/copy_source_location/icons/copy.svg'),
-                                                  f'{cp_action_label} (\\\\)', menu)
+                cp_src_double_backslash = QAction(
+                    QIcon(':/plugins/copy_source_location/icons/copy.svg'),
+                    f'{cp_action_label} (\\\\)',
+                    menu
+                )
 
                 cp_src_double_backslash.triggered.connect(self.paths_to_clipboard_double_backslash)
                 menu.insertAction(menu.actions()[menu_idx], cp_src_double_backslash)
 
-            cp_src = QAction(QIcon(':/plugins/copy_source_location/icons/copy.svg'), cp_action_label, menu)
+            cp_src = QAction(
+                QIcon(':/plugins/copy_source_location/icons/copy.svg'),
+                cp_action_label,
+                menu
+            )
+
             cp_src.triggered.connect(self.paths_to_clipboard)
             menu.insertAction(menu.actions()[menu_idx], cp_src)
 
