@@ -52,9 +52,10 @@ class InitCopySourceLocation:
         self.iface = iface
 
     def initGui(self):  # noqa
-        """Create the menu entries and toolbar icons inside the QGIS GUI."""
+        """ Register event filter. """
         self.view_event_filter = CopySourceLocation()  # noqa
         self.iface.layerTreeView().viewport().installEventFilter(self.view_event_filter)
+        # https://doc.qt.io/qtforpython/PySide2/QtCore/QObject.html#PySide2.QtCore.PySide2.QtCore.QObject.installEventFilter
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
@@ -62,6 +63,7 @@ class InitCopySourceLocation:
 
 
 class CopySourceLocation(QObject):
+    """ Filter Object receiving events through eventFilter method """
     def __init__(self):
         super().__init__()
         self.system = pf_system()  # get system OS
@@ -78,7 +80,10 @@ class CopySourceLocation(QObject):
         self.command = self.commands[self.system]
 
     def eventFilter(self, obj, event):
-        """ Create custom context menu instead of the default one """
+        """ Listen to events and replace default context menu with our custom one.
+        https://doc.qt.io/qtforpython/PySide2/QtCore/QObject.html#PySide2.QtCore.PySide2.QtCore.QObject.eventFilter
+        """
+
         if event.type() == QEvent.ContextMenu:
             self.shift_mod = event.modifiers() == Qt.ShiftModifier
             menu = self.createContextMenu()
@@ -91,7 +96,8 @@ class CopySourceLocation(QObject):
         view = iface.layerTreeView()
 
         # start with default context menu
-        menu = view.menuProvider().createContextMenu()  # QMenu: https://doc.qt.io/qt-5/qmenu.html
+        menu = view.menuProvider().createContextMenu()
+        # QMenu: https://doc.qt.io/qtforpython/PySide2/QtWidgets/QMenu.html
 
         # return default context menu if no layer is selected
         lyrs = self.get_selected_layers(view)
