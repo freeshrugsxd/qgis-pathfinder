@@ -22,7 +22,7 @@
 
 """
 
-from .cp_src_loc import InitCopySourceLocation
+from .pathfinder import Pathfinder
 
 def classFactory(iface):  #noqa
     """ Load plugin.
@@ -30,4 +30,4 @@ def classFactory(iface):  #noqa
     :param iface: A QGIS interface instance.
     :type iface: QgsInterface
     """
-    return InitCopySourceLocation(iface)
+    return Pathfinder(iface)

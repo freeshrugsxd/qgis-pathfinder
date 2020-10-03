@@ -1,9 +1,9 @@
 [general]
-name=Copy Source Location
+name=pathfinder
 email=silvio.bentzien@protonmail.com
 author=silvio bentzien
 qgisMinimumVersion=3.0
-description=copy layer source location to clipboard
+description=copy file paths to clipboard and show file in file explorer
 about=Add layer context menu entries to copy source location to clipboard and to show in file explorer.
 version=version 0.1
 icon=icons/copy.svg

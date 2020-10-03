@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 /***************************************************************************
- Copy Source Location
+ pathfinder
  Add layer context menu entries to copy source location to clipboard and
  to open in file explorer.
                               -------------------
@@ -37,7 +37,7 @@ from qgis.utils import iface
 from .resources import *
 
 
-class InitCopySourceLocation:
+class Pathfinder:
     """QGIS Plugin Implementation."""
 
     def __init__(self, iface):
@@ -53,7 +53,7 @@ class InitCopySourceLocation:
 
     def initGui(self):  # noqa
         """ Register event filter. """
-        self.view_event_filter = CopySourceLocation()  # noqa
+        self.view_event_filter = PathfinderEventFilter()  # noqa
         self.iface.layerTreeView().viewport().installEventFilter(self.view_event_filter)
         # https://doc.qt.io/qtforpython/PySide2/QtCore/QObject.html#PySide2.QtCore.PySide2.QtCore.QObject.installEventFilter
 
@@ -62,7 +62,7 @@ class InitCopySourceLocation:
         self.iface.layerTreeView().viewport().removeEventFilter(self.view_event_filter)
 
 
-class CopySourceLocation(QObject):
+class PathfinderEventFilter(QObject):
     """ Filter Object receiving events through eventFilter method """
     def __init__(self):
         super().__init__()
@@ -74,7 +74,7 @@ class CopySourceLocation(QObject):
 
         # initialize locale
         locale = QSettings().value("locale/userLocale")[0:2]
-        locale_path = plugin_dir / 'i18n' / f'cpsrcloc_{locale}.qm'
+        locale_path = plugin_dir / 'i18n' / f'pathfinder_{locale}.qm'
 
         if locale_path.exists():
             self.translator = QTranslator()
