@@ -6,12 +6,12 @@
     <message>
         <location filename="../pathfinder.py" line="120"/>
         <source>Copy Paths</source>
-        <translation>Копировать Пути</translation>
+        <translation>Копировать пути</translation>
     </message>
     <message>
         <location filename="../pathfinder.py" line="120"/>
         <source>Copy Path</source>
-        <translation>Копировать Путь</translation>
+        <translation>Копировать путь</translation>
     </message>
     <message>
         <location filename="../pathfinder.py" line="129"/>
