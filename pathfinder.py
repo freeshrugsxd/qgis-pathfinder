@@ -91,10 +91,8 @@ class PathfinderEventFilter(QObject):
         self.command = self.commands[self.system]
 
     def eventFilter(self, obj, event):
-        """ Listen to events and replace default context menu with our custom one.
-        https://doc.qt.io/qtforpython/PySide2/QtCore/QObject.html#PySide2.QtCore.PySide2.QtCore.QObject.eventFilter
-        """
-
+        """ Listen to events and replace default context menu with our custom one. """
+        # https://doc.qt.io/qtforpython/PySide2/QtCore/QObject.html#PySide2.QtCore.PySide2.QtCore.QObject.eventFilter
         if event.type() == QEvent.ContextMenu:
             self.shift_mod = event.modifiers() == Qt.ShiftModifier
             menu = self.createContextMenu()
