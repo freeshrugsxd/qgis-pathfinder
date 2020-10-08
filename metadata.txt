@@ -6,5 +6,7 @@ qgisMinimumVersion=3.0
 description=copy file paths to clipboard and show file in file explorer
 about=Add layer context menu entries to copy source location to clipboard and to show in file explorer.
 version=version 0.1
+tracker=https://github.com/freeshrugsxd/qgis-pathfinder/issues
+repository=https://github.com/freeshrugsxd/qgis-pathfinder
 icon=icons/copy.svg
 experimental=True
