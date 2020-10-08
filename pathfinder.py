@@ -52,18 +52,18 @@ class Pathfinder:
         self.iface = iface
 
     def initGui(self):  # noqa
-        """ Register event filter. """
+        """Register event filter."""
         self.view_event_filter = PathfinderEventFilter()  # noqa
         self.iface.layerTreeView().viewport().installEventFilter(self.view_event_filter)
         # https://doc.qt.io/qtforpython/PySide2/QtCore/QObject.html#PySide2.QtCore.PySide2.QtCore.QObject.installEventFilter
 
     def unload(self):
-        """Removes the plugin menu item and icon from QGIS GUI."""
+        """Remove the event filter from QGIS."""
         self.iface.layerTreeView().viewport().removeEventFilter(self.view_event_filter)
 
 
 class PathfinderEventFilter(QObject):
-    """ Filter Object receiving events through eventFilter method """
+    """Filter Object receiving events through eventFilter method."""
     def __init__(self):
         super().__init__()
         self.system = pf_system()  # get system OS
@@ -91,7 +91,7 @@ class PathfinderEventFilter(QObject):
         self.command = self.commands[self.system]
 
     def eventFilter(self, obj, event):
-        """ Listen to events and replace default context menu with our custom one. """
+        """Listen to events and replace default context menu with our custom one."""
         # https://doc.qt.io/qtforpython/PySide2/QtCore/QObject.html#PySide2.QtCore.PySide2.QtCore.QObject.eventFilter
         if event.type() == QEvent.ContextMenu:
             self.shift_mod = event.modifiers() == Qt.ShiftModifier
@@ -101,7 +101,7 @@ class PathfinderEventFilter(QObject):
         return False
 
     def createContextMenu(self):  # noqa
-        """ Add custom actions at the end of the default context menu """
+        """Add custom actions at the end of the default context menu."""
         view = iface.layerTreeView()
 
         # start with default context menu
@@ -159,61 +159,62 @@ class PathfinderEventFilter(QObject):
         return menu
 
     def paths_to_clipboard(self):  # noqa
-        """ Copy paths to clipboard making use of pandas.Series.to_clipboard() method.
+        """Copy paths to clipboard making use of pandas.Series.to_clipboard() method.
         Multiple file paths are enclosed in double quotes and separated by a space.
-        A single path is not quoted. """
+        A single path is not quoted.
+        """
         s = Series([' '.join([f'"{str(p)}"' for p in self.locs])] if len(self.locs) > 1 else [str(self.locs[0])])
         s.to_clipboard(header=False, index=False, columns=None, quotechar='`', doublequote=False)
 
     def paths_to_clipboard_double_backslash(self):  # noqa
-        """ Copy comma separated list of paths with two backslashes to clipboard. """
+        """Copy comma separated list of paths with two backslashes to clipboard."""
         s = Series([','.join([str(p).replace('\\', '\\\\') for p in self.locs])])
         s.to_clipboard(header=False, index=False, columns=None)
 
     def open_in_explorer(self):  # noqa
-        """ Open unique parent directories in the system's file explorer """
+        """Open unique parent directories in a file explorer."""
         for p in self.unique_parent_dirs():
             subprocess.run([self.command, str(p)])
 
     def get_selected_layers(self, view: QgsLayerTreeView) -> list:  # noqa
-        """ Return list of selected layers from view.
+        """Return list of selected layers from view.
 
-            :param view: QgsLayerTreeView instance.
-            :return: List of selected nodes that are layers.
+        :param view: QgsLayerTreeView instance.
+        :return: List of selected nodes that are layers.
         """
         return [n for n in view.selectedNodes() if QgsLayerTree.isLayer(n)]
 
     def get_locations(self, lyrs: list) -> list:  # noqa
-        """ Return all unique valid file locations from list of layers.
+        """Return all unique valid file locations from list of layers.
 
-            :param lyrs: List of QGIS layers
-            :return: List of distinct and valid file paths.
+        :param lyrs: List of QGIS layers.
+        :return: List of distinct and valid file paths.
         """
         return list(filter(lambda x: is_file(x), set([Path(clean_path(n.layer().source())) for n in lyrs])))
 
     def set_menu_position(self, idx: int, menu: QMenu) -> int:  # noqa
-        """ Return menu index of the idxth separator object.
+        """Return menu index of the idxth separator object.
 
-            :param idx: Number of separator we want to use to insert our actions at.
-            :param menu: QMenu object.
-            :return: Index of the target separator.
+        :param idx: Number of separator we want to use to insert our actions at.
+        :param menu: QMenu object.
+        :return: Index of the target separator.
         """
         # TODO: make sure index idx is never out of range
         return [i for i, a in enumerate(menu.actions()) if a.isSeparator()][idx]
 
     def unique_parent_dirs(self) -> list:
-        """ Return list of unique parent directories from list of paths.
+        """Return list of unique parent directories from list of paths.
 
-            :return: List of unique parent directories paths within self.locs.
+        :return: List of unique parent directories paths within self.locs.
         """
         return list(set([loc.parent for loc in self.locs]))
 
 
 def is_file(loc: Path) -> bool:
-    """ Path.is_file(), but return False instead of raising OSErrors.
+    """Path.is_file(), but return False instead of raising OSErrors.
 
-        :param loc: pathlib.Path object.
-        :return: Whether this path is a regular file.
+    :param loc: pathlib.Path object.
+    :return: Whether this path is a regular file.
     """
     try:
         if loc.is_file():
@@ -222,10 +223,9 @@ def is_file(loc: Path) -> bool:
         return False
 
 def clean_path(path: str) -> str:  # noqa
-    """ Strip common appendices from path string
+    """Strip common appendices from path string.
 
-        :param path: string that could be a file path
-        :return: Cleaned path string
-
+    :param path: String that could be a file path.
+    :return: Cleaned path string.
     """
     return path.split('|')[0].split('?')[0].replace('file:', '')
