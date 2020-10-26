@@ -34,6 +34,8 @@ from qgis.core import QgsLayerTree
 from qgis.gui import QgsLayerTreeView
 from qgis.utils import iface
 
+from .layertreecontextmenumanager import LayerTreeContextMenuManager
+
 from .resources import *
 
 
@@ -53,13 +55,11 @@ class Pathfinder:
 
     def initGui(self):  # noqa
         """Register event filter."""
-        self.view_event_filter = PathfinderEventFilter()  # noqa
-        self.iface.layerTreeView().viewport().installEventFilter(self.view_event_filter)
-        # https://doc.qt.io/qtforpython/PySide2/QtCore/QObject.html#PySide2.QtCore.PySide2.QtCore.QObject.installEventFilter
+        self.contextManager = LayerTreeContextMenuManager()
+        self.contextManager.addProvider(PathfinderEventFilter())
 
     def unload(self):
-        """Remove the event filter from QGIS."""
-        self.iface.layerTreeView().viewport().removeEventFilter(self.view_event_filter)
+        pass
 
 
 class PathfinderEventFilter(QObject):
@@ -68,7 +68,6 @@ class PathfinderEventFilter(QObject):
     def __init__(self):
         super().__init__()
         self.system = pf_system()  # get system OS
-        self.shift_mod = False
         self.locs = []
 
         plugin_dir = Path(__file__).resolve().parent
@@ -87,23 +86,11 @@ class PathfinderEventFilter(QObject):
 
         self.command = self.commands[self.system]
 
-    def eventFilter(self, obj, event):
-        """Listen to events and replace default context menu with our custom one."""
-        # https://doc.qt.io/qtforpython/PySide2/QtCore/QObject.html#PySide2.QtCore.PySide2.QtCore.QObject.eventFilter
-        if event.type() == QEvent.ContextMenu:
-            self.shift_mod = event.modifiers() == Qt.ShiftModifier
-            menu = self.createContextMenu()
-            menu.exec(iface.layerTreeView().mapToGlobal(event.pos()))
-            return True
-        return False
-
-    def createContextMenu(self):  # noqa
+    def __call__(self, menu, event):  # noqa
         """Add custom actions at the end of the default context menu."""
-        view = iface.layerTreeView()
 
-        # start with default context menu
-        menu = view.menuProvider().createContextMenu()
-        # QMenu: https://doc.qt.io/qtforpython/PySide2/QtWidgets/QMenu.html
+        shift_mod = event.modifiers() == Qt.ShiftModifier
+        view = iface.layerTreeView()
 
         # return default context menu if no layer is selected
         lyrs = self.get_selected_layers(view)
@@ -136,7 +123,7 @@ class PathfinderEventFilter(QObject):
             [is_file(loc) for loc in self.locs]
         ):  # only show entries if there are actual file layers
             # give option to copy location with double backslash when shift modifier is pressed
-            if self.system == "Windows" and self.shift_mod:
+            if self.system == "Windows" and shift_mod:
                 cp_src_double_backslash = QAction(
                     QIcon(":/plugins/copy_source_location/icons/copy.svg"),
                     f"{cp_action_label} (\\\\)",
