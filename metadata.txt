@@ -5,7 +5,16 @@ author=silvio bentzien
 qgisMinimumVersion=3.0
 description=copy file paths to clipboard and show file in file explorer
 about=Add layer context menu entries to copy source location to clipboard and to show in file explorer.
-version=version 0.1
+version=version 0.2
+
+changelog=0.2 2020-10-26
+      * Remove pandas dependency
+      * Make the context menu compatible with other plugins that modifies it
+      0.1.1 2020-10-08
+      * Add homepage
+      0.1 2020-10-07
+      * First version
+
 tracker=https://github.com/freeshrugsxd/qgis-pathfinder/issues
 repository=https://github.com/freeshrugsxd/qgis-pathfinder
 homepage=https://github.com/freeshrugsxd/qgis-pathfinder
