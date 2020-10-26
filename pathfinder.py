@@ -28,8 +28,8 @@ from platform import system as pf_system
 
 from PyQt5.QtCore import QObject, QEvent, QSettings, Qt, QTranslator, QCoreApplication
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QAction, QMenu
-from pandas import Series
+from PyQt5.QtWidgets import QAction, QMenu, QApplication
+
 from qgis.core import QgsLayerTree
 from qgis.gui import QgsLayerTreeView
 from qgis.utils import iface
@@ -64,6 +64,7 @@ class Pathfinder:
 
 class PathfinderEventFilter(QObject):
     """Filter Object receiving events through eventFilter method."""
+
     def __init__(self):
         super().__init__()
         self.system = pf_system()  # get system OS
@@ -74,7 +75,7 @@ class PathfinderEventFilter(QObject):
 
         # initialize locale
         locale = QSettings().value("locale/userLocale")[0:2]
-        locale_path = plugin_dir / 'i18n' / f'pathfinder_{locale}.qm'
+        locale_path = plugin_dir / "i18n" / f"pathfinder_{locale}.qm"
 
         if locale_path.exists():
             self.translator = QTranslator()
@@ -82,11 +83,7 @@ class PathfinderEventFilter(QObject):
             QCoreApplication.installTranslator(self.translator)
 
         # platform specific commands to open the system's *most likely* file explorer
-        self.commands = {
-            'Windows': 'explorer',
-            'Linux': 'xdg-open',
-            'Darwin': 'open'
-        }
+        self.commands = {"Windows": "explorer", "Linux": "xdg-open", "Darwin": "open"}
 
         self.command = self.commands[self.system]
 
@@ -115,7 +112,9 @@ class PathfinderEventFilter(QObject):
 
         self.locs = self.get_locations(lyrs)  # list of valid file paths
 
-        cp_action_label = self.tr('Copy Paths') if len(self.locs) > 1 else self.tr('Copy Path')
+        cp_action_label = (
+            self.tr("Copy Paths") if len(self.locs) > 1 else self.tr("Copy Path")
+        )
 
         # determine position within context menu based on present separators
         menu_idx = self.set_menu_position(-3, menu)
@@ -125,36 +124,42 @@ class PathfinderEventFilter(QObject):
 
         if self.unique_parent_dirs():
             open_in_explorer = QAction(
-                QIcon(':/plugins/copy_source_location/icons/open_in_explorer.svg'),
-                self.tr('Show in Explorer'),
-                menu
+                QIcon(":/plugins/copy_source_location/icons/open_in_explorer.svg"),
+                self.tr("Show in Explorer"),
+                menu,
             )
 
             open_in_explorer.triggered.connect(self.open_in_explorer)
             menu.insertAction(menu.actions()[menu_idx], open_in_explorer)
 
-        if any([is_file(loc) for loc in self.locs]):  # only show entries if there are actual file layers
+        if any(
+            [is_file(loc) for loc in self.locs]
+        ):  # only show entries if there are actual file layers
             # give option to copy location with double backslash when shift modifier is pressed
-            if self.system == 'Windows' and self.shift_mod:
+            if self.system == "Windows" and self.shift_mod:
                 cp_src_double_backslash = QAction(
-                    QIcon(':/plugins/copy_source_location/icons/copy.svg'),
-                    f'{cp_action_label} (\\\\)',
-                    menu
+                    QIcon(":/plugins/copy_source_location/icons/copy.svg"),
+                    f"{cp_action_label} (\\\\)",
+                    menu,
                 )
 
-                cp_src_double_backslash.triggered.connect(self.paths_to_clipboard_double_backslash)
+                cp_src_double_backslash.triggered.connect(
+                    self.paths_to_clipboard_double_backslash
+                )
                 menu.insertAction(menu.actions()[menu_idx], cp_src_double_backslash)
 
             cp_src = QAction(
-                QIcon(':/plugins/copy_source_location/icons/copy.svg'),
+                QIcon(":/plugins/copy_source_location/icons/copy.svg"),
                 cp_action_label,
-                menu
+                menu,
             )
 
             cp_src.triggered.connect(self.paths_to_clipboard)
             menu.insertAction(menu.actions()[menu_idx], cp_src)
 
-        menu.insertSeparator(menu.actions()[menu_idx])  # seperator above entry, hidden if on top
+        menu.insertSeparator(
+            menu.actions()[menu_idx]
+        )  # seperator above entry, hidden if on top
 
         return menu
 
@@ -163,13 +168,19 @@ class PathfinderEventFilter(QObject):
         Multiple file paths are enclosed in double quotes and separated by a space.
         A single path is not quoted.
         """
-        s = Series([' '.join([f'"{str(p)}"' for p in self.locs])] if len(self.locs) > 1 else [str(self.locs[0])])
-        s.to_clipboard(header=False, index=False, columns=None, quotechar='`', doublequote=False)
+        s = (
+            " ".join([f'"{str(p)}"' for p in self.locs])
+            if len(self.locs) > 1
+            else str(self.locs[0])
+        )
+        QApplication.clipboard().setText(s)
 
     def paths_to_clipboard_double_backslash(self):  # noqa
         """Copy comma separated list of paths with two backslashes to clipboard."""
-        s = Series([','.join([str(p).replace('\\', '\\\\') for p in self.locs])])
-        s.to_clipboard(header=False, index=False, columns=None)
+
+        s = ",".join([str(p).replace("\\", "\\\\") for p in self.locs])
+
+        QApplication.clipboard().setText(s)
 
     def open_in_explorer(self):  # noqa
         """Open unique parent directories in a file explorer."""
@@ -190,7 +201,12 @@ class PathfinderEventFilter(QObject):
         :param lyrs: List of QGIS layers.
         :return: List of distinct and valid file paths.
         """
-        return list(filter(lambda x: is_file(x), set([Path(clean_path(n.layer().source())) for n in lyrs])))
+        return list(
+            filter(
+                lambda x: is_file(x),
+                set([Path(clean_path(n.layer().source())) for n in lyrs]),
+            )
+        )
 
     def set_menu_position(self, idx: int, menu: QMenu) -> int:  # noqa
         """Return menu index of the idxth separator object.
@@ -222,10 +238,12 @@ def is_file(loc: Path) -> bool:
     except OSError:
         return False
 
+
 def clean_path(path: str) -> str:  # noqa
     """Strip common appendices from path string.
 
     :param path: String that could be a file path.
     :return: Cleaned path string.
     """
-    return path.split('|')[0].split('?')[0].replace('file:', '')
+    return path.split("|")[0].split("?")[0].replace("file:", "")
+
