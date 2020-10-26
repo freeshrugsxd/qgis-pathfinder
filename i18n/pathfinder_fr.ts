@@ -16,7 +16,7 @@
     <message>
         <location filename="../pathfinder.py" line="129"/>
         <source>Show in Explorer</source>
-        <translation>Afficher dans Explorer</translation>
+        <translation>Afficher dans l&apos;explorateur</translation>
     </message>
 </context>
 </TS>
