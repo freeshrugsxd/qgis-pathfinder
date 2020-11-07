@@ -209,8 +209,7 @@ def is_file(loc: Path) -> bool:
     :return: Whether this path is a regular file.
     """
     try:
-        if loc.is_file():
-            return True
+        return loc.is_file()
     except OSError:
         return False
 
