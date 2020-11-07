@@ -150,7 +150,7 @@ class PathfinderEventFilter(QObject):
         Multiple file paths are enclosed in double quotes and separated by a space.
         A single path is not quoted.
         """
-        s = ' '.join([f'"{str(p)}"' for p in self.locs]) if len(self.locs) > 1 else str(self.locs[0])
+        s = ' '.join([f'"{p}"' for p in self.locs]) if len(self.locs) > 1 else str(self.locs[0])
         QApplication.clipboard().setText(s)
 
     def paths_to_clipboard_double_backslash(self):  # noqa
