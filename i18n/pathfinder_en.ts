@@ -4,17 +4,17 @@
 <context>
     <name>PathfinderEventFilter</name>
     <message>
-        <location filename="../pathfinder.py" line="120"/>
+        <location filename="../pathfinder.py" line="102"/>
         <source>Copy Paths</source>
         <translation>Copy Paths</translation>
     </message>
     <message>
-        <location filename="../pathfinder.py" line="120"/>
+        <location filename="../pathfinder.py" line="102"/>
         <source>Copy Path</source>
         <translation>Copy Path</translation>
     </message>
     <message>
-        <location filename="../pathfinder.py" line="129"/>
+        <location filename="../pathfinder.py" line="113"/>
         <source>Show in Explorer</source>
         <translation>Show in Explorer</translation>
     </message>
