@@ -26,7 +26,7 @@ import subprocess
 from pathlib import Path
 from platform import system as pf_system
 
-from PyQt5.QtCore import QObject, QEvent, QSettings, Qt, QTranslator, QCoreApplication
+from PyQt5.QtCore import QObject, QSettings, Qt, QTranslator, QCoreApplication
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QAction, QMenu, QApplication
 
