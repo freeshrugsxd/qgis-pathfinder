@@ -73,8 +73,8 @@ class PathfinderEventFilter(QObject):
         plugin_dir = Path(__file__).resolve().parent
 
         # initialize locale
-        locale = QSettings().value("locale/userLocale")[0:2]
-        locale_path = plugin_dir / "i18n" / f"pathfinder_{locale}.qm"
+        locale = QSettings().value('locale/userLocale')[0:2]
+        locale_path = plugin_dir / 'i18n' / f'pathfinder_{locale}.qm'
 
         if locale_path.exists():
             self.translator = QTranslator()
@@ -82,7 +82,7 @@ class PathfinderEventFilter(QObject):
             QCoreApplication.installTranslator(self.translator)
 
         # platform specific commands to open the system's *most likely* file explorer
-        self.commands = {"Windows": "explorer", "Linux": "xdg-open", "Darwin": "open"}
+        self.commands = {'Windows': 'explorer', 'Linux': 'xdg-open', 'Darwin': 'open'}
 
         self.command = self.commands[self.system]
 
@@ -99,9 +99,7 @@ class PathfinderEventFilter(QObject):
 
         self.locs = self.get_locations(lyrs)  # list of valid file paths
 
-        cp_action_label = (
-            self.tr("Copy Paths") if len(self.locs) > 1 else self.tr("Copy Path")
-        )
+        cp_action_label = (self.tr('Copy Paths') if len(self.locs) > 1 else self.tr('Copy Path'))
 
         # determine position within context menu based on present separators
         menu_idx = self.set_menu_position(-3, menu)
@@ -111,32 +109,31 @@ class PathfinderEventFilter(QObject):
 
         if self.unique_parent_dirs():
             open_in_explorer = QAction(
-                QIcon(":/plugins/copy_source_location/icons/open_in_explorer.svg"),
-                self.tr("Show in Explorer"),
+                QIcon(':/plugins/copy_source_location/icons/open_in_explorer.svg'),
+                self.tr('Show in Explorer'),
                 menu,
             )
 
             open_in_explorer.triggered.connect(self.open_in_explorer)
             menu.insertAction(menu.actions()[menu_idx], open_in_explorer)
 
-        if any(
-            [is_file(loc) for loc in self.locs]
-        ):  # only show entries if there are actual file layers
+        # only show entries if there are actual file layers
+        if any([is_file(loc) for loc in self.locs]):
+
             # give option to copy location with double backslash when shift modifier is pressed
-            if self.system == "Windows" and shift_mod:
+            if self.system == 'Windows' and shift_mod:
+
                 cp_src_double_backslash = QAction(
-                    QIcon(":/plugins/copy_source_location/icons/copy.svg"),
-                    f"{cp_action_label} (\\\\)",
+                    QIcon(':/plugins/copy_source_location/icons/copy.svg'),
+                    f'{cp_action_label} (\\\\)',
                     menu,
                 )
 
-                cp_src_double_backslash.triggered.connect(
-                    self.paths_to_clipboard_double_backslash
-                )
+                cp_src_double_backslash.triggered.connect(self.paths_to_clipboard_double_backslash)
                 menu.insertAction(menu.actions()[menu_idx], cp_src_double_backslash)
 
             cp_src = QAction(
-                QIcon(":/plugins/copy_source_location/icons/copy.svg"),
+                QIcon(':/plugins/copy_source_location/icons/copy.svg'),
                 cp_action_label,
                 menu,
             )
@@ -144,9 +141,7 @@ class PathfinderEventFilter(QObject):
             cp_src.triggered.connect(self.paths_to_clipboard)
             menu.insertAction(menu.actions()[menu_idx], cp_src)
 
-        menu.insertSeparator(
-            menu.actions()[menu_idx]
-        )  # seperator above entry, hidden if on top
+        menu.insertSeparator(menu.actions()[menu_idx])  # seperator above entry, hidden if on top
 
         return menu
 
@@ -155,18 +150,12 @@ class PathfinderEventFilter(QObject):
         Multiple file paths are enclosed in double quotes and separated by a space.
         A single path is not quoted.
         """
-        s = (
-            " ".join([f'"{str(p)}"' for p in self.locs])
-            if len(self.locs) > 1
-            else str(self.locs[0])
-        )
+        s = ' '.join([f'"{str(p)}"' for p in self.locs]) if len(self.locs) > 1 else str(self.locs[0])
         QApplication.clipboard().setText(s)
 
     def paths_to_clipboard_double_backslash(self):  # noqa
         """Copy comma separated list of paths with two backslashes to clipboard."""
-
-        s = ",".join([str(p).replace("\\", "\\\\") for p in self.locs])
-
+        s = ','.join([str(p).replace('\\', '\\\\') for p in self.locs])
         QApplication.clipboard().setText(s)
 
     def open_in_explorer(self):  # noqa
@@ -232,5 +221,5 @@ def clean_path(path: str) -> str:  # noqa
     :param path: String that could be a file path.
     :return: Cleaned path string.
     """
-    return path.split("|")[0].split("?")[0].replace("file:", "")
+    return path.split('|')[0].split('?')[0].replace('file:', '')
 
