@@ -177,12 +177,7 @@ class PathfinderEventFilter(QObject):
         :param lyrs: List of QGIS layers.
         :return: List of distinct and valid file paths.
         """
-        return list(
-            filter(
-                lambda x: is_file(x),
-                set([Path(clean_path(n.layer().source())) for n in lyrs]),
-            )
-        )
+        return list(filter(is_file, set([Path(clean_path(n.layer().source())) for n in lyrs]),))
 
     def set_menu_position(self, idx: int, menu: QMenu) -> int:  # noqa
         """Return menu index of the idxth separator object.
