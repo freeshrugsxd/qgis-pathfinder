@@ -82,9 +82,9 @@ class PathfinderEventFilter(QObject):
             QCoreApplication.installTranslator(self.translator)
 
         # platform specific commands to open the system's *most likely* file explorer
-        self.commands = {'Windows': 'explorer', 'Linux': 'xdg-open', 'Darwin': 'open'}
+        commands = {'Windows': 'explorer', 'Linux': 'xdg-open', 'Darwin': 'open'}
 
-        self.command = self.commands[self.system]
+        self.command = commands[self.system]
 
     def __call__(self, menu, event):  # noqa
         """Add custom actions at the end of the default context menu."""
