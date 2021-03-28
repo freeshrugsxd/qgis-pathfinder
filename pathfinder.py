@@ -102,7 +102,7 @@ class PathfinderEventFilter(QObject):
         cp_action_label = (self.tr('Copy Paths') if len(self.locs) > 1 else self.tr('Copy Path'))
 
         # determine position within context menu based on present separators
-        menu_idx = self.set_menu_position(-3, menu)
+        menu_idx = self.set_menu_position(menu)
 
         # we add stuff bottom to top, so we can just reuse menu_idx
         menu.insertSeparator(menu.actions()[menu_idx])  # separator below entry
@@ -179,15 +179,17 @@ class PathfinderEventFilter(QObject):
         """
         return list(filter(is_file, set([Path(clean_path(n.layer().source())) for n in lyrs]),))
 
-    def set_menu_position(self, idx: int, menu: QMenu) -> int:  # noqa
+    def set_menu_position(self, menu: QMenu, idx: int = -3) -> int:  # noqa
         """Return menu index of the idxth separator object.
 
         :param idx: Number of separator we want to use to insert our actions at.
         :param menu: QMenu object.
         :return: Index of the target separator.
         """
-        # TODO: make sure index idx is never out of range
-        return [i for i, a in enumerate(menu.actions()) if a.isSeparator()][idx]
+        try:
+            return [i for i, a in enumerate(menu.actions()) if a.isSeparator()][idx]
+        except IndexError:
+            return self.set_menu_position(menu, idx + 1 if idx < 0 else idx - 1)
 
     def unique_parent_dirs(self) -> list:
         """Return list of unique parent directories from list of paths.
