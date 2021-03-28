@@ -65,15 +65,17 @@ class Pathfinder:
 class PathfinderEventFilter(QObject):
     """Filter Object receiving events through eventFilter method."""
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent=None):
+        super().__init__(parent)
         self.system = pf_system()  # get system OS
         self.locs = []
+
+        self.settings = QSettings()
 
         plugin_dir = Path(__file__).resolve().parent
 
         # initialize locale
-        locale = QSettings().value('locale/userLocale')[0:2]
+        locale = self.settings.value('locale/userLocale')[0:2]
         locale_path = plugin_dir / 'i18n' / f'pathfinder_{locale}.qm'
 
         if locale_path.exists():
@@ -86,8 +88,17 @@ class PathfinderEventFilter(QObject):
 
         self.command = commands[self.system]
 
+        # SETTING DEFAULTS
+        self.settings.setValue('quoting character', '"')
+        self.settings.setValue('separation character', ' ')
+        self.settings.setValue('include file name', False)
+        self.settings.setValue('include layer name', False)
+        self.settings.setValue('prefix', '')
+        self.settings.setValue('postfix', '')
+        self.settings.setValue('display notification', False)
+
     def __call__(self, menu, event):  # noqa
-        """Add custom actions at the end of the default context menu."""
+        """Add custom actions to the default context menu."""
 
         shift_mod = event.modifiers() == Qt.ShiftModifier
         view = iface.layerTreeView()
@@ -146,9 +157,8 @@ class PathfinderEventFilter(QObject):
         return menu
 
     def paths_to_clipboard(self):  # noqa
-        """Copy paths to clipboard making use of pandas.Series.to_clipboard() method.
-        Multiple file paths are enclosed in double quotes and separated by a space.
-        A single path is not quoted.
+        """Copy paths to clipboard. Multiple file paths are enclosed in double
+        quotes and separated by a space. A single path is not quoted.
         """
         s = ' '.join([f'"{p}"' for p in self.locs]) if len(self.locs) > 1 else str(self.locs[0])
         QApplication.clipboard().setText(s)
