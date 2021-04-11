@@ -108,12 +108,20 @@ class PathfinderEventFilter(QObject):
     def paths_to_clipboard(self):  # noqa
         """Copy paths to clipboard.
         """
-        QApplication.clipboard().setText(build_string(self.locs))
+        text = build_string(self.locs)
+        QApplication.clipboard().setText(text)
+        self.notify(text)
 
     def paths_to_clipboard_double_backslash(self):  # noqa
         """Copy paths to clipboard but substitude extra backslashes for UTF-8 pasting.
         """
-        QApplication.clipboard().setText(build_string(self.locs).replace('\\', '\\\\'))
+        text = build_string(self.locs).replace('\\', '\\\\')
+        QApplication.clipboard().setText(text)
+        self.notify(text)
+
+    def notify(self, text):
+        if self.settings.value('pathfinder/show_notification', type=bool):
+            iface.messageBar().pushMessage('Copied to clipboard', text, level=0, duration=4)
 
     def open_in_explorer(self):  # noqa
         """Open unique parent directories in a file explorer.
