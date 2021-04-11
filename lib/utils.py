@@ -121,7 +121,12 @@ def parse_path(path: str, must_be_file: bool = True) -> [tuple, None]:  # noqa
     parts = path.split('?')[0].split('|')
 
     # convert uri to path
-    fp = Path(url2pathname(urlparse(parts[0]).path))
+    try:
+        fp = Path(url2pathname(urlparse(parts[0]).path))
+    except OSError:
+        # TODO: fix Bad URL error when a XYZ layer comes through here
+        # return None for now
+        return None, None
 
     # return tuple of Nones if s
     if must_be_file and not is_file(fp):
