@@ -54,16 +54,21 @@ class Pathfinder:
         self.iface = iface
 
     def initGui(self):  # noqa
-        """Register event filter."""
-        self.contextManager = LayerTreeContextMenuManager()
+        """Register event filter and add toolbar icon."""
+        self.contextManager = LayerTreeContextMenuManager()  # noqa
         self.contextManager.addProvider(PathfinderEventFilter())
 
+        self.settings_dialog = QAction(  # noqa
+            QIcon(':/plugins/pathfinder/icons/copy.svg'),
+            'pathfinder',
+            self.iface.mainWindow())
+
+        self.settings_dialog.triggered.connect(self.show_settings_dialog)
+        self.iface.addToolBarIcon(self.settings_dialog)
+
+    def show_settings_dialog(self):
+        self.dialog = PathfinderSettingsDialog()  # noqa
+        self.dialog.show()
+
     def unload(self):
-        pass
-
-
-
-            cp_src.triggered.connect(self.paths_to_clipboard)
-            menu.insertAction(menu.actions()[menu_idx], cp_src)
-
-
+        self.iface.removeToolBarIcon(self.settings_dialog)
