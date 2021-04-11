@@ -12,7 +12,9 @@ except ModuleNotFoundError:
     # qgis import
     from pathfinder.lib.utils import PathfinderSettings, build_string, parse_path  # noqa
 
-# TODO: update translations for settings
+# TODO:
+#  - update translations for settings
+#  - add ability to assign keyboard shortcuts
 
 DEFAULTS = PathfinderSettings().defaults
 
