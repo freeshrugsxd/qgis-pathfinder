@@ -21,22 +21,22 @@
  ***************************************************************************/
 
 """
-
-import subprocess
-from pathlib import Path
-from platform import system as pf_system
-
-from PyQt5.QtCore import QObject, QSettings, Qt, QTranslator, QCoreApplication
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QAction, QMenu, QApplication
+from PyQt5.QtWidgets import QAction
+from qgis.gui import QgisInterface
 
-from qgis.core import QgsLayerTree
-from qgis.gui import QgsLayerTreeView
-from qgis.utils import iface
+from .resources import *  # noqa
 
-from .layertreecontextmenumanager import LayerTreeContextMenuManager
-
-from .resources import *
+try:
+    # dev import
+    from lib.eventfilter import PathfinderEventFilter
+    from lib.settingsdialog import PathfinderSettingsDialog
+    from lib.layertreecontextmenumanager import LayerTreeContextMenuManager
+except ModuleNotFoundError:
+    # qgis import
+    from pathfinder.lib.eventfilter import PathfinderEventFilter  # noqa
+    from pathfinder.lib.settingsdialog import PathfinderSettingsDialog  # noqa
+    from pathfinder.lib.layertreecontextmenumanager import LayerTreeContextMenuManager  # noqa
 
 
 class Pathfinder:

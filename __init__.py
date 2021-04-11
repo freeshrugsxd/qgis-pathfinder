@@ -21,10 +21,14 @@
  ***************************************************************************/
 
 """
+try:
+    from .pathfinder import Pathfinder  # dev import
+except ModuleNotFoundError:
+    # qgis import
+    from pathfinder.pathfinder import Pathfinder  # noqa
 
-from .pathfinder import Pathfinder
 
-def classFactory(iface):  #noqa
+def classFactory(iface):  # noqa
     """ Load plugin.
 
     :param iface: A QGIS interface instance.
