@@ -74,11 +74,11 @@ def build_string(paths: List[tuple]) -> str:
     fn = settings.value('incl_file_name', type=bool)
 
     # should a single path be quoted?
-    if len(paths) == 1 and settings.value('single_path_quote', type=bool):
+    if len(paths) == 1 and not settings.value('single_path_quote', type=bool):
         q = ''
 
     # should pre- and postfix be applied to single path?
-    if len(paths) == 1 and settings.value('single_path_affix', type=bool):
+    if len(paths) == 1 and not settings.value('single_path_affix', type=bool):
         pre = ''
         post = ''
 
