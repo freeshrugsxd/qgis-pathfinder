@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import List
 
 from PyQt5.QtCore import QSettings
 
@@ -51,7 +52,7 @@ class PathfinderSettings:
         }
 
 
-def build_string(paths: list[tuple]) -> str:
+def build_string(paths: List[tuple]) -> str:
     """Construct a string using pathfinders current settings.
 
     :param paths: A list of tuples (path, info) where paths[0] contains the valid file path

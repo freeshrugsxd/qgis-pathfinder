@@ -1,6 +1,7 @@
 import subprocess
 from pathlib import Path
 from platform import system as pf_system
+from typing import List
 
 from PyQt5.QtCore import QCoreApplication, QObject, QSettings, Qt, QTranslator
 from PyQt5.QtGui import QIcon
@@ -121,7 +122,7 @@ class PathfinderEventFilter(QObject):
         for p in self.unique_parent_dirs():
             subprocess.run([self.command, str(p)])
 
-    def get_selected_layers(self, view: QgsLayerTreeView) -> list[QgsLayerTreeNode]:  # noqa
+    def get_selected_layers(self, view: QgsLayerTreeView) -> List[QgsLayerTreeNode]:  # noqa
         """Return list of selected layers from view.
 
         :param view: QgsLayerTreeView instance.
@@ -129,7 +130,7 @@ class PathfinderEventFilter(QObject):
         """
         return [n for n in view.selectedNodes() if QgsLayerTree.isLayer(n)]
 
-    def get_locations(self, lyrs: list[QgsLayerTreeNode]) -> list[tuple]:  # noqa
+    def get_locations(self, lyrs: List[QgsLayerTreeNode]) -> List[tuple]:  # noqa
         """Return all unique valid file locations from list of layers.
 
         :param lyrs: A list of QGIS layers.
@@ -151,7 +152,7 @@ class PathfinderEventFilter(QObject):
         except IndexError:
             return self.set_menu_position(menu, idx - 1 if idx > 0 else idx + 1)
 
-    def unique_parent_dirs(self) -> list[Path]:
+    def unique_parent_dirs(self) -> List[Path]:
         """Return list of unique parent directories from list of paths.
 
         :return: List of unique parent directories paths within self.locs.
