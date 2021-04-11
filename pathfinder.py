@@ -2,8 +2,8 @@
 """
 /***************************************************************************
  pathfinder
- Add layer context menu entries to copy source location to clipboard and
- to open in file explorer.
+ Add layer context menu entries that allow you to copy its source or open
+ the file explorer at its location.
                               -------------------
         begin                : 2020-09-16
         git sha              :
