@@ -115,10 +115,13 @@ def parse_path(path: str, must_be_file: bool = True) -> [tuple, None]:  # noqa
     # TODO:
     #  - allow for non file layer to successfully pass through here
     #  - come up with a more clear return than a tuple
+
     settings = QSettings()
     settings.beginGroup('pathfinder')
-    fp = Path(url2pathname(urlparse(path).path))  # convert uri to path
     parts = path.split('?')[0].split('|')
+
+    # convert uri to path
+    fp = Path(url2pathname(urlparse(parts[0]).path))
 
     # return tuple of Nones if s
     if must_be_file and not is_file(fp):
