@@ -137,7 +137,7 @@ class PathfinderEventFilter(QObject):
         :return: A list of tuples containing a valid file path and it's data provider
         information respective to the pathfinder settings.
         """
-        return [(p, i) for p, i in [parse_path(n.layer().source()) for n in lyrs] if p]
+        return [(p, q) for p, q in [parse_path(n.layer().source()) for n in lyrs] if p]
 
     def set_menu_position(self, menu: QMenu, idx: int = -3) -> int:  # noqa
         """Return menu index of the `idxth` separator object.
@@ -157,4 +157,5 @@ class PathfinderEventFilter(QObject):
 
         :return: List of unique parent directories paths within self.locs.
         """
-        return list(set([p.parent for p, i in self.locs]))
+        return list(set([path.parent for path, query in self.locs]))
+

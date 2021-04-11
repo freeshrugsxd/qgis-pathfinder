@@ -1,5 +1,7 @@
 from pathlib import Path
 from typing import List
+from urllib.parse import urlparse
+from urllib.request import url2pathname
 
 from PyQt5.QtCore import QSettings
 
@@ -115,26 +117,26 @@ def parse_path(path: str, must_be_file: bool = True) -> [tuple, None]:  # noqa
     #  - come up with a more clear return than a tuple
     settings = QSettings()
     settings.beginGroup('pathfinder')
-    parts = path.replace('file:', '').split('?')[0].split('|')
+    fp = Path(url2pathname(urlparse(path).path))  # convert uri to path
+    parts = path.split('?')[0].split('|')
 
-    fp = Path(parts[0])
     # return tuple of Nones if s
-    if must_be_file and not is_file(fp) :
+    if must_be_file and not is_file(fp):
         return None, None
 
     n = len(parts)
     has_layer_name = n > 1
     is_subset = n > 2
 
-    info = ''
+    query = ''
 
     if has_layer_name and settings.value('incl_layer_name', type=bool):
-        info += f'|{parts[1]}'
+        query += f'|{parts[1]}'
 
     if is_subset and settings.value('incl_subset_str', type=bool):
-        info += f'|{parts[2]}'
+        query += f'|{parts[2]}'
 
-    return fp, info
+    return fp, query
 
 
 def escape_string(s):
