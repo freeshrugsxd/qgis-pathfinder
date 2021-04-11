@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/plugins/copy_source_location/icons" >
+    <qresource prefix="/plugins/pathfinder/icons" >
         <file>copy.svg</file>
         <file>open_in_explorer.svg</file>
     </qresource>
