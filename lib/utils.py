@@ -120,9 +120,12 @@ def parse_path(path: str, must_be_file: bool = True) -> [tuple, None]:  # noqa
     settings.beginGroup('pathfinder')
     parts = path.split('?')[0].split('|')
 
-    # convert uri to path
     try:
-        fp = Path(url2pathname(urlparse(parts[0]).path))
+        if parts[0].startswith('file:'):
+            # convert uri to path
+            fp = Path(url2pathname(urlparse(parts[0]).path))
+        else:
+            fp = Path(parts[0])
     except OSError:
         # TODO: fix Bad URL error when a XYZ layer comes through here
         # return None for now
