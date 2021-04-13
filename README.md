@@ -7,4 +7,4 @@ QGIS Plugin that adds layer context menu entries to copy a layer's file path to 
 
 ## to do
 * [ ] update readme
-* [x] localization
+* [ ] localization
