@@ -25,18 +25,10 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QAction
 from qgis.gui import QgisInterface
 
-from .resources import *  # noqa
-
-try:
-    # dev import
-    from lib.eventfilter import PathfinderEventFilter
-    from lib.settingsdialog import PathfinderSettingsDialog
-    from lib.layertreecontextmenumanager import LayerTreeContextMenuManager
-except ModuleNotFoundError:
-    # qgis import
-    from pathfinder.lib.eventfilter import PathfinderEventFilter  # noqa
-    from pathfinder.lib.settingsdialog import PathfinderSettingsDialog  # noqa
-    from pathfinder.lib.layertreecontextmenumanager import LayerTreeContextMenuManager  # noqa
+from pathfinder.lib.eventfilter import PathfinderEventFilter
+from pathfinder.lib.layertreecontextmenumanager import LayerTreeContextMenuManager
+from pathfinder.lib.settingsdialog import PathfinderSettingsDialog
+from pathfinder.resources import *  # noqa
 
 
 class Pathfinder:

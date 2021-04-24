@@ -1,16 +1,11 @@
 from pathlib import Path
 
 from PyQt5.QtCore import QSettings, Qt
-from PyQt5.QtWidgets import QDialog, QDialogButtonBox
 from PyQt5.QtGui import QKeyEvent
+from PyQt5.QtWidgets import QDialog, QDialogButtonBox
 from qgis.PyQt import uic
 
-try:
-    # dev import
-    from lib.utils import PathfinderSettings, build_string, parse_path
-except ModuleNotFoundError:
-    # qgis import
-    from pathfinder.lib.utils import PathfinderSettings, build_string, parse_path  # noqa
+from pathfinder.lib.utils import PathfinderSettings, build_string, parse_path
 
 # TODO:
 #  - update translations for settings

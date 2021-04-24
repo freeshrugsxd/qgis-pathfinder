@@ -6,17 +6,11 @@ from typing import List
 from PyQt5.QtCore import QCoreApplication, QObject, QSettings, Qt, QTranslator
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QAction, QApplication, QMenu
-
 from qgis.core import QgsLayerTree, QgsLayerTreeNode
 from qgis.gui import QgsLayerTreeView
 from qgis.utils import iface
 
-try:
-    # dev import
-    from lib.utils import build_string, parse_path, is_file
-except ModuleNotFoundError:
-    # qgis import
-    from pathfinder.lib.utils import build_string, parse_path, is_file  # noqa
+from pathfinder.lib.utils import build_string, parse_path, is_file
 
 
 class PathfinderEventFilter(QObject):

@@ -21,11 +21,7 @@
  ***************************************************************************/
 
 """
-try:
-    from .pathfinder import Pathfinder  # dev import
-except ModuleNotFoundError:
-    # qgis import
-    from pathfinder.pathfinder import Pathfinder  # noqa
+from pathfinder.pathfinder import Pathfinder
 
 
 def classFactory(iface):  # noqa
