@@ -45,7 +45,7 @@ class PathfinderSettings:
             },
             'separ_char': {
                 'Space': ' ',
-                'Tab': '    ',
+                'Tab': '\t',
                 'New Line': '\n',
                 ',': ',',
                 ';': ';',
