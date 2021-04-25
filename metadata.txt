@@ -27,5 +27,6 @@ changelog=0.3.1 2021-04-13
 tracker=https://github.com/freeshrugsxd/qgis-pathfinder/issues
 repository=https://github.com/freeshrugsxd/qgis-pathfinder
 homepage=https://github.com/freeshrugsxd/qgis-pathfinder
+tags=copy path, show in explorer, clipboard, vector, raster
 icon=icons/copy.svg
 experimental=False
