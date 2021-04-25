@@ -5,12 +5,10 @@ from PyQt5.QtGui import QKeyEvent
 from PyQt5.QtWidgets import QDialog, QDialogButtonBox
 from qgis.PyQt import uic
 
-from pathfinder.lib.utils import PathfinderSettings, build_string, parse_path
+from pathfinder.lib.utils import DEFAULTS, build_string, parse_path
 
 # TODO:
 #  - update translations for settings
-
-DEFAULTS = PathfinderSettings().defaults
 
 FORM_CLASS, _ = uic.loadUiType(Path(__file__).parents[1] / 'ui' / 'settingsdiag.ui')
 

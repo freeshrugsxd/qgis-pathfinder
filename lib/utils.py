@@ -6,53 +6,40 @@ from urllib.request import url2pathname
 from PyQt5.QtCore import QSettings
 
 
-class PathfinderSettings:
-    def __init__(self):
-        self.settings = QSettings()
-        self.settings.beginGroup('pathfinder')
+DEFAULTS = {
+    'quote_char': '"',
+    'separ_char': 'Space',
+    'quote_char_custom': '',
+    'separ_char_custom': '',
+    'prefix': '',
+    'postfix': '',
+    'single_path_quote': 0,
+    'single_path_affix': 0,
+    'incl_file_name': 2,
+    'incl_layer_name': 0,
+    'incl_subset_str': 0,
+    'show_notification': 0,
+    'paths_on_new_line': 0
+}
 
-    @property
-    def defaults(self):
-        # int values 0 and 2 correspond to Qts CheckStatus enum
-        # https://doc.qt.io/qtforpython-5/PySide2/QtCore/Qt.html#PySide2.QtCore.PySide2.QtCore.Qt.CheckState
-        # 0 = Qt.Unchecked, 2 = Qt.Checked
-        return {
-            'quote_char': '"',
-            'separ_char': 'Space',
-            'quote_char_custom': '',
-            'separ_char_custom': '',
-            'prefix': '',
-            'postfix': '',
-            'single_path_quote': 0,
-            'single_path_affix': 0,
-            'incl_file_name': 2,
-            'incl_layer_name': 0,
-            'incl_subset_str': 0,
-            'show_notification': 0,
-            'paths_on_new_line': 0
-        }
+MAPPINGS = {
+    'quote_char': {
+        '\"': '\"',
+        '\'': '\'',
+        '´': '´',
+        '`': '`',
+        'Space': ' ',
+        'None': '',
 
-    @property
-    def mappings(self):
-        return {
-            'quote_char': {
-                '\"': '\"',
-                '\'': '\'',
-                '´': '´',
-                '`': '`',
-                'Space': ' ',
-                'None': '',
-                'Other': self.settings.value('quote_char_custom', self.defaults['quote_char_custom'])
-            },
-            'separ_char': {
-                'Space': ' ',
-                'Tab': '\t',
-                'New Line': '\n',
-                ',': ',',
-                ';': ';',
-                'Other': self.settings.value('separ_char_custom', self.defaults['separ_char_custom'])
-            },
-        }
+    },
+    'separ_char': {
+        'Space': ' ',
+        'Tab': '\t',
+        'New Line': '\n',
+        ',': ',',
+        ';': ';',
+    },
+}
 
 
 def build_string(paths: List[tuple]) -> str:
@@ -65,15 +52,13 @@ def build_string(paths: List[tuple]) -> str:
     """
     settings = QSettings()
     settings.beginGroup('pathfinder')
-    mappings = PathfinderSettings().mappings
-    defaults = PathfinderSettings().defaults
-
     n = len(paths)
 
-    q = mappings['quote_char'][settings.value('quote_char', defaults['quote_char'])]
-    s = mappings['separ_char'][settings.value('separ_char', defaults['separ_char'])]
-    pre = settings.value('prefix', defaults['prefix'])
-    post = settings.value('postfix', defaults['postfix'])
+    q = get_char('quote_char')
+    s = get_char('separ_char')
+
+    pre = settings.value('prefix', DEFAULTS['prefix'])
+    post = settings.value('postfix', DEFAULTS['postfix'])
 
     # should file name be included?
     fn = settings.value('incl_file_name', type=bool)
@@ -155,6 +140,20 @@ def parse_path(path: str, must_be_file: bool = True) -> [tuple, None]:  # noqa
         query += f'|{parts[2]}'
 
     return fp, query
+
+
+def get_char(s: str) -> str:
+    """Return the character equivalent to ``s`` or its respective custom character.
+
+    :param s: either 'quote_char' or 'separ_char'
+    :return: representation of s or its respective custom character
+    """
+    settings = QSettings()
+    settings.beginGroup('pathfinder')
+    if settings.value(s) == 'Other':
+        return settings.value(f'{s}_custom', DEFAULTS[f'{s}_custom'])
+    else:
+        return MAPPINGS[s][settings.value(s, DEFAULTS[s])]
 
 
 def escape_string(s):
