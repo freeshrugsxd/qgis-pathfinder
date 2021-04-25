@@ -12,6 +12,11 @@ from qgis.utils import iface
 
 from pathfinder.lib.utils import build_string, parse_path, is_file
 
+# TODO: add keyboard shortcuts for Copy Path and Show in Explorer
+#  notes: - too much of the pathfinder logic resides inside the event filter
+#         - event filter should only handle the context menu creation
+#         - move core logic into another class?
+
 
 class PathfinderEventFilter(QObject):
     """Filter Object receiving events through eventFilter method.

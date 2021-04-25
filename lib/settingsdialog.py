@@ -9,7 +9,6 @@ from pathfinder.lib.utils import PathfinderSettings, build_string, parse_path
 
 # TODO:
 #  - update translations for settings
-#  - add ability to assign keyboard shortcuts
 
 DEFAULTS = PathfinderSettings().defaults
 
@@ -42,7 +41,6 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
         self.postfix.textChanged.connect(lambda v: self.on_changed('postfix', v))
 
         # checkboxes https://doc.qt.io/qtforpython-5/PySide2/QtWidgets/QCheckBox.html
-        # returned states are 0 for unchecked and 2 for checked
         self.incl_file_name.stateChanged.connect(lambda v: self.on_changed('incl_file_name', v))
         self.incl_layer_name.stateChanged.connect(lambda v: self.on_changed('incl_layer_name', v))
         self.incl_subset_str.stateChanged.connect(lambda v: self.on_changed('incl_subset_str', v))
@@ -57,17 +55,14 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
     def restore_settings(self) -> None:
         """Reflect pathfinders current settings inside the settings dialog.
         """
-        # comboboxes https://doc.qt.io/qtforpython-5/PySide2/QtWidgets/QComboBox.html
         self.quote_cbox.setCurrentText(self.settings.value('quote_char', DEFAULTS['quote_char']))
         self.separ_cbox.setCurrentText(self.settings.value('separ_char', DEFAULTS['separ_char']))
 
-        # lineedits https://doc.qt.io/qtforpython-5/PySide2/QtWidgets/QLineEdit.html
         self.quote_char_custom.setText(self.settings.value('quote_char_custom', DEFAULTS['quote_char_custom']))
         self.separ_char_custom.setText(self.settings.value('separ_char_custom', DEFAULTS['separ_char_custom']))
         self.prefix.setText(self.settings.value('prefix', DEFAULTS['prefix']))
         self.postfix.setText(self.settings.value('postfix', DEFAULTS['postfix']))
 
-        # checkboxes https://doc.qt.io/qtforpython-5/PySide2/QtWidgets/QCheckBox.html
         # cast state to int because the value is returned as string from persistent storage
         self.incl_file_name.setCheckState(self.settings.value('incl_file_name', DEFAULTS['incl_file_name'], int))
         self.incl_layer_name.setCheckState(self.settings.value('incl_layer_name', DEFAULTS['incl_layer_name'], int))
