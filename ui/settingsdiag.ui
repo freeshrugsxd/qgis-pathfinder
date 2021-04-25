@@ -29,7 +29,7 @@
       <item row="1" column="0">
        <widget class="QCheckBox" name="incl_file_name">
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Whether to copy the full path or omitt the file and return the path to the parent directory instead.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Whether to include the file name.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
          <string>include file name</string>
@@ -376,6 +376,9 @@
      <layout class="QGridLayout" name="gridLayout_4">
       <item row="0" column="0">
        <widget class="QCheckBox" name="incl_layer_name">
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Whether to append the  layer name to the vector layer path.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
         <property name="text">
          <string>include layer name</string>
         </property>
@@ -383,6 +386,9 @@
       </item>
       <item row="0" column="1">
        <widget class="QCheckBox" name="incl_subset_str">
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Whether to append the  subset string to the vector layer path.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
         <property name="text">
          <string>include subset string</string>
         </property>
