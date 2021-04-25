@@ -51,7 +51,7 @@ class Pathfinder:
 
         self.settings_dialog = QAction(  # noqa
             QIcon(':/plugins/pathfinder/icons/copy.svg'),
-            'pathfinder',
+            'pathfinder Settings',
             self.iface.mainWindow())
 
         self.settings_dialog.triggered.connect(self.show_settings_dialog)
