@@ -45,6 +45,16 @@
       <string>Multiselection</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="1">
+       <widget class="QCheckBox" name="single_path_affix">
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Whether to apply prefix and postfix characters when only a single path is returned.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>apply affixes to single path</string>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="0">
        <widget class="QCheckBox" name="single_path_quote">
         <property name="toolTip">
@@ -55,13 +65,13 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QCheckBox" name="single_path_affix">
+      <item row="0" column="2">
+       <widget class="QCheckBox" name="paths_on_new_line">
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Whether to apply prefix and postfix characters when only a single path is returned.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Whether to place each path on a separate line.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
-         <string>apply affixes to single path</string>
+         <string>place paths on new line</string>
         </property>
        </widget>
       </item>
@@ -92,11 +102,6 @@
           <item>
            <property name="text">
             <string>Tab</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>New Line</string>
            </property>
           </item>
           <item>

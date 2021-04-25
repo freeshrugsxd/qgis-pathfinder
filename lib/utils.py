@@ -29,6 +29,7 @@ class PathfinderSettings:
             'incl_layer_name': 0,
             'incl_subset_str': 0,
             'show_notification': 0,
+            'paths_on_new_line': 0
         }
 
     @property
@@ -67,6 +68,8 @@ def build_string(paths: List[tuple]) -> str:
     mappings = PathfinderSettings().mappings
     defaults = PathfinderSettings().defaults
 
+    n = len(paths)
+
     q = mappings['quote_char'][settings.value('quote_char', defaults['quote_char'])]
     s = mappings['separ_char'][settings.value('separ_char', defaults['separ_char'])]
     pre = settings.value('prefix', defaults['prefix'])
@@ -75,14 +78,18 @@ def build_string(paths: List[tuple]) -> str:
     # should file name be included?
     fn = settings.value('incl_file_name', type=bool)
 
-    # should a single path be quoted?
-    if len(paths) == 1 and not settings.value('single_path_quote', type=bool):
-        q = ''
+    if n == 1:
+        # should a single path be quoted?
+        if not settings.value('single_path_quote', type=bool):
+            q = ''
+        # should pre- and postfix be applied to single path?
+        if not settings.value('single_path_affix', type=bool):
+            pre = ''
+            post = ''
 
-    # should pre- and postfix be applied to single path?
-    if len(paths) == 1 and not settings.value('single_path_affix', type=bool):
-        pre = ''
-        post = ''
+    # should paths go onto separate lines?
+    if n > 1 and settings.value('paths_on_new_line', type=bool):
+        s += '\n'
 
     out = s.join([f'{q}{p if fn else p.parent}{i}{q}' for p, i in paths])
     return f'{pre}{out}{post}'

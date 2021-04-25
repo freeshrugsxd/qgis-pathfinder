@@ -48,6 +48,7 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
         self.incl_subset_str.stateChanged.connect(lambda v: self.on_changed('incl_subset_str', v))
         self.single_path_quote.stateChanged.connect(lambda v: self.on_changed('single_path_quote', v))
         self.single_path_affix.stateChanged.connect(lambda v: self.on_changed('single_path_affix', v))
+        self.paths_on_new_line.stateChanged.connect(lambda v: self.on_changed('paths_on_new_line', v))
         self.show_notification.stateChanged.connect(lambda v: self.on_changed('show_notification', v))
 
         # buttons https://doc.qt.io/qtforpython-5/PySide2/QtWidgets/QDialogButtonBox.html
@@ -73,6 +74,7 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
         self.incl_subset_str.setCheckState(self.settings.value('incl_subset_str', DEFAULTS['incl_subset_str'], int))
         self.single_path_quote.setCheckState(self.settings.value('single_path_quote', DEFAULTS['single_path_quote'], int))
         self.single_path_affix.setCheckState(self.settings.value('single_path_affix', DEFAULTS['single_path_affix'], int))
+        self.paths_on_new_line.setCheckState(self.settings.value('paths_on_new_line', DEFAULTS['paths_on_new_line'], int))
         self.show_notification.setCheckState(self.settings.value('show_notification', DEFAULTS['show_notification'], int))
 
     def on_curr_changed(self, key: str, value: str) -> None:
