@@ -24,6 +24,7 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
 
         self.create_bindings()
         self.restore_settings()
+        self.update_preview()
 
     def create_bindings(self) -> None:
         """Create bindings for the all elements.
