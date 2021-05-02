@@ -1,7 +1,5 @@
 from pathlib import Path
-from typing import List
-from urllib.parse import urlparse
-from urllib.request import url2pathname
+
 
 from PyQt5.QtCore import QSettings
 
@@ -42,44 +40,6 @@ MAPPINGS = {
 }
 
 
-def build_string(paths: List[tuple]) -> str:
-    """Construct a string using pathfinders current settings.
-
-    :param paths: A list of tuples (path, info) where paths[0] contains the valid file path
-    and paths[1] contains data provider information such as the layer name and
-    subset string.
-    :return: Formatted string representing one or more file paths.
-    """
-    settings = QSettings()
-    settings.beginGroup('pathfinder')
-    n = len(paths)
-
-    q = get_char('quote_char')
-    s = get_char('separ_char')
-
-    pre = settings.value('prefix', DEFAULTS['prefix'])
-    post = settings.value('postfix', DEFAULTS['postfix'])
-
-    # should file name be included?
-    fn = settings.value('incl_file_name', type=bool)
-
-    if n == 1:
-        # should a single path be quoted?
-        if not settings.value('single_path_quote', type=bool):
-            q = ''
-        # should pre- and postfix be applied to single path?
-        if not settings.value('single_path_affix', type=bool):
-            pre = ''
-            post = ''
-
-    # should paths go onto separate lines?
-    if n > 1 and settings.value('paths_on_new_line', type=bool):
-        s += '\n'
-
-    out = s.join([f'{q}{p if fn else p.parent}{i}{q}' for p, i in paths])
-    return f'{pre}{out}{post}'
-
-
 def is_file(loc: Path) -> bool:
     """Return ``Path.is_file()`` but do not raise OSError if loc is not a
     valid OS path (e.g. starting with 'https:///').
@@ -96,50 +56,6 @@ def is_file(loc: Path) -> bool:
         return loc.is_file()
     except OSError:
         return False
-
-
-def parse_path(path: str, must_be_file: bool = True) -> [tuple, None]:  # noqa
-    """Strip common appendices from path string according to pathfinder settings.
-
-    :param path: String that could be a file path.
-    :return: Tuple containing a valid file path and the desired data provider information.
-    """
-    # TODO:
-    #  - allow for non file layer to successfully pass through here
-    #  - come up with a more clear return than a tuple
-
-    settings = QSettings()
-    settings.beginGroup('pathfinder')
-    parts = path.split('?')[0].split('|')
-
-    try:
-        if parts[0].startswith('file:'):
-            # convert uri to path
-            fp = Path(url2pathname(urlparse(parts[0]).path))
-        else:
-            fp = Path(parts[0])
-    except OSError:
-        # TODO: fix Bad URL error when a XYZ layer comes through here
-        # return None for now
-        return None, None
-
-    # return tuple of Nones if s
-    if must_be_file and not is_file(fp):
-        return None, None
-
-    n = len(parts)
-    has_layer_name = n > 1
-    is_subset = n > 2
-
-    query = ''
-
-    if has_layer_name and settings.value('incl_layer_name', type=bool):
-        query += f'|{parts[1]}'
-
-    if is_subset and settings.value('incl_subset_str', type=bool):
-        query += f'|{parts[2]}'
-
-    return fp, query
 
 
 def get_char(s: str) -> str:
