@@ -21,7 +21,7 @@
  ***************************************************************************/
 
 """
-from pathfinder.pathfinder import Pathfinder
+from pathfinder.pathfinder import PathfinderPlugin
 
 
 def classFactory(iface):  # noqa
@@ -30,4 +30,4 @@ def classFactory(iface):  # noqa
     :param iface: A QGIS interface instance.
     :type iface: QgsInterface
     """
-    return Pathfinder(iface)
+    return PathfinderPlugin(iface)
