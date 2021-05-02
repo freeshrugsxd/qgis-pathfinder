@@ -31,7 +31,7 @@ from pathfinder.lib.settingsdialog import PathfinderSettingsDialog
 from pathfinder.resources import *  # noqa
 
 
-class Pathfinder:
+class PathfinderPlugin:
     """QGIS Plugin Implementation."""
 
     def __init__(self, iface: QgisInterface):
