@@ -1,5 +1,6 @@
 __pycache__
 .idea
+release
 test
 *.ui.autosave
 *.pyproject.user
