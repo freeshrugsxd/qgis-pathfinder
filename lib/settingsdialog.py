@@ -114,9 +114,14 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
         self.show()
 
     def keyPressEvent(self, event: QKeyEvent) -> None:
-        """Gobble Enter key press.
+        """Modify key press events.
 
         :param event:
         """
+        # gobble Enter
         if event.key() == Qt.Key_Enter:
             pass
+
+        # close dialog on Escape
+        if event.key() == Qt.Key_Escape:
+            self.close()
