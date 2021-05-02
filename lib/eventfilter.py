@@ -1,16 +1,13 @@
-import subprocess
 from pathlib import Path
 from platform import system as pf_system
-from typing import List
 
 from PyQt5.QtCore import QCoreApplication, QObject, QSettings, Qt, QTranslator
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QAction, QApplication, QMenu
-from qgis.core import QgsLayerTree, QgsLayerTreeNode
-from qgis.gui import QgsLayerTreeView
-from qgis.utils import iface
+from PyQt5.QtWidgets import QAction, QMenu
 
-from pathfinder.lib.utils import build_string, parse_path, is_file
+from pathfinder.lib.core import Pathfinder
+from pathfinder.lib.utils import is_file
+
 
 # TODO: add keyboard shortcuts for Copy Path and Show in Explorer
 #  notes: - too much of the pathfinder logic resides inside the event filter
@@ -24,7 +21,6 @@ class PathfinderEventFilter(QObject):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.system = pf_system()  # get system OS
         self.locs = []
 
         self.settings = QSettings()
@@ -40,25 +36,21 @@ class PathfinderEventFilter(QObject):
             self.translator.load(str(locale_path))
             QCoreApplication.installTranslator(self.translator)
 
-        # platform specific commands to open the system's *most likely* file explorer
-        commands = {'Windows': 'explorer', 'Linux': 'xdg-open', 'Darwin': 'open'}
-
-        self.command = commands[self.system]
 
     def __call__(self, menu, event):  # noqa
         """Add custom actions to the default context menu.
         """
         shift_mod = event.modifiers() == Qt.ShiftModifier
-        view = iface.layerTreeView()
+        pf = Pathfinder()
 
         # return default context menu if no layer is selected
-        lyrs = self.get_selected_layers(view)
+        lyrs = pf.get_selected_layers()
         if not lyrs:
             return menu
 
-        self.locs = self.get_locations(lyrs)  # list of valid file paths
+        pf.get_locations(lyrs)  # list of valid file paths
 
-        cp_action_label = (self.tr('Copy Paths') if len(self.locs) > 1 else self.tr('Copy Path'))
+        cp_action_label = (self.tr('Copy Paths') if len(pf.locs) > 1 else self.tr('Copy Path'))
 
         # determine position within context menu
         menu_idx = self.set_menu_position(menu)
@@ -66,21 +58,21 @@ class PathfinderEventFilter(QObject):
         # adding stuff bottom to top, so we can just reuse menu_idx for insertion
         menu.insertSeparator(menu.actions()[menu_idx])  # separator below entry
 
-        if self.unique_parent_dirs():
+        if pf.unique_parent_dirs():
             open_in_explorer = QAction(
                 QIcon(':/plugins/pathfinder/icons/open_in_explorer.svg'),
                 self.tr('Show in Explorer'),
                 menu,
             )
 
-            open_in_explorer.triggered.connect(self.open_in_explorer)
+            open_in_explorer.triggered.connect(lambda: pf.open_in_explorer())
             menu.insertAction(menu.actions()[menu_idx], open_in_explorer)
 
         # only show entries if there are actual file layers
-        if any([is_file(loc[0]) for loc in self.locs]):
+        if any([is_file(loc[0]) for loc in pf.locs]):
 
             # give option to copy location with double backslash when shift modifier is pressed
-            if self.system == 'Windows' and shift_mod:
+            if pf_system() == 'Windows' and shift_mod:
 
                 cp_src_double_backslash = QAction(
                     QIcon(':/plugins/pathfinder/icons/copy.svg'),
@@ -88,7 +80,7 @@ class PathfinderEventFilter(QObject):
                     menu,
                 )
 
-                cp_src_double_backslash.triggered.connect(self.paths_to_clipboard_double_backslash)
+                cp_src_double_backslash.triggered.connect(lambda: pf.copy_double_backlslash())
                 menu.insertAction(menu.actions()[menu_idx], cp_src_double_backslash)
 
             cp_src = QAction(
@@ -97,54 +89,14 @@ class PathfinderEventFilter(QObject):
                 menu,
             )
 
-            cp_src.triggered.connect(self.paths_to_clipboard)
+            cp_src.triggered.connect(lambda: pf.copy())
             menu.insertAction(menu.actions()[menu_idx], cp_src)
 
         menu.insertSeparator(menu.actions()[menu_idx])  # seperator above entry, hidden if on top
 
         return menu
 
-    def paths_to_clipboard(self):  # noqa
-        """Copy paths to clipboard.
-        """
-        text = build_string(self.locs)
-        QApplication.clipboard().setText(text)
-        self.notify(text)
 
-    def paths_to_clipboard_double_backslash(self):  # noqa
-        """Copy paths to clipboard but substitude extra backslashes for UTF-8 pasting.
-        """
-        text = build_string(self.locs).replace('\\', '\\\\')
-        QApplication.clipboard().setText(text)
-        self.notify(text)
-
-    def notify(self, text):
-        if self.settings.value('pathfinder/show_notification', type=bool):
-            iface.messageBar().pushMessage('Copied to clipboard', text, level=0, duration=4)
-
-    def open_in_explorer(self):  # noqa
-        """Open unique parent directories in a file explorer.
-        """
-        # TODO: select files in file explorer
-        for p in self.unique_parent_dirs():
-            subprocess.run([self.command, str(p)])
-
-    def get_selected_layers(self, view: QgsLayerTreeView) -> List[QgsLayerTreeNode]:  # noqa
-        """Return list of selected layers from view.
-
-        :param view: QgsLayerTreeView instance.
-        :return: List of selected nodes that are layers.
-        """
-        return [n for n in view.selectedNodes() if QgsLayerTree.isLayer(n)]
-
-    def get_locations(self, lyrs: List[QgsLayerTreeNode]) -> List[tuple]:  # noqa
-        """Return all unique valid file locations from list of layers.
-
-        :param lyrs: A list of QGIS layers.
-        :return: A list of tuples containing a valid file path and it's data provider
-        information respective to the pathfinder settings.
-        """
-        return [(p, q) for p, q in [parse_path(n.layer().source()) for n in lyrs] if p]
 
     def set_menu_position(self, menu: QMenu, idx: int = -3) -> int:  # noqa
         """Return menu index of the `idxth` separator object.
@@ -158,11 +110,3 @@ class PathfinderEventFilter(QObject):
             return [i for i, a in enumerate(menu.actions()) if a.isSeparator()][idx]
         except IndexError:
             return self.set_menu_position(menu, idx - 1 if idx > 0 else idx + 1)
-
-    def unique_parent_dirs(self) -> List[Path]:
-        """Return list of unique parent directories from list of paths.
-
-        :return: List of unique parent directories paths within self.locs.
-        """
-        return list(set([path.parent for path, query in self.locs]))
-
