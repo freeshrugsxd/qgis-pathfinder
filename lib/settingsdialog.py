@@ -5,7 +5,8 @@ from PyQt5.QtGui import QKeyEvent
 from PyQt5.QtWidgets import QDialog, QDialogButtonBox
 from qgis.PyQt import uic
 
-from pathfinder.lib.utils import DEFAULTS, build_string, parse_path
+from pathfinder.lib.core import Pathfinder
+from pathfinder.lib.utils import DEFAULTS
 
 # TODO:
 #  - update translations for settings
@@ -96,10 +97,11 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
 
         :param n: The number of mock paths to be displayed in the preview. Optional. [default: 2]
         """
+        pf = Pathfinder()
         # TODO: allow user to manipulate n
         paths = n * ['dir/subdir/file.ext|layername=lyr|subset=id > 0']
-        parsed = [parse_path(path, must_be_file=False) for path in paths]
-        out = build_string(parsed)
+        parsed = [pf.parse_path(path, must_be_file=False) for path in paths]
+        out = pf.build_string(parsed)
         self.paths_preview.setText(out)
 
     def restore_defaults(self) -> None:
