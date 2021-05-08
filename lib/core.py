@@ -31,7 +31,7 @@ class Pathfinder(QObject):
         QApplication.clipboard().setText(text)
         self.notify(text)
 
-    def copy_double_backlslash(self):
+    def copy_double_backslash(self):
         """Copy paths to clipboard but substitude extra backslashes for UTF-8 pasting.
         """
         text = self.build_string(self.locs).replace('\\', '\\\\')

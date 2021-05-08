@@ -80,7 +80,7 @@ class PathfinderEventFilter(QObject):
                     menu,
                 )
 
-                cp_src_double_backslash.triggered.connect(lambda: pf.copy_double_backlslash())
+                cp_src_double_backslash.triggered.connect(lambda: pf.copy_double_backslash())
                 menu.insertAction(menu.actions()[menu_idx], cp_src_double_backslash)
 
             cp_src = QAction(
