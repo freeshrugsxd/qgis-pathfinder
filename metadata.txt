@@ -11,7 +11,7 @@ about=
     These actions are also available via keyboard shortcuts:
 
         Copy Path:          Ctrl + E
-        Copy Path (\\):      Ctrl + Shift + E
+        Copy Path (\\):     Ctrl + Shift + E
         Show in Explorer:   Ctrl + R
 
 version=version 0.3.3
