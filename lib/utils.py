@@ -1,8 +1,6 @@
 from pathlib import Path
 
-
 from PyQt5.QtCore import QSettings
-
 
 DEFAULTS = {
     'quote_char': '"',
