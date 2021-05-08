@@ -8,9 +8,17 @@ about=
     Add layer context menu entries that allow you to copy its source or open the file explorer at its location.
     Several customization options - like quoting and separation characters - are available in the pathfinder settings dialog.
     Shift + Right Click reveals and extra Copy Path command where backslashes are substituted by double backslashes.
-version=version 0.3.2
+    These actions are also available via keyboard shortcuts:
+
+        Copy Path:          Ctrl + E
+        Copy Path (\\):      Ctrl + Shift + E
+        Show in Explorer:   Ctrl + R
+
+version=version 0.3.3
 
 changelog=
+    0.3.3 2021-05-08
+        * added actions for keyboard shortcuts
         * updated about and metadata
     0.3.2 2021-04-26
         * removed New Line separator and made it an option instead
