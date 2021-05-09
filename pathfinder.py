@@ -50,20 +50,22 @@ class PathfinderPlugin:
         self.contextManager = LayerTreeContextMenuManager()  # noqa
         self.contextManager.addProvider(PathfinderEventFilter())
 
-        # setting up and register actions for keyboard shortcuts
+        # setting up keyboard shortcut actions
         self.copy_action1 = QAction('&Copy Path', self.iface.mainWindow())
         self.copy_action2 = QAction('Copy &Path (\\\\)', self.iface.mainWindow())
         self.show_action = QAction('Show in Explore&r', self.iface.mainWindow())
 
+        # register shortcuts
         self.iface.registerMainWindowAction(self.copy_action1, 'Ctrl+E')
         self.iface.registerMainWindowAction(self.copy_action2, 'Ctrl+Shift+E')
         self.iface.registerMainWindowAction(self.show_action, 'Ctrl+R')
 
+        # shortcuts won't work unless actions are added to this menu
         self.iface.addPluginToMenu('&pathfinder', self.copy_action1)
         self.iface.addPluginToMenu('&pathfinder', self.copy_action2)
         self.iface.addPluginToMenu('&pathfinder', self.show_action)
 
-        self.copy_action1.triggered.connect(self.on_copy1_key_pressed)
+        # bind actions
         self.copy_action2.triggered.connect(self.on_copy2_key_pressed)
         self.show_action.triggered.connect(self.on_show_key_pressed)
 
