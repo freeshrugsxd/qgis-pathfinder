@@ -25,15 +25,13 @@ class Pathfinder(QObject):
         self.command = commands[pf_system()]
 
     def copy(self):
-        """Copy paths to clipboard.
-        """
+        """Copy paths to clipboard."""
         text = self.build_string(self.locs)
         QApplication.clipboard().setText(text)
         self.notify(text)
 
     def copy_double_backslash(self):
-        """Copy paths to clipboard but substitude extra backslashes for UTF-8 pasting.
-        """
+        """Copy paths to clipboard but substitude extra backslashes for UTF-8 pasting."""
         text = self.build_string(self.locs).replace('\\', '\\\\')
         QApplication.clipboard().setText(text)
         self.notify(text)
@@ -43,8 +41,7 @@ class Pathfinder(QObject):
             iface.messageBar().pushMessage('Copied to clipboard', text, level=0, duration=4)
 
     def open_in_explorer(self):
-        """Open unique parent directories in a file explorer.
-        """
+        """Open unique parent directories in a file explorer."""
         # TODO: select files in file explorer
         for p in self.unique_parent_dirs():
             subprocess.run([self.command, str(p)])

@@ -30,7 +30,6 @@ class PathfinderEventFilter(QObject):
             self.translator.load(str(locale_path))
             QCoreApplication.installTranslator(self.translator)
 
-
     def __call__(self, menu, event):  # noqa
         """Add custom actions to the default context menu.
         """
@@ -89,8 +88,6 @@ class PathfinderEventFilter(QObject):
         menu.insertSeparator(menu.actions()[menu_idx])  # seperator above entry, hidden if on top
 
         return menu
-
-
 
     def set_menu_position(self, menu: QMenu, idx: int = -3) -> int:  # noqa
         """Return menu index of the `idxth` separator object.
