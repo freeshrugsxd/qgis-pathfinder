@@ -17,6 +17,7 @@ class Pathfinder(QObject):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.locs = []
+        self.selected_layers = []
         self.settings = QSettings()
         self.settings.beginGroup('pathfinder')
 
@@ -46,15 +47,14 @@ class Pathfinder(QObject):
         for p in self.unique_parent_dirs():
             subprocess.run([self.command, str(p)])
 
-    def get_locations(self, lyrs: List[QgsLayerTreeNode]) -> List[tuple]:
+    def get_locations(self) -> None:
         """Return all unique valid file locations from list of layers.
 
-        :param lyrs: A list of QGIS layers.
         :return: A list of tuples containing a valid file path and it's data provider
         information respective to the pathfinder settings.
         """
-        self.locs = [(p, q) for p, q in [self.parse_path(n.layer().source()) for n in lyrs] if p]
-        return self.locs
+        self.locs = [(p, q) for p, q in [self.parse_path(n.layer().source()) for n in self.selected_layers] if p]
+        return
 
     def unique_parent_dirs(self) -> List[Path]:
         """Return list of unique parent directories from list of paths.
@@ -63,13 +63,15 @@ class Pathfinder(QObject):
         """
         return list(set([path.parent for path, query in self.locs]))
 
-    def get_selected_layers(self) -> List[QgsLayerTreeNode]:  # noqa
-        """Return list of selected layers from view.
+    @property
+    def layers_selected(self) -> bool:
+        """Check if there are any layers selected.
 
-        :return: List of selected nodes that are layers.
+        :return: Whether there are any layers selected.
         """
         view = iface.layerTreeView()
-        return [n for n in view.selectedNodes() if QgsLayerTree.isLayer(n)]
+        self.selected_layers = [n for n in view.selectedNodes() if QgsLayerTree.isLayer(n)]
+        return len(self.selected_layers) > 0
 
     @staticmethod
     def build_string(paths: List[tuple]) -> str:  # noqa

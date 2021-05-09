@@ -82,10 +82,9 @@ class PathfinderPlugin:
 
     def on_key_pressed(self, call_idx):  # noqa
         pf = Pathfinder()
-        lyrs = pf.get_selected_layers()
-        if lyrs:
+        if pf.layers_selected:
             calls = {0: pf.copy, 1: pf.copy_double_backslash, 2: pf.open_in_explorer}
-            pf.get_locations(lyrs)
+            pf.get_locations()
             calls[call_idx]()
 
     def show_settings_dialog(self):
