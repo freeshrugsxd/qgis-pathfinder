@@ -66,8 +66,9 @@ class PathfinderPlugin:
         self.iface.addPluginToMenu('&pathfinder', self.show_action)
 
         # bind actions
-        self.copy_action2.triggered.connect(self.on_copy2_key_pressed)
-        self.show_action.triggered.connect(self.on_show_key_pressed)
+        self.copy_action1.triggered.connect(lambda: self.on_key_pressed(0))
+        self.copy_action2.triggered.connect(lambda: self.on_key_pressed(1))
+        self.show_action.triggered.connect(lambda: self.on_key_pressed(2))
 
         # register settings dialog
         self.settings_dialog = QAction(  # noqa
@@ -79,26 +80,13 @@ class PathfinderPlugin:
         self.settings_dialog.triggered.connect(self.show_settings_dialog)
         self.iface.addToolBarIcon(self.settings_dialog)
 
-    def on_copy1_key_pressed(self):  # noqa
+    def on_key_pressed(self, call_idx):  # noqa
         pf = Pathfinder()
         lyrs = pf.get_selected_layers()
         if lyrs:
+            calls = {0: pf.copy, 1: pf.copy_double_backslash, 2: pf.open_in_explorer}
             pf.get_locations(lyrs)
-            pf.copy()
-
-    def on_copy2_key_pressed(self):  # noqa
-        pf = Pathfinder()
-        lyrs = pf.get_selected_layers()
-        if lyrs:
-            pf.get_locations(lyrs)
-            pf.copy_double_backslash()
-
-    def on_show_key_pressed(self):  # noqa
-        pf = Pathfinder()
-        lyrs = pf.get_selected_layers()
-        if lyrs:
-            pf.get_locations(lyrs)
-            pf.open_in_explorer()
+            calls[call_idx]()
 
     def show_settings_dialog(self):
         self.dialog = PathfinderSettingsDialog()  # noqa
