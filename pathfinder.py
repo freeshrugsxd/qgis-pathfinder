@@ -51,9 +51,9 @@ class PathfinderPlugin:
         self.contextManager.addProvider(PathfinderEventFilter())
 
         # setting up keyboard shortcut actions
-        self.copy_action1 = QAction('&Copy Path', self.iface.mainWindow())
-        self.copy_action2 = QAction('Copy &Path (\\\\)', self.iface.mainWindow())
-        self.show_action = QAction('Show in Explore&r', self.iface.mainWindow())
+        self.copy_action1 = QAction('&Copy Path', self.iface.mainWindow())  # noqa
+        self.copy_action2 = QAction('Copy &Path (\\\\)', self.iface.mainWindow())  # noqa
+        self.show_action = QAction('Show in Explore&r', self.iface.mainWindow())  # noqa
 
         # register shortcuts
         self.iface.registerMainWindowAction(self.copy_action1, 'Ctrl+E')
