@@ -15,7 +15,6 @@ class PathfinderEventFilter(QObject):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.locs = []
 
         self.settings = QSettings()
 
