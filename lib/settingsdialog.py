@@ -53,7 +53,7 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
         self.buttonBox.button(QDialogButtonBox.RestoreDefaults).clicked.connect(self.restore_defaults)
 
     def restore_settings(self) -> None:
-        """Reflect pathfinders current settings inside the settings dialog.
+        """Reflect pathfinder's current settings inside the settings dialog.
         """
         self.quote_cbox.setCurrentText(self.settings.value('quote_char', DEFAULTS['quote_char']))
         self.separ_cbox.setCurrentText(self.settings.value('separ_char', DEFAULTS['separ_char']))
