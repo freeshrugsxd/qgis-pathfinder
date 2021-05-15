@@ -28,7 +28,7 @@ class PathfinderEventFilter(QObject):
             self.translator.load(str(locale_path))
             QCoreApplication.installTranslator(self.translator)
 
-    def __call__(self, menu, event):  # noqa
+    def __call__(self, menu, event):
         """Add custom actions to the default context menu."""
         shift_mod = event.modifiers() == Qt.ShiftModifier
         pf = Pathfinder()
@@ -85,7 +85,7 @@ class PathfinderEventFilter(QObject):
 
         return menu
 
-    def set_menu_position(self, menu: QMenu, idx: int = -3) -> int:  # noqa
+    def set_menu_position(self, menu: QMenu, idx: int = -3) -> int:
         """Return menu index of the `idxth` separator object.
         If idx is out of bounds, gradually change its value towards 0.
 

@@ -69,7 +69,7 @@ class Pathfinder(QObject):
         return len(self.selected_layers) > 0
 
     @staticmethod
-    def build_string(paths: List[tuple]) -> str:  # noqa
+    def build_string(paths: List[tuple]) -> str:
         """Construct a string using pathfinders current settings.
 
         :param paths: A list of tuples (path, info) where paths[0] contains the valid file path
