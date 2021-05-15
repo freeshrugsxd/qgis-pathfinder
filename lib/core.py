@@ -7,7 +7,7 @@ from urllib.request import url2pathname
 
 from PyQt5.QtCore import QObject, QSettings
 from PyQt5.QtWidgets import QApplication
-from qgis.core import QgsLayerTree, QgsLayerTreeNode
+from qgis.core import QgsLayerTree
 from qgis.utils import iface
 
 from pathfinder.lib.utils import DEFAULTS, get_char, is_file
