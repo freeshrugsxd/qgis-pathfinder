@@ -47,14 +47,9 @@ class Pathfinder(QObject):
         for p in self.unique_parent_dirs():
             subprocess.run([self.command, str(p)])
 
-    def get_locations(self) -> None:
-        """Return all unique valid file locations from list of layers.
-
-        :return: A list of tuples containing a valid file path and it's data provider
-        information respective to the pathfinder settings.
-        """
+    def parse_selected(self):
+        """Extract viable layers and parse their source."""
         self.locs = [(p, q) for p, q in [self.parse_path(n.layer().source()) for n in self.selected_layers] if p]
-        return
 
     def unique_parent_dirs(self) -> List[Path]:
         """Return list of unique parent directories from list of paths.

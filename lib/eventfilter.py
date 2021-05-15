@@ -37,7 +37,7 @@ class PathfinderEventFilter(QObject):
         if not pf.layers_selected:
             return menu
 
-        pf.get_locations()  # list of valid file paths
+        pf.parse_selected()  # list of valid file paths
 
         cp_action_label = (self.tr('Copy Paths') if len(pf.locs) > 1 else self.tr('Copy Path'))
 

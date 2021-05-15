@@ -84,7 +84,7 @@ class PathfinderPlugin:
         pf = Pathfinder()
         if pf.layers_selected:
             calls = {0: pf.copy, 1: pf.copy_double_backslash, 2: pf.open_in_explorer}
-            pf.get_locations()
+            pf.parse_selected()
             calls[call_idx]()
 
     def show_settings_dialog(self):
