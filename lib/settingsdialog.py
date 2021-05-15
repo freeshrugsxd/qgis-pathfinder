@@ -28,8 +28,7 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
         self.update_preview()
 
     def create_bindings(self) -> None:
-        """Create bindings for the all elements.
-        """
+        """Create bindings for the all elements."""
         # comboboxes https://doc.qt.io/qtforpython-5/PySide2/QtWidgets/QComboBox.html
         self.quote_cbox.currentTextChanged.connect(lambda v: self.on_curr_changed('quote_char', v))
         self.separ_cbox.currentTextChanged.connect(lambda v: self.on_curr_changed('separ_char', v))
@@ -53,8 +52,7 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
         self.buttonBox.button(QDialogButtonBox.RestoreDefaults).clicked.connect(self.restore_defaults)
 
     def restore_settings(self) -> None:
-        """Reflect pathfinder's current settings inside the settings dialog.
-        """
+        """Reflect pathfinder's current settings inside the settings dialog."""
         self.quote_cbox.setCurrentText(self.settings.value('quote_char', DEFAULTS['quote_char']))
         self.separ_cbox.setCurrentText(self.settings.value('separ_char', DEFAULTS['separ_char']))
 
@@ -105,8 +103,7 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
         self.paths_preview.setText(out)
 
     def restore_defaults(self) -> None:
-        """Reset settings to their default values.
-        """
+        """Reset settings to their default values."""
         for k, v in DEFAULTS.items():
             self.settings.setValue(k, v)
 

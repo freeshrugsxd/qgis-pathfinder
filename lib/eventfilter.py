@@ -10,8 +10,7 @@ from pathfinder.lib.utils import is_file
 
 
 class PathfinderEventFilter(QObject):
-    """Filter Object receiving events through eventFilter method.
-    """
+    """Filter Object receiving events through eventFilter method."""
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -30,8 +29,7 @@ class PathfinderEventFilter(QObject):
             QCoreApplication.installTranslator(self.translator)
 
     def __call__(self, menu, event):  # noqa
-        """Add custom actions to the default context menu.
-        """
+        """Add custom actions to the default context menu."""
         shift_mod = event.modifiers() == Qt.ShiftModifier
         pf = Pathfinder()
 

@@ -25,7 +25,7 @@ from pathfinder.pathfinder import PathfinderPlugin
 
 
 def classFactory(iface):  # noqa
-    """ Load plugin.
+    """Load plugin.
 
     :param iface: A QGIS interface instance.
     :type iface: QgsInterface
