@@ -46,7 +46,7 @@ class Pathfinder(QObject):
             subprocess.run([self.command, str(p)])
 
     def parse_selected(self) -> None:
-        """Extract viable layers and parse their source."""
+        """Parse selected layers. Populate self.locs."""
         self.locs = [(p, q) for p, q in [self.parse_path(n.layer().source()) for n in self.selected_layers] if p]
 
     def unique_parent_dirs(self) -> List[Path]:
@@ -70,9 +70,9 @@ class Pathfinder(QObject):
     def build_string(paths: List[tuple]) -> str:
         """Construct a string using pathfinders current settings.
 
-        :param paths: A list of tuples (path, info) where paths[0] contains the valid file path
-        and paths[1] contains data provider information such as the layer name and
-        subset string.
+        :param paths: A list of tuples (path, query) where the first item contains
+        the valid file path and the second contains data provider information such
+        as the layer name and subset string.
         :return: Formatted string representing one or more file paths.
         """
         settings = QSettings()
@@ -113,7 +113,6 @@ class Pathfinder(QObject):
         :return: Tuple containing a valid file path and the desired data provider information.
         """
         # TODO:
-        #  - allow for non file layer to successfully pass through here
         #  - come up with a more clear return than a tuple
         settings = QSettings()
         settings.beginGroup('pathfinder')
@@ -126,11 +125,9 @@ class Pathfinder(QObject):
             else:
                 fp = Path(parts[0])
         except OSError:
-            # TODO: fix Bad URL error when a XYZ layer comes through here
             # return None for now
             return None, None
 
-        # return tuple of Nones if s
         if must_exist and not exists(fp):
             return None, None
 
