@@ -98,7 +98,7 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
         pf = Pathfinder()
         # TODO: allow user to manipulate n
         paths = n * ['dir/subdir/file.ext|layername=lyr|subset=id > 0']
-        parsed = [pf.parse_path(path, must_be_file=False) for path in paths]
+        parsed = [pf.parse_path(path, must_exist=False) for path in paths]
         out = pf.build_string(parsed)
         self.paths_preview.setText(out)
 

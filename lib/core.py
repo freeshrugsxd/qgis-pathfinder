@@ -10,7 +10,7 @@ from PyQt5.QtWidgets import QApplication
 from qgis.core import QgsLayerTree
 from qgis.utils import iface
 
-from pathfinder.lib.utils import COMMANDS, DEFAULTS, get_char, is_file
+from pathfinder.lib.utils import COMMANDS, DEFAULTS, get_char, exists
 
 
 class Pathfinder(QObject):
@@ -105,11 +105,11 @@ class Pathfinder(QObject):
         return f'{pre}{out}{post}'
 
     @staticmethod
-    def parse_path(path: str, must_be_file: bool = True) -> tuple:
+    def parse_path(path: str, must_exist: bool = True) -> tuple:
         """Strip common appendices from path string according to pathfinder settings.
 
         :param path: String that could be a file path.
-        :param must_be_file: Whether path has to be a file or not.
+        :param must_exist: Whether path has to be a file or folder.
         :return: Tuple containing a valid file path and the desired data provider information.
         """
         # TODO:
@@ -131,7 +131,7 @@ class Pathfinder(QObject):
             return None, None
 
         # return tuple of Nones if s
-        if must_be_file and not is_file(fp):
+        if must_exist and not exists(fp):
             return None, None
 
         n = len(parts)

@@ -45,12 +45,12 @@ MAPPINGS = {
 }
 
 
-def is_file(loc: Path) -> bool:
-    """Return ``Path.is_file()`` but do not raise OSError if loc is not a
+def exists(loc: Path) -> bool:
+    """Return ``Path.exists()`` but do not raise OSError if loc is not a
     valid OS path (e.g. starting with 'https:///').
 
     :param loc: A pathlib.Path object.
-    :return: Whether loc is a file.
+    :return: Whether loc is a file or folder.
 
     Note
     ----
@@ -58,7 +58,7 @@ def is_file(loc: Path) -> bool:
     So this helper will probably be deprecated once QGIS LTR on Windows ships with Python>=3.8.
     """
     try:
-        return loc.is_file()
+        return loc.exists()
     except OSError:
         return False
 
