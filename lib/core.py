@@ -10,7 +10,7 @@ from PyQt5.QtWidgets import QApplication
 from qgis.core import QgsLayerTree
 from qgis.utils import iface
 
-from pathfinder.lib.utils import DEFAULTS, get_char, is_file
+from pathfinder.lib.utils import COMMANDS, DEFAULTS, get_char, is_file
 
 
 class Pathfinder(QObject):
@@ -21,9 +21,7 @@ class Pathfinder(QObject):
         self.settings = QSettings()
         self.settings.beginGroup('pathfinder')
 
-        # platform specific commands to open the system's *most likely* file explorer
-        commands = {'Windows': 'explorer', 'Linux': 'xdg-open', 'Darwin': 'open'}
-        self.command = commands[pf_system()]
+        self.command = COMMANDS[pf_system()]
 
     def copy(self) -> None:
         """Copy paths to clipboard."""

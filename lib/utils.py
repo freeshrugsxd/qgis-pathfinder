@@ -2,6 +2,13 @@ from pathlib import Path
 
 from PyQt5.QtCore import QSettings
 
+# platform specific commands to open the system's *most likely* file explorer
+COMMANDS = {
+    'Windows': 'explorer',
+    'Linux': 'xdg-open',
+    'Darwin': 'open'
+}
+
 DEFAULTS = {
     'quote_char': '"',
     'separ_char': 'Space',
