@@ -77,7 +77,7 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
         :param key: The name of the setting.
         :param value: The new value of the setting.
         """
-        getattr(self, f'{key}_custom').setEnabled(value == 'Other')
+        getattr(self, f'{key}_custom').setEnabled(value == self.tr('Other'))
         self.on_changed(key, value)
 
     def on_changed(self, key: str, value: str) -> None:

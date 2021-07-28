@@ -30,14 +30,15 @@ class Pathfinder(QObject):
         self.notify(text)
 
     def copy_double_backslash(self) -> None:
-        """Copy paths to clipboard but substitude extra backslashes for UTF-8 pasting."""
+        """Copy paths to clipboard with double backslashes."""
         text = self.build_string(self.locs).replace('\\', '\\\\')
         QApplication.clipboard().setText(text)
         self.notify(text)
 
     def notify(self, text: str) -> None:
+        """Show QGIS notification."""
         if self.settings.value('show_notification', type=bool):
-            iface.messageBar().pushMessage('Copied to clipboard', text, level=0, duration=4)
+            iface.messageBar().pushMessage(self.tr('Copied to clipboard'), text, level=0, duration=4)
 
     def open_in_explorer(self) -> None:
         """Open unique parent directories in a file explorer."""

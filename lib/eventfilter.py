@@ -43,7 +43,7 @@ class PathfinderEventFilter(QObject):
             open_in_explorer.triggered.connect(lambda: pf.open_in_explorer())
             menu.insertAction(menu.actions()[menu_idx], open_in_explorer)
 
-        # only show entries if there are actual file layers
+        # only show entries if there are files selected
         if any([exists(loc[0]) for loc in pf.locs]):
 
             # give option to copy location with double backslash when shift modifier is pressed

@@ -36,6 +36,7 @@ from pathfinder.lib.settingsdialog import PathfinderSettingsDialog
 from pathfinder.resources import *  # noqa
 
 
+# noinspection PyAttributeOutsideInit
 class PathfinderPlugin:
     """QGIS Plugin Implementation."""
 
@@ -62,20 +63,21 @@ class PathfinderPlugin:
             self.translator.load(str(locale_path))
             QCoreApplication.installTranslator(self.translator)
 
+    # noinspection PyPep8Naming
     def initGui(self):
         """Register event filter and add toolbar icon."""
-        self.contextManager = LayerTreeContextMenuManager()  # noqa
+        self.contextManager = LayerTreeContextMenuManager()
         self.contextManager.addProvider(PathfinderEventFilter())
 
         # setting up keyboard shortcut actions
-        self.copy_action1 = QAction('&Copy Path', self.iface.mainWindow())  # noqa
-        self.copy_action2 = QAction('Copy &Path (\\\\)', self.iface.mainWindow())  # noqa
-        self.show_action = QAction('Show in Explore&r', self.iface.mainWindow())  # noqa
+        self.copy_action1 = QAction(self.tr('Copy Path'), self.iface.mainWindow())
+        self.copy_action2 = QAction(self.tr('Copy Path (\\\\)'), self.iface.mainWindow())
+        self.show_action = QAction(self.tr('Show in Explorer'), self.iface.mainWindow())
 
         # register shortcuts
         self.iface.registerMainWindowAction(self.copy_action1, 'Ctrl+E')
         self.iface.registerMainWindowAction(self.copy_action2, 'Ctrl+Shift+E')
-        self.iface.registerMainWindowAction(self.show_action, 'Ctrl+R')
+        self.iface.registerMainWindowAction(self.show_action,  'Ctrl+R')
 
         # shortcuts won't work unless actions are added to this menu
         self.iface.addPluginToMenu('&pathfinder', self.copy_action1)
@@ -88,16 +90,17 @@ class PathfinderPlugin:
         self.show_action.triggered.connect(lambda: self.on_key_pressed(2))
 
         # register settings dialog
-        self.settings_dialog = QAction(  # noqa
+        self.settings_dialog = QAction(
             QIcon(':/plugins/pathfinder/icons/copy.svg'),
-            'pathfinder Settings',
+            self.tr('pathfinder Settings'),
             self.iface.mainWindow()
         )
 
         self.settings_dialog.triggered.connect(self.show_settings_dialog)
         self.iface.addToolBarIcon(self.settings_dialog)
 
-    def on_key_pressed(self, call_idx):  # noqa
+    # noinspection PyMethodMayBeStatic
+    def on_key_pressed(self, call_idx):
         pf = Pathfinder()
         if pf.layers_selected:
             calls = {0: pf.copy, 1: pf.copy_double_backslash, 2: pf.open_in_explorer}
@@ -105,7 +108,7 @@ class PathfinderPlugin:
             calls[call_idx]()
 
     def show_settings_dialog(self):
-        self.dialog = PathfinderSettingsDialog()  # noqa
+        self.dialog = PathfinderSettingsDialog()
         self.dialog.show()
 
     def unload(self):
