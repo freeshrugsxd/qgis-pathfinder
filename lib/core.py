@@ -48,7 +48,10 @@ class Pathfinder(QObject):
 
     def parse_selected(self) -> None:
         """Parse selected layers. Populate self.locs."""
-        self.locs = [(p, q) for p, q in [self.parse_path(n.layer().source()) for n in self.selected_layers] if p]
+        for lyr in self.selected_layers:
+            path, query = self.parse_path(lyr.layer().source())
+            if path is not None:
+                self.locs.append((path, query))
 
     def unique_parent_dirs(self) -> List[Path]:
         """Return list of unique parent directories from list of paths.
