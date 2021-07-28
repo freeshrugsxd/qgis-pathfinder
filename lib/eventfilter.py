@@ -1,7 +1,6 @@
-from pathlib import Path
 from platform import system as pf_system
 
-from PyQt5.QtCore import QCoreApplication, QObject, QSettings, Qt, QTranslator
+from PyQt5.QtCore import QObject, Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QAction, QMenu
 
@@ -14,19 +13,6 @@ class PathfinderEventFilter(QObject):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-
-        self.settings = QSettings()
-
-        plugin_dir = Path(__file__).resolve().parent
-
-        # initialize locale
-        locale = self.settings.value('locale/userLocale')[0:2]
-        locale_path = plugin_dir / 'i18n' / f'pathfinder_{locale}.qm'
-
-        if locale_path.exists():
-            self.translator = QTranslator()
-            self.translator.load(str(locale_path))
-            QCoreApplication.installTranslator(self.translator)
 
     def __call__(self, menu, event):
         """Add custom actions to the default context menu."""

@@ -24,6 +24,10 @@
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QAction
 from qgis.gui import QgisInterface
+from pathlib import Path
+
+from PyQt5.QtCore import QCoreApplication, QSettings, QTranslator
+
 
 from pathfinder.lib.core import Pathfinder
 from pathfinder.lib.eventfilter import PathfinderEventFilter
@@ -45,7 +49,20 @@ class PathfinderPlugin:
         # Save reference to the QGIS interface
         self.iface = iface
 
-    def initGui(self):  # noqa
+        self.settings = QSettings()
+
+        plugin_dir = Path(__file__).resolve().parent
+
+        # initialize locale
+        locale = self.settings.value('locale/userLocale')[0:2]
+        locale_path = plugin_dir / 'i18n' / f'pathfinder_{locale}.qm'
+
+        if locale_path.exists():
+            self.translator = QTranslator()
+            self.translator.load(str(locale_path))
+            QCoreApplication.installTranslator(self.translator)
+
+    def initGui(self):
         """Register event filter and add toolbar icon."""
         self.contextManager = LayerTreeContextMenuManager()  # noqa
         self.contextManager.addProvider(PathfinderEventFilter())
@@ -96,3 +113,6 @@ class PathfinderPlugin:
         self.iface.unregisterMainWindowAction(self.copy_action1)
         self.iface.unregisterMainWindowAction(self.copy_action2)
         self.iface.unregisterMainWindowAction(self.show_action)
+
+    def tr(self, text):
+        return QCoreApplication.translate('PathfinderPlugin', text)
