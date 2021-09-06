@@ -21,13 +21,12 @@
  ***************************************************************************/
 
 """
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QAction
-from qgis.gui import QgisInterface
 from pathlib import Path
 
-from PyQt5.QtCore import QCoreApplication, QSettings, QTranslator
-
+from qgis.PyQt.QtCore import QCoreApplication, QSettings, QTranslator
+from qgis.PyQt.QtGui import QIcon
+from qgis.PyQt.QtWidgets import QAction
+from qgis.gui import QgisInterface
 
 from pathfinder.lib.core import Pathfinder
 from pathfinder.lib.eventfilter import PathfinderEventFilter

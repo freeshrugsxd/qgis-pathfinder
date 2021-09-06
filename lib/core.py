@@ -5,8 +5,8 @@ from typing import List
 from urllib.parse import urlparse
 from urllib.request import url2pathname
 
-from PyQt5.QtCore import QObject, QSettings
-from PyQt5.QtWidgets import QApplication
+from qgis.PyQt.QtCore import QObject, QSettings
+from qgis.PyQt.QtWidgets import QApplication
 from qgis.core import QgsLayerTree
 from qgis.utils import iface
 

@@ -1,8 +1,8 @@
 from platform import system as pf_system
 
-from PyQt5.QtCore import QObject, Qt
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QAction, QMenu
+from qgis.PyQt.QtCore import QObject, Qt
+from qgis.PyQt.QtGui import QIcon
+from qgis.PyQt.QtWidgets import QAction, QMenu
 
 from pathfinder.lib.core import Pathfinder
 from pathfinder.lib.utils import tr

@@ -1,8 +1,8 @@
 from pathlib import Path
 
-from PyQt5.QtCore import QSettings, Qt
-from PyQt5.QtGui import QKeyEvent
-from PyQt5.QtWidgets import QDialog, QDialogButtonBox
+from qgis.PyQt.QtCore import QSettings, Qt
+from qgis.PyQt.QtGui import QKeyEvent
+from qgis.PyQt.QtWidgets import QDialog, QDialogButtonBox
 from qgis.PyQt import uic
 
 from pathfinder.lib.core import Pathfinder

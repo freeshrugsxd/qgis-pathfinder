@@ -50,7 +50,7 @@ contextMenuManager.addProvider(OpacityMenuProvider())
 ```
 
 """
-from PyQt5.QtCore import QObject, QEvent
+from qgis.PyQt.QtCore import QObject, QEvent
 from qgis.utils import iface
 
 
