@@ -3,46 +3,51 @@ from pathlib import Path
 from PyQt5.QtCore import QSettings
 
 from pathfinder.lib.i18n import tr
-COMMANDS = {
-    'Windows': 'explorer',
-    'Linux': 'xdg-open',
-    'Darwin': 'open'
-}
 
-DEFAULTS = {
-    'quote_char': '"',
-    'separ_char': 'Space',
-    'quote_char_custom': '',
-    'separ_char_custom': '',
-    'prefix': '',
-    'postfix': '',
-    'single_path_quote': 0,
-    'single_path_affix': 0,
-    'incl_file_name': 2,
-    'incl_layer_name': 0,
-    'incl_subset_str': 0,
-    'show_notification': 0,
-    'paths_on_new_line': 0
-}
 
-MAPPINGS = {
-    'quote_char': {
-        '\"': '\"',
-        '\'': '\'',
-        '´': '´',
-        '`': '`',
-        'Space': ' ',
-        'None': '',
+class PathfinderMaps:
+    def __init__(self):
+        # platform specific commands to open the system's *most likely* file explorer
+        self.COMMANDS = {
+            'Windows': 'explorer',
+            'Linux': 'xdg-open',
+            'Darwin': 'open'
+        }
 
-    },
-    'separ_char': {
-        'Space': ' ',
-        'Tab': '\t',
-        'New Line': '\n',
-        ',': ',',
-        ';': ';',
-    },
-}
+        # map combobox label to actual character
+        self.MAPPINGS = {
+            'quote_char': {
+                '\"': '\"',
+                '\'': '\'',
+                '´': '´',
+                '`': '`',
+                tr('Space'): ' ',
+                tr('None'): '',
+            },
+            'separ_char': {
+                tr('Space'): ' ',
+                tr('Tab'): '\t',
+                tr('New Line'): '\n',
+                ',': ',',
+                ';': ';',
+            }
+        }
+        # reasonable defaults for pathfinder settings
+        self.DEFAULTS = {
+            'quote_char': '"',
+            'separ_char': tr('Space'),
+            'quote_char_custom': '',
+            'separ_char_custom': '',
+            'prefix': '',
+            'postfix': '',
+            'single_path_quote': 0,
+            'single_path_affix': 0,
+            'incl_file_name': 2,
+            'incl_layer_name': 0,
+            'incl_subset_str': 0,
+            'show_notification': 0,
+            'paths_on_new_line': 0
+        }
 
 
 def exists(loc: Path) -> bool:
@@ -69,12 +74,17 @@ def get_char(s: str) -> str:
     :param s: either 'quote_char' or 'separ_char'
     :return: representation of s or its respective custom character
     """
+
     settings = QSettings()
     settings.beginGroup('pathfinder')
-    if settings.value(s) == 'Other':
-        return settings.value(f'{s}_custom', DEFAULTS[f'{s}_custom'])
+
+    defs = PathfinderMaps().DEFAULTS
+    maps = PathfinderMaps().MAPPINGS
+
+    if settings.value(s) == tr('Other'):
+        return settings.value(f'{s}_custom', defs[f'{s}_custom'])
     else:
-        return MAPPINGS[s][settings.value(s, DEFAULTS[s])]
+        return maps[s][settings.value(s, defs[s])]
 
 
 def escape_string(s):

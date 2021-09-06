@@ -7,6 +7,7 @@ from qgis.PyQt import uic
 
 from pathfinder.lib.core import Pathfinder
 from pathfinder.lib.i18n import tr
+from pathfinder.lib.utils import PathfinderMaps
 
 # TODO:
 #  - update translations for settings
@@ -15,7 +16,6 @@ FORM_CLASS, _ = uic.loadUiType(Path(__file__).parents[1] / 'ui' / 'settingsdiag.
 
 
 class PathfinderSettingsDialog(QDialog, FORM_CLASS):
-
     def __init__(self, parent=None):
         super(PathfinderSettingsDialog, self).__init__(parent)
         self.setupUi(self)
@@ -52,23 +52,24 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
         self.buttonBox.button(QDialogButtonBox.RestoreDefaults).clicked.connect(self.restore_defaults)
 
     def restore_settings(self) -> None:
+        defs = PathfinderMaps().DEFAULTS
         """Reflect pathfinder's current settings inside the settings dialog."""
-        self.quote_cbox.setCurrentText(self.settings.value('quote_char', DEFAULTS['quote_char']))
-        self.separ_cbox.setCurrentText(self.settings.value('separ_char', DEFAULTS['separ_char']))
+        self.quote_cbox.setCurrentText(self.settings.value('quote_char', defs['quote_char']))
+        self.separ_cbox.setCurrentText(self.settings.value('separ_char', defs['separ_char']))
 
-        self.quote_char_custom.setText(self.settings.value('quote_char_custom', DEFAULTS['quote_char_custom']))
-        self.separ_char_custom.setText(self.settings.value('separ_char_custom', DEFAULTS['separ_char_custom']))
-        self.prefix.setText(self.settings.value('prefix', DEFAULTS['prefix']))
-        self.postfix.setText(self.settings.value('postfix', DEFAULTS['postfix']))
+        self.quote_char_custom.setText(self.settings.value('quote_char_custom', defs['quote_char_custom']))
+        self.separ_char_custom.setText(self.settings.value('separ_char_custom', defs['separ_char_custom']))
+        self.prefix.setText(self.settings.value('prefix', defs['prefix']))
+        self.postfix.setText(self.settings.value('postfix', defs['postfix']))
 
         # cast state to int because the value is returned as string from persistent storage
-        self.incl_file_name.setCheckState(self.settings.value('incl_file_name', DEFAULTS['incl_file_name'], int))
-        self.incl_layer_name.setCheckState(self.settings.value('incl_layer_name', DEFAULTS['incl_layer_name'], int))
-        self.incl_subset_str.setCheckState(self.settings.value('incl_subset_str', DEFAULTS['incl_subset_str'], int))
-        self.single_path_quote.setCheckState(self.settings.value('single_path_quote', DEFAULTS['single_path_quote'], int))
-        self.single_path_affix.setCheckState(self.settings.value('single_path_affix', DEFAULTS['single_path_affix'], int))
-        self.paths_on_new_line.setCheckState(self.settings.value('paths_on_new_line', DEFAULTS['paths_on_new_line'], int))
-        self.show_notification.setCheckState(self.settings.value('show_notification', DEFAULTS['show_notification'], int))
+        self.incl_file_name.setCheckState(self.settings.value('incl_file_name', defs['incl_file_name'], int))
+        self.incl_layer_name.setCheckState(self.settings.value('incl_layer_name', defs['incl_layer_name'], int))
+        self.incl_subset_str.setCheckState(self.settings.value('incl_subset_str', defs['incl_subset_str'], int))
+        self.single_path_quote.setCheckState(self.settings.value('single_path_quote', defs['single_path_quote'], int))
+        self.single_path_affix.setCheckState(self.settings.value('single_path_affix', defs['single_path_affix'], int))
+        self.paths_on_new_line.setCheckState(self.settings.value('paths_on_new_line', defs['paths_on_new_line'], int))
+        self.show_notification.setCheckState(self.settings.value('show_notification', defs['show_notification'], int))
 
     def on_curr_changed(self, key: str, value: str) -> None:
         """Enable/Disable corresponding custom character lineedit if necessary and forward
@@ -104,7 +105,7 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
 
     def restore_defaults(self) -> None:
         """Reset settings to their default values."""
-        for k, v in DEFAULTS.items():
+        for k, v in PathfinderMaps().DEFAULTS.items():
             self.settings.setValue(k, v)
 
         self.restore_settings()
