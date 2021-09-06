@@ -2,7 +2,7 @@ from pathlib import Path
 
 from PyQt5.QtCore import QSettings
 
-# platform specific commands to open the system's *most likely* file explorer
+from pathfinder.lib.i18n import tr
 COMMANDS = {
     'Windows': 'explorer',
     'Linux': 'xdg-open',

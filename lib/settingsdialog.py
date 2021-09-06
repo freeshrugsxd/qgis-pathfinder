@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QDialog, QDialogButtonBox
 from qgis.PyQt import uic
 
 from pathfinder.lib.core import Pathfinder
-from pathfinder.lib.utils import DEFAULTS
+from pathfinder.lib.i18n import tr
 
 # TODO:
 #  - update translations for settings
@@ -77,7 +77,7 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
         :param key: The name of the setting.
         :param value: The new value of the setting.
         """
-        getattr(self, f'{key}_custom').setEnabled(value == self.tr('Other'))
+        getattr(self, f'{key}_custom').setEnabled(value == tr('Other'))
         self.on_changed(key, value)
 
     def on_changed(self, key: str, value: str) -> None:

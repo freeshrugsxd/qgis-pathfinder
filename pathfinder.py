@@ -33,6 +33,8 @@ from pathfinder.lib.core import Pathfinder
 from pathfinder.lib.eventfilter import PathfinderEventFilter
 from pathfinder.lib.layertreecontextmenumanager import LayerTreeContextMenuManager
 from pathfinder.lib.settingsdialog import PathfinderSettingsDialog
+from pathfinder.lib.i18n import tr
+
 from pathfinder.resources import *  # noqa
 
 
@@ -54,7 +56,7 @@ class PathfinderPlugin:
 
         plugin_dir = Path(__file__).resolve().parent
 
-        # initialize locale
+        # initialize locale and translator
         locale = self.settings.value('locale/userLocale')[0:2]
         locale_path = plugin_dir / 'i18n' / f'pathfinder_{locale}.qm'
 
@@ -70,9 +72,9 @@ class PathfinderPlugin:
         self.contextManager.addProvider(PathfinderEventFilter())
 
         # setting up keyboard shortcut actions
-        self.copy_action1 = QAction(self.tr('Copy Path'), self.iface.mainWindow())
-        self.copy_action2 = QAction(self.tr('Copy Path (\\\\)'), self.iface.mainWindow())
-        self.show_action = QAction(self.tr('Show in Explorer'), self.iface.mainWindow())
+        self.copy_action1 = QAction(tr('Copy Path'), self.iface.mainWindow())
+        self.copy_action2 = QAction(tr('Copy Path (\\\\)'), self.iface.mainWindow())
+        self.show_action = QAction(tr('Show in Explorer'), self.iface.mainWindow())
 
         # register shortcuts
         self.iface.registerMainWindowAction(self.copy_action1, 'Ctrl+E')
@@ -92,7 +94,7 @@ class PathfinderPlugin:
         # register settings dialog
         self.settings_dialog = QAction(
             QIcon(':/plugins/pathfinder/icons/copy.svg'),
-            self.tr('pathfinder Settings'),
+            tr('pathfinder Settings'),
             self.iface.mainWindow()
         )
 

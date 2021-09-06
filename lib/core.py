@@ -10,7 +10,7 @@ from PyQt5.QtWidgets import QApplication
 from qgis.core import QgsLayerTree
 from qgis.utils import iface
 
-from pathfinder.lib.utils import COMMANDS, DEFAULTS, get_char, exists
+from pathfinder.lib.i18n import tr
 
 
 class Pathfinder(QObject):
@@ -38,7 +38,7 @@ class Pathfinder(QObject):
     def notify(self, text: str) -> None:
         """Show QGIS notification."""
         if self.settings.value('show_notification', type=bool):
-            iface.messageBar().pushMessage(self.tr('Copied to clipboard'), text, level=0, duration=4)
+            iface.messageBar().pushMessage(tr('Copied to clipboard'), text, level=0, duration=4)
 
     def open_in_explorer(self) -> None:
         """Open unique parent directories in a file explorer."""

@@ -58,7 +58,7 @@
       <item row="0" column="0">
        <widget class="QCheckBox" name="single_path_quote">
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Wether to use quoting when only  a single path is returned.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Wether to use quoting when only a single path is returned.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
          <string>quote single path</string>
@@ -92,7 +92,7 @@
         <item row="2" column="1">
          <widget class="QComboBox" name="separ_cbox">
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The character separating multiple paths&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The character separating multiple paths.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <item>
            <property name="text">
@@ -106,12 +106,12 @@
           </item>
           <item>
            <property name="text">
-            <string>,</string>
+            <string notr="true">,</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>;</string>
+            <string notr="true">;</string>
            </property>
           </item>
           <item>
@@ -124,7 +124,7 @@
         <item row="2" column="0">
          <widget class="QLabel" name="separ_label">
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The character separating multiple paths&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The character separating multiple paths.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string>Separation Character</string>
@@ -144,7 +144,7 @@
         <item row="1" column="0">
          <widget class="QLabel" name="qoute_label">
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The character sorrounding individual paths&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The character sorrounding individual paths.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string>Quoting Character</string>
@@ -154,7 +154,7 @@
         <item row="1" column="1">
          <widget class="QComboBox" name="quote_cbox">
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The character sorrounding individual paths&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The character sorrounding individual paths.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <item>
            <property name="text">
@@ -168,12 +168,12 @@
           </item>
           <item>
            <property name="text">
-            <string>´</string>
+            <string notr="true">´</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>`</string>
+            <string notr="true">`</string>
            </property>
           </item>
           <item>
@@ -243,6 +243,9 @@
             <height>16777215</height>
            </size>
           </property>
+          <property name="toolTip">
+           <string extracomment="qqqq">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Prefix character/s prepended to paths.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
           <property name="text">
            <string/>
           </property>
@@ -284,11 +287,14 @@
             <height>70</height>
            </size>
           </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Preview.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
           <property name="frameShape">
            <enum>QFrame::NoFrame</enum>
           </property>
           <property name="text">
-           <string>&quot;folder/subfolder/file.ext&quot; &quot;folder/subfolder/file.ext&quot;</string>
+           <string notr="true"/>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -328,6 +334,12 @@
             <height>16777215</height>
            </size>
           </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Postfix character/s appended to paths.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="whatsThis">
+           <string/>
+          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -352,6 +364,9 @@
      <layout class="QGridLayout" name="gridLayout_5">
       <item row="0" column="0">
        <widget class="QCheckBox" name="show_notification">
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Whether to show a notification on successful operations.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
         <property name="text">
          <string>display notification</string>
         </property>
@@ -382,7 +397,7 @@
       <item row="0" column="0">
        <widget class="QCheckBox" name="incl_layer_name">
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Whether to append the  layer name to the vector layer path.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Whether to append the layername part to the path. Useful for file formats that can containing multiple layers.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
          <string>include layer name</string>
@@ -392,7 +407,7 @@
       <item row="0" column="1">
        <widget class="QCheckBox" name="incl_subset_str">
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Whether to append the  subset string to the vector layer path.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Whether to append the subset string to the vector layer path. Useful to retain information about applied filter expressions.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
          <string>include subset string</string>
@@ -416,6 +431,7 @@
   <tabstop>incl_subset_str</tabstop>
   <tabstop>single_path_quote</tabstop>
   <tabstop>single_path_affix</tabstop>
+  <tabstop>paths_on_new_line</tabstop>
   <tabstop>show_notification</tabstop>
  </tabstops>
  <resources/>
@@ -427,8 +443,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>257</x>
-     <y>446</y>
+     <x>266</x>
+     <y>540</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -443,8 +459,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>325</x>
-     <y>446</y>
+     <x>334</x>
+     <y>540</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

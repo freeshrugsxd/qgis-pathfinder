@@ -5,6 +5,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QAction, QMenu
 
 from pathfinder.lib.core import Pathfinder
+from pathfinder.lib.utils import tr
 from pathfinder.lib.utils import exists
 
 
@@ -25,7 +26,7 @@ class PathfinderEventFilter(QObject):
 
         pf.parse_selected()  # list of valid file paths
 
-        cp_action_label = (self.tr('Copy Paths') if len(pf.locs) > 1 else self.tr('Copy Path'))
+        cp_action_label = (tr('Copy Paths') if len(pf.locs) > 1 else tr('Copy Path'))
 
         # determine position within context menu
         menu_idx = self.set_menu_position(menu)
@@ -36,7 +37,7 @@ class PathfinderEventFilter(QObject):
         if pf.unique_parent_dirs():
             open_in_explorer = QAction(
                 QIcon(':/plugins/pathfinder/icons/open_in_explorer.svg'),
-                self.tr('Show in Explorer'),
+                tr('Show in Explorer'),
                 menu,
             )
 
