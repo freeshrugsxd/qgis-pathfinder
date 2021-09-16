@@ -3,7 +3,6 @@ from shutil import copy2, copystat, make_archive, rmtree
 
 
 parents = Path(__file__).parents
-root = parents[2]
 src = parents[1]
 dest = parents[0]
 release_root = dest / 'release'
@@ -15,18 +14,8 @@ flist = [
     'resources.py',
     'metadata.txt',
     'i18n/pathfinder.pro',
-    'i18n/pathfinder_en.ts',
-    'i18n/pathfinder_pl.qm',
-    'i18n/pathfinder_ru.qm',
-    'i18n/pathfinder_es.ts',
-    'i18n/pathfinder_de.ts',
-    'i18n/pathfinder_fr.ts',
-    'i18n/pathfinder_ru.ts',
     'i18n/pathfinder_de.qm',
-    'i18n/pathfinder_pl.ts',
-    'i18n/pathfinder_es.qm',
-    'i18n/pathfinder_en.qm',
-    'i18n/pathfinder_fr.qm',
+    'i18n/pathfinder_de.ts',
     'icons/open_in_explorer.svg',
     'icons/copy.svg',
     'icons/resources.qrc',
@@ -45,12 +34,10 @@ release.mkdir(parents=True)
 
 for d in dirs:
     release.joinpath(d).mkdir(parents=True)
+    copystat(src / d, release / d)
 
 for f in flist:
     copy2(src / f, release / f)
-
-for d in dirs:
-    copystat(src / d, release / d)
 
 make_archive('pathfinder', 'zip', root_dir=release_root)
 rmtree(release_root)
