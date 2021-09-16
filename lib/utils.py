@@ -84,7 +84,14 @@ def get_char(s: str) -> str:
     if settings.value(s) == tr('Other'):
         return settings.value(f'{s}_custom', defs[f'{s}_custom'])
     else:
-        return maps[s][settings.value(s, defs[s])]
+        try:
+            return maps[s][settings.value(s, defs[s])]
+        except KeyError:
+            # after switching languages, the values of some named characters can't be retrieved.
+            # For now, we will reset these values to their default.
+            # TODO: find way to make these settings persistent across languages
+            settings.setValue(s, defs[s])
+            return maps[s][settings.value(s)]
 
 
 def escape_string(s):
