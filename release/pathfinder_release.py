@@ -21,6 +21,7 @@ flist = [
     'icons/resources.qrc',
     'lib/__init__.py',
     'lib/core.py',
+    'lib/i8n.py',
     'lib/layertreecontextmenumanager.py',
     'lib/eventfilter.py',
     'lib/utils.py',
