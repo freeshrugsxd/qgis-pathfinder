@@ -145,17 +145,17 @@ class Pathfinder(QObject):
 
         query = ''
 
+        if has_layer_name and settings.value('incl_layer_name', type=bool):
+            query += f'|{parts[1]}'
+
+        if is_subset and settings.value('incl_subset_str', type=bool):
+            query += f'|{parts[2]}'
+
         if fp.is_dir():
             # vector dataset was loaded from a directory
             layername = parts[1].split('=')[1]
             shp_path = fp.joinpath(layername).with_suffix('.shp')
             if shp_path.exists():
                 return shp_path, query
-
-        if has_layer_name and settings.value('incl_layer_name', type=bool):
-            query += f'|{parts[1]}'
-
-        if is_subset and settings.value('incl_subset_str', type=bool):
-            query += f'|{parts[2]}'
 
         return fp, query
