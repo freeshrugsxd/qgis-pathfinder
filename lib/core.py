@@ -114,7 +114,8 @@ class Pathfinder(QObject):
 
     @staticmethod
     def parse_path(path: str, must_exist: bool = True) -> tuple:
-        """Strip common appendices from path string according to pathfinder settings.
+        """Strip the path string and return path and query elements
+        according to pathfinder settings and data provider.
 
         :param path: String that could be a file path.
         :param must_exist: Whether path has to be a file or folder.
@@ -155,7 +156,7 @@ class Pathfinder(QObject):
             query += f'|{parts[2]}'
 
         if fp.is_dir():
-            # vector dataset was loaded from a directory
+            # shapefile was loaded from a directory
             layername = parts[1].split('=')[1]
             shp_path = fp.joinpath(layername).with_suffix('.shp')
             if shp_path.exists():
