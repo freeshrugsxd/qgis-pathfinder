@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>700</width>
+    <width>500</width>
     <height>550</height>
    </rect>
   </property>
@@ -45,16 +45,6 @@
       <string>Multiselection</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="1">
-       <widget class="QCheckBox" name="single_path_affix">
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Whether to apply prefix and postfix characters when only a single path is returned.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="text">
-         <string>apply affixes to single path</string>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="0">
        <widget class="QCheckBox" name="single_path_quote">
         <property name="toolTip">
@@ -65,7 +55,17 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="2">
+      <item row="1" column="0">
+       <widget class="QCheckBox" name="single_path_affix">
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Whether to apply prefix and postfix characters when only a single path is returned.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>apply affixes to single path</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
        <widget class="QCheckBox" name="paths_on_new_line">
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Whether to place each path on a separate line.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -430,8 +430,8 @@
   <tabstop>incl_layer_name</tabstop>
   <tabstop>incl_subset_str</tabstop>
   <tabstop>single_path_quote</tabstop>
-  <tabstop>single_path_affix</tabstop>
   <tabstop>paths_on_new_line</tabstop>
+  <tabstop>single_path_affix</tabstop>
   <tabstop>show_notification</tabstop>
  </tabstops>
  <resources/>
