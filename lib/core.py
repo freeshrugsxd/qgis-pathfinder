@@ -1,3 +1,4 @@
+import html
 import subprocess
 from pathlib import Path
 from platform import system as pf_system
@@ -42,7 +43,7 @@ class Pathfinder(QObject):
     def notify(self, text: str) -> None:
         """Show QGIS notification."""
         if self.settings.value('show_notification', type=bool):
-            iface.messageBar().pushMessage(tr('Copied to clipboard'), text, level=0, duration=4)
+            iface.messageBar().pushMessage(tr('Copied to clipboard'), html.escape(text), level=0)
 
     def open_in_explorer(self) -> None:
         """Open unique parent directories in a file explorer."""
