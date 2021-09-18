@@ -9,9 +9,6 @@ from pathfinder.lib.core import Pathfinder
 from pathfinder.lib.i18n import tr
 from pathfinder.lib.utils import PathfinderMaps
 
-# TODO:
-#  - update translations for settings
-
 FORM_CLASS, _ = uic.loadUiType(Path(__file__).parents[1] / 'ui' / 'settingsdiag.ui')
 
 
