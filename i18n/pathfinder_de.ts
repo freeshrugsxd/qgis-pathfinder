@@ -33,7 +33,7 @@
         <translation>Pfade kopieren</translation>
     </message>
     <message>
-        <location filename="../lib/utils.py" line="85"/>
+        <location filename="../lib/utils.py" line="84"/>
         <source>Other</source>
         <translation>Andere</translation>
     </message>
@@ -78,7 +78,7 @@
     <message>
         <location filename="../ui/settingsdiag.ui" line="35"/>
         <source>include file name</source>
-        <translation>Dateinamen berücksichtigen</translation>
+        <translation>Dateinamen</translation>
     </message>
     <message>
         <location filename="../ui/settingsdiag.ui" line="45"/>
@@ -86,24 +86,24 @@
         <translation>Mehrfachauswahl</translation>
     </message>
     <message>
-        <location filename="../ui/settingsdiag.ui" line="51"/>
+        <location filename="../ui/settingsdiag.ui" line="61"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Whether to apply prefix and postfix characters when only a single path is returned.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Sollen Präfix- und Suffixzeichen auf einen einzelnen Pfad angewandt werden?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/settingsdiag.ui" line="54"/>
+        <location filename="../ui/settingsdiag.ui" line="64"/>
         <source>apply affixes to single path</source>
-        <translation>Affixe auf Einzelpfade anwenden</translation>
+        <translation>Affixe auf Einzelpfad anwenden</translation>
     </message>
     <message>
-        <location filename="../ui/settingsdiag.ui" line="61"/>
+        <location filename="../ui/settingsdiag.ui" line="51"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Wether to use quoting when only a single path is returned.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Soll ein einzelner Pfad in Anführungszeichen gesetzt werden?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/settingsdiag.ui" line="64"/>
+        <location filename="../ui/settingsdiag.ui" line="54"/>
         <source>quote single path</source>
-        <translation>Einzelpfade in Anführungszeichen</translation>
+        <translation>Einzelpfad in Anführungszeichen</translation>
     </message>
     <message>
         <location filename="../ui/settingsdiag.ui" line="71"/>
@@ -123,7 +123,7 @@
     <message>
         <location filename="../ui/settingsdiag.ui" line="127"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The character separating multiple paths.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Zeichen zum Trennen mehrerer Pfade.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Zeichen zum Trennen einzelner Pfade.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ui/settingsdiag.ui" line="181"/>
@@ -143,7 +143,7 @@
     <message>
         <location filename="../ui/settingsdiag.ui" line="157"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The character sorrounding individual paths.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Zeichen am Anfang und am Ende eines Pfades.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ui/settingsdiag.ui" line="150"/>
@@ -158,7 +158,7 @@
     <message>
         <location filename="../ui/settingsdiag.ui" line="247"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Prefix character/s prepended to paths.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>Prefix</translation>
+        <translation>Präfix</translation>
     </message>
     <message>
         <location filename="../ui/settingsdiag.ui" line="291"/>
@@ -198,7 +198,7 @@
     <message>
         <location filename="../ui/settingsdiag.ui" line="403"/>
         <source>include layer name</source>
-        <translation>Layernamen übernehmen</translation>
+        <translation>Layername</translation>
     </message>
     <message>
         <location filename="../ui/settingsdiag.ui" line="410"/>
@@ -208,7 +208,7 @@
     <message>
         <location filename="../ui/settingsdiag.ui" line="413"/>
         <source>include subset string</source>
-        <translation>Filterausdruck übernehmen</translation>
+        <translation>Filterausdruck</translation>
     </message>
     <message>
         <location filename="../ui/settingsdiag.ui" line="191"/>
