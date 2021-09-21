@@ -125,7 +125,10 @@ class Pathfinder(QObject):
         settings = QSettings()
         settings.beginGroup('pathfinder')
         parts = path.split('?')[0].split('|')
-
+        
+        if parts[0] == '':
+            return None, None
+        
         try:
             if parts[0].startswith('file:'):
                 # convert uri to path
