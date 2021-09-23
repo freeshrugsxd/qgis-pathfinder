@@ -172,9 +172,13 @@ class Pathfinder(QObject):
                 ds_path = Path(ds.text)
                 if ds_path.is_file():
                     return ds_path, query
+
+        # in case a shapefile was loaded from a directory
         if fp.is_dir():
-            # shapefile was loaded from a directory
-            layername = parts[1].split('=')[1]
+            # we slice the layername instead of splitting to account for the
+            # unlikely case that the shapefile name contains an equal sign (=)
+            # Please never do this
+            layername = parts[1][parts[1].index('='):]
             shp_path = fp.joinpath(layername).with_suffix('.shp')
             if shp_path.exists():
                 return shp_path, query
