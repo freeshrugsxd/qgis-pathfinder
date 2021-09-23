@@ -1,5 +1,6 @@
 import html
 import subprocess
+import xml.etree.ElementTree as ET
 from pathlib import Path
 from platform import system as pf_system
 from typing import List
@@ -156,6 +157,21 @@ class Pathfinder(QObject):
         if is_subset and settings.value('incl_subset_str', type=bool):
             query += f'|{parts[2]}'
 
+        if fp.suffix == '.vrt' and settings.value('original_vrt_ds', type=bool):
+            # return path to data source instead of virtual file
+            ds = ET.fromstring(fp.read_text()).find('OGRVRTLayer').find('SrcDataSource')
+            try:
+                if ds.attrib['relativeToVRT'] == '1' and fp.parent.joinpath(ds.text).is_file():
+                    return fp.parent / ds.text, query
+                elif ds.attrib['relativeToVRT'] == '0':
+                    ds_path = Path(ds.text)
+                    if ds_path.is_file():
+                        return ds_path, query
+
+            except KeyError:
+                ds_path = Path(ds.text)
+                if ds_path.is_file():
+                    return ds_path, query
         if fp.is_dir():
             # shapefile was loaded from a directory
             layername = parts[1].split('=')[1]

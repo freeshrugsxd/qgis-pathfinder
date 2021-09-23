@@ -44,6 +44,7 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
         self.single_path_affix.stateChanged.connect(lambda v: self.on_changed('single_path_affix', v))
         self.paths_on_new_line.stateChanged.connect(lambda v: self.on_changed('paths_on_new_line', v))
         self.show_notification.stateChanged.connect(lambda v: self.on_changed('show_notification', v))
+        self.original_vrt_ds.stateChanged.connect(lambda v: self.on_changed('original_vrt_ds', v))
 
         # buttons https://doc.qt.io/qtforpython-5/PySide2/QtWidgets/QDialogButtonBox.html
         self.buttonBox.button(QDialogButtonBox.RestoreDefaults).clicked.connect(self.restore_defaults)
@@ -67,6 +68,7 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
         self.single_path_affix.setCheckState(self.settings.value('single_path_affix', defs['single_path_affix'], int))
         self.paths_on_new_line.setCheckState(self.settings.value('paths_on_new_line', defs['paths_on_new_line'], int))
         self.show_notification.setCheckState(self.settings.value('show_notification', defs['show_notification'], int))
+        self.original_vrt_ds.setCheckState(self.settings.value('original_vrt_ds', defs['original_vrt_ds'], int))
 
     def on_curr_changed(self, key: str, value: str) -> None:
         """Enable/Disable corresponding custom character lineedit if necessary and forward
