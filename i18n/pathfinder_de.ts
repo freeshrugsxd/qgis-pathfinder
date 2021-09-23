@@ -34,7 +34,7 @@
         <translation>Pfade kopieren</translation>
     </message>
     <message>
-        <location filename="../lib/utils.py" line="85"/>
+        <location filename="../lib/utils.py" line="86"/>
         <source>Other</source>
         <translation>Andere</translation>
     </message>
