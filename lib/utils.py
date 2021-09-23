@@ -32,6 +32,7 @@ class PathfinderMaps:
                 ';': ';',
             }
         }
+
         # reasonable defaults for pathfinder settings
         self.DEFAULTS = {
             'quote_char': '"',
