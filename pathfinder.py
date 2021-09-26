@@ -117,3 +117,5 @@ class PathfinderPlugin:
         self.iface.unregisterMainWindowAction(self.copy_action1)
         self.iface.unregisterMainWindowAction(self.copy_action2)
         self.iface.unregisterMainWindowAction(self.show_action)
+        del self.contextManager
+
