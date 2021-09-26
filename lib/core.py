@@ -3,7 +3,7 @@ import subprocess
 import xml.etree.ElementTree as ET
 from pathlib import Path
 from platform import system as pf_system
-from typing import List
+from typing import List, Set
 from urllib.parse import urlparse
 from urllib.request import url2pathname
 
@@ -59,12 +59,12 @@ class Pathfinder(QObject):
             if path is not None:
                 self.locs.append((path, query))
 
-    def unique_parent_dirs(self) -> List[Path]:
+    def unique_parent_dirs(self) -> Set[Path]:
         """Return list of unique parent directories from list of paths.
 
         :return: List of unique parent directories paths within self.locs.
         """
-        return list(set([path.parent for path, query in self.locs]))
+        return set([path.parent for path, query in self.locs])
 
     @property
     def layers_selected(self) -> bool:
