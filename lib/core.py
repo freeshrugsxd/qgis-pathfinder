@@ -22,12 +22,11 @@ COMMANDS = PathfinderMaps.COMMANDS
 class Pathfinder(QObject):
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.command = COMMANDS[pf_system()]
         self.locs = []
         self.selected_layers = []
         self.settings = QSettings()
         self.settings.beginGroup('pathfinder')
-
-        self.command = COMMANDS[pf_system()]
 
     def copy(self) -> None:
         """Copy paths to clipboard."""
