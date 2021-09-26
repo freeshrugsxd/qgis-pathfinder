@@ -67,7 +67,7 @@ class Pathfinder(QObject):
 
     @property
     def layers_selected(self) -> bool:
-        """Check if there are any layers selected.
+        """Check if there are any layers selected and populate self.selected_layers.
 
         :return: Whether there are any layers selected.
         """
