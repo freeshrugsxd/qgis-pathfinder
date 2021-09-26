@@ -15,8 +15,8 @@ from qgis.utils import iface
 from pathfinder.lib.i18n import tr
 from pathfinder.lib.utils import get_char, exists, PathfinderMaps
 
-DEFAULTS = PathfinderMaps().DEFAULTS
-COMMANDS = PathfinderMaps().COMMANDS
+DEFAULTS = PathfinderMaps.DEFAULTS
+COMMANDS = PathfinderMaps.COMMANDS
 
 
 class Pathfinder(QObject):
