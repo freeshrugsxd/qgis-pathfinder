@@ -17,6 +17,8 @@ about=
 version=version 0.4
 
 changelog=
+    0.4.1 2021-09-28
+	* fix for shapefiles added via directory
     0.4 2021-09-18
         * support for shapefiles added via "directory"
         * added German translation [looking for translators! get in touch]
