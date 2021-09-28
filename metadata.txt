@@ -14,7 +14,7 @@ about=
         Copy Path (\\):     Ctrl + Shift + E
         Show in Explorer:   Ctrl + R
 
-version=version 0.4
+version=version 0.4.1
 
 changelog=
     0.4.1 2021-09-28
