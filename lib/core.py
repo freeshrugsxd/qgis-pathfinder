@@ -127,10 +127,10 @@ class Pathfinder(QObject):
         settings = QSettings()
         settings.beginGroup('pathfinder')
         parts = path.split('?')[0].split('|')
-        
+
         if parts[0] == '':
             return None, None
-        
+
         try:
             if parts[0].startswith('file:'):
                 # convert uri to path
@@ -177,7 +177,7 @@ class Pathfinder(QObject):
             # we slice the layername instead of splitting to account for the
             # unlikely case that the shapefile name contains an equal sign (=)
             # Please never do this
-            layername = parts[1][parts[1].index('='):]
+            layername = parts[1][parts[1].index('=') + 1:]
             shp_path = fp.joinpath(layername).with_suffix('.shp')
             if shp_path.exists():
                 return shp_path, query
