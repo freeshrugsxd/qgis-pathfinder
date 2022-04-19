@@ -144,17 +144,28 @@ class Pathfinder(QObject):
         if must_exist and not exists(fp):
             return None, None
 
-        n = len(parts)
-        has_layer_name = n > 1
-        is_subset = n > 2
+        has_layer_name_or_id = False
+        layer_name_or_id = ''
+        is_subset = False
+        subset_string = ''
+
+        if len(parts) > 1:
+            for part in parts[1:]:
+                if 'layername=' in part or 'layerid=' in part:
+                    has_layer_name_or_id = True
+                    layer_name_or_id = part
+
+                elif 'subset=' in part:
+                    is_subset = True
+                    subset_string = part
 
         query = ''
 
-        if has_layer_name and settings.value('incl_layer_name', type=bool):
-            query += f'|{parts[1]}'
+        if has_layer_name_or_id and settings.value('incl_layer_name', type=bool):
+            query += f'|{layer_name_or_id}'
 
         if is_subset and settings.value('incl_subset_str', type=bool):
-            query += f'|{parts[2]}'
+            query += f'|{subset_string}'
 
         if fp.suffix == '.vrt' and settings.value('original_vrt_ds', type=bool):
             # return path to data source instead of virtual file
