@@ -128,7 +128,7 @@ class Pathfinder(QObject):
         settings.beginGroup('pathfinder')
         parts = path.split('?')[0].split('|')
 
-        if parts[0] == '':
+        if not parts[0]:
             return None, None
 
         try:
