@@ -9,7 +9,6 @@ from urllib.request import url2pathname
 
 from qgis.PyQt.QtCore import QObject, QSettings
 from qgis.PyQt.QtWidgets import QApplication
-from qgis.core import QgsLayerTree
 from qgis.utils import iface
 
 from pathfinder.lib.i18n import tr
@@ -24,9 +23,9 @@ class Pathfinder(QObject):
         super().__init__(parent)
         self.command = COMMANDS[pf_system()]
         self.locs = []
-        self.selected_layers = []
         self.settings = QSettings()
         self.settings.beginGroup('pathfinder')
+        self.ltv = iface.layerTreeView()
 
     def copy(self) -> None:
         """Copy paths to clipboard."""
@@ -54,36 +53,49 @@ class Pathfinder(QObject):
     def parse_selected(self) -> None:
         """Parse selected layers. Populate self.locs."""
         for lyr in self.selected_layers:
-            path, query = self.parse_path(lyr.layer().source())
+            path, query = self.parse_path(lyr.source())
             if path is not None:
                 self.locs.append((path, query))
 
     def unique_parent_dirs(self) -> Set[Path]:
         """Return list of unique parent directories from list of paths.
 
-        :return: List of unique parent directories paths within self.locs.
+        Returns:
+            List of unique parent directories from list of paths
         """
         return set([path.parent for path, query in self.locs])
 
     @property
     def layers_selected(self) -> bool:
-        """Check if there are any layers selected and populate self.selected_layers.
+        """Return whether there are any layers selected.
 
-        :return: Whether there are any layers selected.
+        Returns:
+            Whether there are any layers selected.
         """
-        view = iface.layerTreeView()
-        self.selected_layers = [n for n in view.selectedNodes() if QgsLayerTree.isLayer(n)]
         return len(self.selected_layers) > 0
+
+    @property
+    def selected_layers(self) -> list:
+        """Return list of selected layers.
+
+        Returns:
+            List of selected layers.
+        """
+        return [lyr for lyr in self.ltv.selectedLayers()]
 
     @staticmethod
     def build_string(paths: List[tuple]) -> str:
         """Construct a string using pathfinders current settings.
 
-        :param paths: A list of tuples (path, query) where the first item contains
-        the valid file path and the second contains data provider information such
-        as the layer name and subset string.
-        :return: Formatted string representing one or more file paths.
+        Args:
+            paths: A list of tuples (path, query) where the first item contains
+                the valid file path and the second contains data provider information such
+                as the layer name and subset string.
+
+        Returns:
+            Formatted string representing one or more file paths.
         """
+
         settings = QSettings()
         settings.beginGroup('pathfinder')
         n = len(paths)
