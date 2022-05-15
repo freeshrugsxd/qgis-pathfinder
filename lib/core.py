@@ -47,7 +47,7 @@ class Pathfinder(QObject):
     def open_in_explorer(self) -> None:
         """Open unique parent directories in a file explorer."""
         # TODO: select files in file explorer
-        for p in self.unique_parent_dirs():
+        for p in self.unique_parent_dirs:
             subprocess.run([self.command, str(p)])
 
     def parse_selected(self) -> None:
@@ -57,6 +57,7 @@ class Pathfinder(QObject):
             if path is not None:
                 self.locs.append((path, query))
 
+    @property
     def unique_parent_dirs(self) -> Set[Path]:
         """Return list of unique parent directories from list of paths.
 

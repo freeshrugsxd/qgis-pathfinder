@@ -34,7 +34,7 @@ class PathfinderEventFilter(QObject):
         # adding stuff bottom to top, so we can just reuse menu_idx for insertion
         menu.insertSeparator(menu.actions()[menu_idx])  # separator below entry
 
-        if pf.unique_parent_dirs():
+        if pf.unique_parent_dirs:
             open_in_explorer = QAction(
                 QIcon(':/plugins/pathfinder/icons/open_in_explorer.svg'),
                 tr('Show in Explorer'),
