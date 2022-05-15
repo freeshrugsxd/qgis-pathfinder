@@ -39,16 +39,7 @@ from pathfinder.resources import *  # noqa
 
 # noinspection PyAttributeOutsideInit
 class PathfinderPlugin:
-    """QGIS Plugin Implementation."""
-
     def __init__(self, iface: QgisInterface):
-        """Constructor.
-
-        :param iface: An interface instance that will be passed to this class
-            which provides the hook by which you can manipulate the QGIS
-            application at run time.
-        """
-        # Save reference to the QGIS interface
         self.iface = iface
 
         self.settings = QSettings()

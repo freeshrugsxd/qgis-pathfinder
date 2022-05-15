@@ -73,12 +73,16 @@ class PathfinderEventFilter(QObject):
         return menu
 
     def set_menu_position(self, menu: QMenu, idx: int = -3) -> int:
-        """Return menu index of the `idxth` separator object.
+        """Return menu index of the idxᵗʰ separator object.
+
         If idx is out of bounds, gradually change its value towards 0.
 
-        :param idx: Index of desired separator object.
-        :param menu: QMenu object.
-        :return: Index of the target separator.
+        Args:
+            menu: Index of desired separator object.
+            idx: QMenu object.
+
+        Returns:
+            Index of the target separator.
         """
         try:
             return [i for i, a in enumerate(menu.actions()) if a.isSeparator()][idx]

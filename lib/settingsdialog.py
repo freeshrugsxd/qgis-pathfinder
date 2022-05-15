@@ -71,29 +71,30 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
         self.original_vrt_ds.setCheckState(self.settings.value('original_vrt_ds', defs['original_vrt_ds'], int))
 
     def on_curr_changed(self, key: str, value: str) -> None:
-        """Enable/Disable corresponding custom character lineedit if necessary and forward
-        key and value to on_changed().
+        """Enable/disable custom character lineEdit and forward key and value to on_changed().
 
-        :param key: The name of the setting.
-        :param value: The new value of the setting.
+        Args:
+            key: The name of the setting.
+            value: The new value of the setting.
         """
         getattr(self, f'{key}_custom').setEnabled(value == tr('Other'))
         self.on_changed(key, value)
 
     def on_changed(self, key: str, value: str) -> None:
-        """Change the setting ``key`` to ``value`` and update the preview.
+        """Change the setting key to value and update the preview.
 
-        :param key: The name of the setting.
-        :param value: The new value of the setting.
+        Args:
+            key: The name of the setting.
+            value: The new value of the setting.
         """
         self.settings.setValue(key, value)
         self.update_preview()
 
     def update_preview(self, n: int = 2) -> None:
-        """Construct a string of ``n`` mock paths using the current settings and display it in the
-        paths_preview QLabel.
+        """Build n strings from a mock path and display it in the paths_preview QLabel.
 
-        :param n: The number of mock paths to be displayed in the preview. Optional. [default: 2]
+        Args:
+            n: The number of mock paths to be displayed in the preview. Optional. [default: 2]
         """
         pf = Pathfinder()
         # TODO: allow user to manipulate n
@@ -113,7 +114,8 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
     def keyPressEvent(self, event: QKeyEvent) -> None:
         """Modify key press events.
 
-        :param event:
+        Args:
+            event: Mouse click event
         """
         # gobble Enter
         if event.key() == Qt.Key_Enter:

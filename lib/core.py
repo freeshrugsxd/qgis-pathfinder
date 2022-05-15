@@ -59,10 +59,10 @@ class Pathfinder(QObject):
 
     @property
     def unique_parent_dirs(self) -> Set[Path]:
-        """Return list of unique parent directories from list of paths.
+        """Return set of unique parent directories from list of paths.
 
         Returns:
-            List of unique parent directories from list of paths
+            Set of unique parent directories from list of paths
         """
         return set([path.parent for path, query in self.locs])
 
@@ -128,12 +128,14 @@ class Pathfinder(QObject):
 
     @staticmethod
     def parse_path(data_source: str, must_exist: bool = True) -> tuple:
-        """Strip the path string and return path and query elements
-        according to pathfinder settings and data provider.
+        """Parse data_source and return path and query elements.
 
-        :param path: String that could be a file path.
-        :param must_exist: Whether path has to be a file or folder.
-        :return: Tuple containing a valid file path and the desired data provider information.
+        Args:
+            data_source: Layer data source string
+            must_exist: Whether data_source must exist in the file system
+
+        Returns:
+            Tuple containing the path and query parts of the source
         """
         # TODO:
         #  - come up with a more clear return than a tuple

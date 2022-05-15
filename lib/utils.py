@@ -52,16 +52,17 @@ class PathfinderMaps:
 
 
 def exists(loc: Path) -> bool:
-    """Return ``Path.exists()`` but do not raise OSError if loc is not a
-    valid OS path (e.g. starting with 'https:///').
+    """Return ``Path.exists()`` but do not raise OSError if loc is not a valid path.
 
-    :param loc: A pathlib.Path object.
-    :return: Whether loc is a file or folder.
+    Args:
+        loc: Path object
 
-    Note
-    ----
-    This is pathlibs default behaviour from Python 3.8 and onwards.
-    So this helper will probably be deprecated once QGIS LTR on Windows ships with Python>=3.8.
+    Returns:
+        Whether loc is a file or folder.
+
+    Note:
+        This is pathlibs default behaviour from Python 3.8 onwards.
+        This helper will probably be deprecated once QGIS LTR on Windows ships with Python>=3.8.
     """
     try:
         return loc.exists()
@@ -70,10 +71,13 @@ def exists(loc: Path) -> bool:
 
 
 def get_char(s: str) -> str:
-    """Return the character equivalent to ``s`` or its respective custom character.
+    """Return the character equivalent to s or its respective custom character.
 
-    :param s: either 'quote_char' or 'separ_char'
-    :return: representation of s or its respective custom character
+    Args:
+        s: either 'quote_char' or 'separ_char'
+
+    Returns:
+        Representation of s or its respective custom character
     """
 
     settings = QSettings()
@@ -96,9 +100,13 @@ def get_char(s: str) -> str:
 
 
 def escape_string(s: str) -> str:
-    """Return a unicode escaped copy of ``s``.
+    """Return a unicode escaped copy of s.
 
-    :param s:
-    :return:
+    Args:
+        s: String
+
+    Returns:
+        Unicode-escaped string
+
     """
     return bytes(s, 'utf-8').decode('unicode_escape')
