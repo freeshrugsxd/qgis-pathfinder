@@ -41,13 +41,12 @@ from pathfinder.resources import *  # noqa
 class PathfinderPlugin:
     def __init__(self, iface: QgisInterface):
         self.iface = iface
-
-        self.settings = QSettings()
+        settings = QSettings()
 
         plugin_dir = Path(__file__).resolve().parent
 
         # initialize locale and translator
-        locale = self.settings.value('locale/userLocale')[0:2]
+        locale = settings.value('locale/userLocale')[0:2]
         locale_path = plugin_dir / 'i18n' / f'pathfinder_{locale}.qm'
 
         if locale_path.exists():
