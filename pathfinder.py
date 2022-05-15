@@ -104,8 +104,10 @@ class PathfinderPlugin:
 
     def unload(self):
         self.iface.removeToolBarIcon(self.settings_dialog)
+        self.iface.removePluginMenu('&pathfinder', self.copy_action1)
+        self.iface.removePluginMenu('&pathfinder', self.copy_action2)
+        self.iface.removePluginMenu('&pathfinder', self.show_action)
         self.iface.unregisterMainWindowAction(self.copy_action1)
         self.iface.unregisterMainWindowAction(self.copy_action2)
         self.iface.unregisterMainWindowAction(self.show_action)
         del self.contextManager
-
