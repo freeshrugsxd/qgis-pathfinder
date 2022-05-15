@@ -127,7 +127,7 @@ class Pathfinder(QObject):
         return f'{pre}{out}{post}'
 
     @staticmethod
-    def parse_path(path: str, must_exist: bool = True) -> tuple:
+    def parse_path(data_source: str, must_exist: bool = True) -> tuple:
         """Strip the path string and return path and query elements
         according to pathfinder settings and data provider.
 
@@ -139,7 +139,7 @@ class Pathfinder(QObject):
         #  - come up with a more clear return than a tuple
         settings = QSettings()
         settings.beginGroup('pathfinder')
-        parts = path.split('?')[0].split('|')
+        parts = data_source.split('?')[0].split('|')
 
         if not parts[0]:
             return None, None
@@ -147,14 +147,14 @@ class Pathfinder(QObject):
         try:
             if parts[0].startswith('file:'):
                 # convert uri to path
-                fp = Path(url2pathname(urlparse(parts[0]).path))
+                path = Path(url2pathname(urlparse(parts[0]).path))
             else:
-                fp = Path(parts[0])
+                path = Path(parts[0])
         except OSError:
             # return None for now
             return None, None
 
-        if must_exist and not exists(fp):
+        if must_exist and not exists(path):
             return None, None
 
         has_layer_name_or_id = False
@@ -180,12 +180,12 @@ class Pathfinder(QObject):
         if is_subset and settings.value('incl_subset_str', type=bool):
             query += f'|{subset_string}'
 
-        if fp.suffix == '.vrt' and settings.value('original_vrt_ds', type=bool):
+        if path.suffix == '.vrt' and settings.value('original_vrt_ds', type=bool):
             # return path to data source instead of virtual file
-            ds = ET.fromstring(fp.read_text()).find('OGRVRTLayer').find('SrcDataSource')
+            ds = ET.fromstring(path.read_text()).find('OGRVRTLayer').find('SrcDataSource')
             try:
-                if ds.attrib['relativeToVRT'] == '1' and fp.parent.joinpath(ds.text).is_file():
-                    return fp.parent / ds.text, query
+                if ds.attrib['relativeToVRT'] == '1' and path.parent.joinpath(ds.text).is_file():
+                    return path.parent / ds.text, query
                 elif ds.attrib['relativeToVRT'] == '0':
                     ds_path = Path(ds.text)
                     if ds_path.is_file():
@@ -197,13 +197,13 @@ class Pathfinder(QObject):
                     return ds_path, query
 
         # in case a shapefile was loaded from a directory
-        if fp.is_dir():
+        if path.is_dir():
             # we slice the layername instead of splitting to account for the
             # unlikely case that the shapefile name contains an equal sign (=)
             # Please never do this
             layername = parts[1][parts[1].index('=') + 1:]
-            shp_path = fp.joinpath(layername).with_suffix('.shp')
+            shp_path = path.joinpath(layername).with_suffix('.shp')
             if shp_path.exists():
                 return shp_path, query
 
-        return fp, query
+        return path, query
