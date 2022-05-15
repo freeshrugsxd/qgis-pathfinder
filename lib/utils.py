@@ -95,7 +95,7 @@ def get_char(s: str) -> str:
             return maps[s][settings.value(s)]
 
 
-def escape_string(s):
+def escape_string(s: str) -> str:
     """Return a unicode escaped copy of ``s``.
 
     :param s:

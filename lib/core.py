@@ -19,7 +19,7 @@ COMMANDS = PathfinderMaps.COMMANDS
 
 
 class Pathfinder(QObject):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None) -> None:
         super().__init__(parent)
         self.command = COMMANDS[pf_system()]
         self.locs = []

@@ -1,7 +1,7 @@
 from platform import system as pf_system
 
 from qgis.PyQt.QtCore import QObject, Qt
-from qgis.PyQt.QtGui import QIcon
+from qgis.PyQt.QtGui import QContextMenuEvent, QIcon
 from qgis.PyQt.QtWidgets import QAction, QMenu
 
 from pathfinder.lib.core import Pathfinder
@@ -12,10 +12,10 @@ from pathfinder.lib.utils import exists
 class PathfinderEventFilter(QObject):
     """Filter Object receiving events through eventFilter method."""
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None) -> None:
         super().__init__(parent)
 
-    def __call__(self, menu, event):
+    def __call__(self, menu: QMenu, event: QContextMenuEvent) -> QMenu:
         """Add custom actions to the default context menu."""
         shift_mod = event.modifiers() == Qt.ShiftModifier
         pf = Pathfinder()
