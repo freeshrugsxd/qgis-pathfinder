@@ -1,6 +1,6 @@
 __pycache__
 .idea
 *.zip
-test
+testing
 *.ui.autosave
 *.pyproject.user
