@@ -14,11 +14,15 @@ about=
         Copy Path (\\):     Ctrl + Shift + E
         Show in Explorer:   Ctrl + R
 
-version=version 0.4.1
+version=version 0.4.2
 
 changelog=
+    0.4.2
+        * bumped required minimum QGIS version to 3.18
+        * improved/fixed detection of layername and subset string
+        * added setting for custom notification duration
     0.4.1 2021-09-28
-	* fix for shapefiles added via directory
+	    * fix for shapefiles added via directory
     0.4 2021-09-18
         * support for shapefiles added via "directory"
         * added German translation [looking for translators! get in touch]
