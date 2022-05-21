@@ -209,7 +209,7 @@ class Pathfinder(QObject):
             # unlikely case that the shapefile name contains an equal sign (=)
             layername = parts[1][parts[1].index('=') + 1:]
             shp_path = path.joinpath(layername).with_suffix('.shp')
-            if shp_path.exists():
+            if shp_path.is_file():
                 return shp_path, query
 
         return path, query
