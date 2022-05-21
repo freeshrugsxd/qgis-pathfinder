@@ -24,7 +24,8 @@ class PathfinderEventFilter(QObject):
         if not pf.layers_selected:
             return menu
 
-        pf.parse_selected()  # list of valid file paths
+        # parse data sources of selected layers and populate pf.locs
+        pf.parse_selected()
 
         cp_action_label = (tr('Copy Paths') if len(pf.locs) > 1 else tr('Copy Path'))
 
