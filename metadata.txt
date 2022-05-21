@@ -5,7 +5,7 @@ author=silvio bentzien
 qgisMinimumVersion=3.18
 description=Copy file paths and open file explorer
 about=
-    Add layer context menu entries that allow you to copy its source or open the file explorer at its location.
+    Add actions to the layer context menu which allow you to copy its source or open the file explorer at its location.
     Several customization options - like quoting and separation characters - are available in the pathfinder settings dialog.
     Shift + Right Click reveals and extra Copy Path command where backslashes are substituted by double backslashes.
     These actions are also available via keyboard shortcuts:
