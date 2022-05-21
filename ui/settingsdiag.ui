@@ -26,13 +26,52 @@
       <string>General</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_5">
+      <item row="0" column="3">
+       <spacer name="horizontalSpacer_4">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="0" column="1">
+       <widget class="QSpinBox" name="notify_duration">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="buttonSymbols">
+         <enum>QAbstractSpinBox::UpDownArrows</enum>
+        </property>
+        <property name="minimum">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <number>420</number>
+        </property>
+        <property name="value">
+         <number>5</number>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="0">
        <widget class="QCheckBox" name="show_notification">
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Whether to show a notification on successful operations.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
-         <string>display notification</string>
+         <string>display notification for</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>seconds</string>
         </property>
        </widget>
       </item>
@@ -437,12 +476,14 @@
   <tabstop>prefix</tabstop>
   <tabstop>postfix</tabstop>
   <tabstop>incl_file_name</tabstop>
+  <tabstop>original_vrt_ds</tabstop>
   <tabstop>incl_layer_name</tabstop>
   <tabstop>incl_subset_str</tabstop>
   <tabstop>single_path_quote</tabstop>
   <tabstop>paths_on_new_line</tabstop>
   <tabstop>single_path_affix</tabstop>
   <tabstop>show_notification</tabstop>
+  <tabstop>notify_duration</tabstop>
  </tabstops>
  <resources/>
  <connections>
@@ -453,8 +494,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>266</x>
-     <y>540</y>
+     <x>275</x>
+     <y>640</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -469,12 +510,28 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>334</x>
-     <y>540</y>
+     <x>343</x>
+     <y>640</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>show_notification</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>notify_duration</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>111</x>
+     <y>571</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>225</x>
+     <y>571</y>
     </hint>
    </hints>
   </connection>

@@ -47,7 +47,8 @@ class PathfinderMaps:
         'incl_subset_str': 0,
         'show_notification': 0,
         'paths_on_new_line': 0,
-        'original_vrt_ds': 0
+        'original_vrt_ds': 0,
+        'notify_duration': 5
     }
 
 

@@ -46,6 +46,9 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
         self.show_notification.stateChanged.connect(lambda v: self.on_changed('show_notification', v))
         self.original_vrt_ds.stateChanged.connect(lambda v: self.on_changed('original_vrt_ds', v))
 
+        # spin box https://doc.qt.io/qtforpython-5/PySide2/QtWidgets/QSpinBox.html
+        self.notify_duration.valueChanged.connect(lambda v: self.on_changed('notify_duration', v))
+
         # buttons https://doc.qt.io/qtforpython-5/PySide2/QtWidgets/QDialogButtonBox.html
         self.buttonBox.button(QDialogButtonBox.RestoreDefaults).clicked.connect(self.restore_defaults)
 
@@ -70,6 +73,8 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
         self.paths_on_new_line.setCheckState(self.settings.value('paths_on_new_line', defs['paths_on_new_line'], int))
         self.show_notification.setCheckState(self.settings.value('show_notification', defs['show_notification'], int))
         self.original_vrt_ds.setCheckState(self.settings.value('original_vrt_ds', defs['original_vrt_ds'], int))
+
+        self.notify_duration.setValue(self.settings.value('notify_duration', defs['notify_duration'], int))
 
     def on_curr_changed(self, key: str, value: str) -> None:
         """Enable/disable custom character lineEdit and forward key and value to on_changed().

@@ -42,7 +42,12 @@ class Pathfinder(QObject):
     def notify(self, msg: str) -> None:
         """Show QGIS notification."""
         if self.settings.value('show_notification', type=bool):
-            iface.messageBar().pushMessage(tr('Copied to clipboard'), html.escape(msg), level=0)
+            iface.messageBar().pushMessage(
+                tr('Copied to clipboard'),
+                html.escape(msg),
+                level=0,
+                duration=self.settings.value('notify_duration', DEFAULTS['notify_duration'], int)
+            )
 
     def open_in_explorer(self) -> None:
         """Open unique parent directories in a file explorer."""
