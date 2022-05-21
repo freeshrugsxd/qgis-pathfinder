@@ -118,10 +118,6 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
         Args:
             event: Mouse click event
         """
-        # gobble Enter
-        if event.key() == Qt.Key_Enter:
-            pass
-
         # close dialog on Escape
         if event.key() == Qt.Key_Escape:
             self.close()
