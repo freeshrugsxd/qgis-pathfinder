@@ -6,7 +6,6 @@ from qgis.PyQt.QtWidgets import QAction, QMenu
 
 from pathfinder.lib.core import Pathfinder
 from pathfinder.lib.utils import tr
-from pathfinder.lib.utils import exists
 
 
 class PathfinderEventFilter(QObject):
@@ -46,7 +45,7 @@ class PathfinderEventFilter(QObject):
             menu.insertAction(menu.actions()[menu_idx], open_in_explorer)
 
         # only show entries if there are files selected
-        if any([exists(loc[0]) for loc in pf.locs]):
+        if any([path.exists() for path, _ in pf.locs]):
 
             # give option to copy location with double backslash when shift modifier is pressed
             if pf_system() == 'Windows' and shift_mod:

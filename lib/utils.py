@@ -52,25 +52,6 @@ class PathfinderMaps:
     }
 
 
-def exists(loc: Path) -> bool:
-    """Return ``Path.exists()`` but do not raise OSError if loc is not a valid path.
-
-    Args:
-        loc: Path object
-
-    Returns:
-        Whether loc is a file or folder.
-
-    Note:
-        This is pathlibs default behaviour from Python 3.8 onwards.
-        This helper will probably be deprecated once QGIS LTR on Windows ships with Python>=3.8.
-    """
-    try:
-        return loc.exists()
-    except OSError:
-        return False
-
-
 def get_char(s: str) -> str:
     """Return the character equivalent to s or its respective custom character.
 

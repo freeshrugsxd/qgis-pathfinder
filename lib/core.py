@@ -12,7 +12,7 @@ from qgis.PyQt.QtWidgets import QApplication
 from qgis.utils import iface
 
 from pathfinder.lib.i18n import tr
-from pathfinder.lib.utils import get_char, exists, PathfinderMaps
+from pathfinder.lib.utils import get_char, PathfinderMaps
 
 DEFAULTS = PathfinderMaps.DEFAULTS
 COMMANDS = PathfinderMaps.COMMANDS
@@ -161,7 +161,7 @@ class Pathfinder(QObject):
             # return None for now
             return None, None
 
-        if must_exist and not exists(path):
+        if must_exist and not path.exists():
             return None, None
 
         has_layer_name_or_id = False
