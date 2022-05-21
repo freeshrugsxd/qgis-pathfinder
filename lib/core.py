@@ -207,7 +207,6 @@ class Pathfinder(QObject):
         if path.is_dir():
             # we slice the layername instead of splitting to account for the
             # unlikely case that the shapefile name contains an equal sign (=)
-            # Please never do this
             layername = parts[1][parts[1].index('=') + 1:]
             shp_path = path.joinpath(layername).with_suffix('.shp')
             if shp_path.exists():
