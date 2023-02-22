@@ -42,7 +42,7 @@ class Pathfinder(QObject):
         if self.settings.value('show_notification', type=bool):
             iface.messageBar().pushMessage(
                 tr('Copied to clipboard'),
-                html.escape(msg),
+                escape_html(msg),
                 level=0,
                 duration=self.settings.value('notify_duration', DEFAULTS['notify_duration'], int)
             )
@@ -51,7 +51,7 @@ class Pathfinder(QObject):
         """Open unique parent directories in a file explorer."""
         # TODO: select files in file explorer
         for p in self.unique_parent_dirs:
-            subprocess.run([self.command, str(p)])
+            run_subprocess([self.command, str(p)])
 
     def parse_selected(self) -> None:
         """Parse selected layers. Populate self.locs."""
