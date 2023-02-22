@@ -111,7 +111,7 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
 
     def restore_defaults(self) -> None:
         """Reset settings to their default values."""
-        for k, v in PathfinderMaps().DEFAULTS.items():
+        for k, v in PathfinderMaps.DEFAULTS.items():
             self.settings.setValue(k, v)
 
         self.restore_settings()
