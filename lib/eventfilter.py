@@ -16,12 +16,13 @@ class PathfinderEventFilter(QObject):
 
     def __call__(self, menu: QMenu, event: QContextMenuEvent) -> QMenu:
         """Add custom actions to the default context menu."""
-        shift_mod = event.modifiers() == Qt.ShiftModifier
         pf = Pathfinder()
 
         # return default context menu if no layer is selected
         if not pf.layers_selected:
             return menu
+
+        shift_mod = event.modifiers() == Qt.ShiftModifier
 
         # parse data sources of selected layers and populate pf.locs
         pf.parse_selected()
