@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from qgis.PyQt.QtCore import QSettings
 
 from pathfinder.lib.i18n import tr

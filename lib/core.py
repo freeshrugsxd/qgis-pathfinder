@@ -1,15 +1,14 @@
-import html
-import subprocess
+from html import escape as escape_html
+from subprocess import run as run_subprocess
 import xml.etree.ElementTree as ET
 from pathlib import Path
 from platform import system as pf_system
-from typing import List, Set
-from urllib.parse import urlparse
-from urllib.request import url2pathname
-
 from qgis.PyQt.QtCore import QObject, QSettings
 from qgis.PyQt.QtWidgets import QApplication
 from qgis.utils import iface
+from typing import List, Set
+from urllib.parse import urlparse
+from urllib.request import url2pathname
 
 from pathfinder.lib.i18n import tr
 from pathfinder.lib.utils import get_char, PathfinderMaps
