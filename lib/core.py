@@ -24,7 +24,6 @@ class Pathfinder(QObject):
         self.locs = []
         self.settings = QSettings()
         self.settings.beginGroup('pathfinder')
-        self.ltv = iface.layerTreeView()
 
     def copy(self) -> None:
         """Copy paths to clipboard."""
@@ -86,7 +85,7 @@ class Pathfinder(QObject):
         Returns:
             List of selected layers.
         """
-        return [lyr for lyr in self.ltv.selectedLayers()]
+        return iface.layerTreeView().selectedLayers()
 
     @staticmethod
     def build_string(paths: List[tuple]) -> str:
