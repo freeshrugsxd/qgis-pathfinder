@@ -11,7 +11,7 @@ from urllib.parse import urlparse
 from urllib.request import url2pathname
 
 from pathfinder.lib.i18n import tr
-from pathfinder.lib.utils import get_char, PathfinderMaps
+from pathfinder.lib.utils import get_chars, PathfinderMaps
 
 DEFAULTS = PathfinderMaps.DEFAULTS
 COMMANDS = PathfinderMaps.COMMANDS
@@ -105,8 +105,7 @@ class Pathfinder(QObject):
         settings.beginGroup('pathfinder')
         n = len(paths)
 
-        q = get_char('quote_char')
-        s = get_char('separ_char')
+        q, s = get_chars('quote_char', 'separ_char')
 
         pre = settings.value('prefix', DEFAULTS['prefix'])
         post = settings.value('postfix', DEFAULTS['postfix'])

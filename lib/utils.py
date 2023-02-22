@@ -50,14 +50,15 @@ class PathfinderMaps:
     }
 
 
-def get_char(s: str) -> str:
+def get_chars(quote='quote_char', sep='separ_char') -> str:
     """Return the character equivalent to s or its respective custom character.
 
     Args:
-        s: either 'quote_char' or 'separ_char'
+        quote: Quotation character
+        sep: Separation character
 
     Returns:
-        Representation of s or its respective custom character
+        Representation of quote and sep or their respective custom character
     """
 
     settings = QSettings()
@@ -66,18 +67,18 @@ def get_char(s: str) -> str:
     defs = PathfinderMaps.DEFAULTS
     maps = PathfinderMaps.MAPPINGS
 
-    if settings.value(s) == tr('Other'):
-        return settings.value(f'{s}_custom', defs[f'{s}_custom'])
-    else:
-        try:
-            return maps[s][settings.value(s, defs[s])]
-        except KeyError:
-            # after switching languages, the values of some named characters can't be retrieved.
-            # For now, we will reset these values to their default.
-            # TODO: find way to make these settings persistent across languages
-            settings.setValue(s, defs[s])
-            return maps[s][settings.value(s)]
-
+    for s in (quote, sep):
+        if settings.value(s) == tr('Other'):
+            yield settings.value(f'{s}_custom', defs[f'{s}_custom'])
+        else:
+            try:
+                yield maps[s][settings.value(s, defs[s])]
+            except KeyError:
+                # after switching languages, the values of some named characters can't be retrieved.
+                # For now, we will reset these values to their default.
+                # TODO: find way to make these settings persistent across languages
+                settings.setValue(s, defs[s])
+                yield maps[s][settings.value(s)]
 
 def escape_string(s: str) -> str:
     """Return a unicode escaped copy of s.
