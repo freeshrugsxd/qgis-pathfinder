@@ -79,15 +79,3 @@ def get_chars(quote='quote_char', sep='separ_char') -> str:
                 # TODO: find way to make these settings persistent across languages
                 settings.setValue(s, defs[s])
                 yield maps[s][settings.value(s)]
-
-def escape_string(s: str) -> str:
-    """Return a unicode escaped copy of s.
-
-    Args:
-        s: String
-
-    Returns:
-        Unicode-escaped string
-
-    """
-    return bytes(s, 'utf-8').decode('unicode_escape')
