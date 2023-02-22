@@ -378,7 +378,7 @@
       <item row="0" column="0">
        <widget class="QCheckBox" name="incl_layer_name">
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Whether to append the layername part to the path. Useful for file formats that can containing multiple layers.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Whether to append the layername part to the path. Useful for file formats that can contain multiple layers.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
          <string>include layer name</string>
@@ -407,7 +407,7 @@
       <item row="0" column="0">
        <widget class="QCheckBox" name="single_path_quote">
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Wether to use quoting when only a single path is returned.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Whether to use quoting when only a single path is returned.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
          <string>quote single path</string>
