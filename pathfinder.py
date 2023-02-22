@@ -94,7 +94,7 @@ class PathfinderPlugin:
     def on_key_pressed(self, call_idx):
         pf = Pathfinder()
         if pf.layers_selected:
-            calls = {0: pf.copy, 1: pf.copy_double_backslash, 2: pf.open_in_explorer}
+            calls = pf.copy, pf.copy_double_backslash, pf.open_in_explorer
             pf.parse_selected()
             calls[call_idx]()
 
