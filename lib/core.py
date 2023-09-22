@@ -168,12 +168,10 @@ class Pathfinder(QObject):
 
         if len(parts) > 1:
             for part in parts[1:]:
-                if 'layername=' in part or 'layerid=' in part:
-                    has_layer_name_or_id = True
+                if has_layer_name_or_id := 'layername=' in part or 'layerid=' in part:
                     layer_name_or_id = part
 
-                elif 'subset=' in part:
-                    is_subset = True
+                elif is_subset := 'subset=' in part:
                     subset_string = part
 
         query = ''
@@ -186,27 +184,27 @@ class Pathfinder(QObject):
 
         if path.suffix == '.vrt' and settings.value('original_vrt_ds', type=bool):
             # return path to data source instead of virtual file
-            ds = ET.fromstring(path.read_text()).find('OGRVRTLayer').find('SrcDataSource')
+            ds = ET.fromstring(path.read_text()).find('OGRVRTLayer').find('SrcDataSource')  # noqa: S314
             try:
                 if ds.attrib['relativeToVRT'] == '1' and path.parent.joinpath(ds.text).is_file():
-                    return path.parent / ds.text, query
+                    path = path.parent / ds.text
                 elif ds.attrib['relativeToVRT'] == '0':
                     ds_path = Path(ds.text)
                     if ds_path.is_file():
-                        return ds_path, query
+                        path = ds_path
 
             except KeyError:
                 ds_path = Path(ds.text)
                 if ds_path.is_file():
-                    return ds_path, query
+                    path = ds_path
 
         # in case a shapefile was loaded from a directory
-        if path.is_dir():
+        elif path.is_dir():
             # we slice the layername instead of splitting to account for the
             # unlikely case that the shapefile name contains an equal sign (=)
             layername = parts[1][parts[1].index('=') + 1:]
             shp_path = path.joinpath(layername).with_suffix('.shp')
             if shp_path.is_file():
-                return shp_path, query
+                path = shp_path
 
         return path, query
