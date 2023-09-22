@@ -57,10 +57,10 @@ def get_chars(quote='quote_char', sep='separ_char') -> str:
         quote: Quotation character
         sep: Separation character
 
-    Returns:
-        Representation of quote and sep or their respective custom character
+    Yields:
+        Generator[str, None, None]: generator containing representation of quote and sep
+            or their respective custom characters.
     """
-
     settings = QSettings()
     settings.beginGroup('pathfinder')
 

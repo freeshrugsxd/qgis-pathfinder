@@ -11,11 +11,19 @@ from pathfinder.lib.utils import tr
 class PathfinderEventFilter(QObject):
     """Filter Object receiving events through eventFilter method."""
 
-    def __init__(self, parent=None) -> None:
+    def __init__(self, parent=None):
         super().__init__(parent)
 
-    def __call__(self, menu: QMenu, event: QContextMenuEvent) -> QMenu:
-        """Add custom actions to the default context menu."""
+    def __call__(self, menu, event):
+        """Add custom actions to the default context menu.
+
+        Args:
+            menu (QMenu): the context menu object
+            event (QContextMenuEvent): the event
+
+        Returns:
+            QMenu: Context menu
+        """
         pf = Pathfinder()
 
         # return default context menu if no layer is selected
@@ -73,17 +81,22 @@ class PathfinderEventFilter(QObject):
 
         return menu
 
-    def set_menu_position(self, menu: QMenu, idx: int = -3) -> int:
+    def set_menu_position(self, menu, idx=-3):
         """Return menu index of the idxᵗʰ separator object.
 
         If idx is out of bounds, gradually change its value towards 0.
 
+        Note:
+            We position the pathfinder menu items based on already available
+            separator items in the menu. I want to place it roughly next to the
+            Export sub menu, that's why we default to -3.
+
         Args:
-            menu: Index of desired separator object.
-            idx: QMenu object.
+            menu (QMenu): QMenu object.
+            idx (int): Index of desired separator object.
 
         Returns:
-            Index of the target separator.
+            int: Index of the target separator.
         """
         try:
             return [i for i, a in enumerate(menu.actions()) if a.isSeparator()][idx]

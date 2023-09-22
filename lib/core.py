@@ -1,44 +1,48 @@
-from html import escape as escape_html
-from subprocess import run as run_subprocess
 import xml.etree.ElementTree as ET
+from html import escape as escape_html
 from pathlib import Path
 from platform import system as pf_system
-from qgis.PyQt.QtCore import QObject, QSettings
-from qgis.PyQt.QtWidgets import QApplication
-from qgis.utils import iface
-from typing import List, Set
+from subprocess import run as run_subprocess
 from urllib.parse import urlparse
 from urllib.request import url2pathname
 
+from qgis.PyQt.QtCore import QObject, QSettings
+from qgis.PyQt.QtWidgets import QApplication
+from qgis.utils import iface
+
 from pathfinder.lib.i18n import tr
-from pathfinder.lib.utils import get_chars, PathfinderMaps
+from pathfinder.lib.utils import PathfinderMaps, get_chars
 
 DEFAULTS = PathfinderMaps.DEFAULTS
 COMMANDS = PathfinderMaps.COMMANDS
 
 
 class Pathfinder(QObject):
-    def __init__(self, parent=None) -> None:
+    def __init__(self, parent=None):
         super().__init__(parent)
         self.command = COMMANDS[pf_system()]
         self.locs = []
         self.settings = QSettings()
         self.settings.beginGroup('pathfinder')
 
-    def copy(self) -> None:
+    def copy(self):
         """Copy paths to clipboard."""
         text = self.build_string(self.locs)
         QApplication.clipboard().setText(text)
         self.notify(text)
 
-    def copy_double_backslash(self) -> None:
+    def copy_double_backslash(self):
         """Copy paths to clipboard with double backslashes."""
         text = self.build_string(self.locs).replace('\\', '\\\\')
         QApplication.clipboard().setText(text)
         self.notify(msg=text)
 
-    def notify(self, msg: str) -> None:
-        """Show QGIS notification."""
+    def notify(self, msg):
+        """Show QGIS notification.
+
+        Args:
+            msg (str): Message to be displayed in QGIS notification.
+        """
         if self.settings.value('show_notification', type=bool):
             iface.messageBar().pushMessage(
                 tr('Copied to clipboard'),
@@ -47,13 +51,13 @@ class Pathfinder(QObject):
                 duration=self.settings.value('notify_duration', DEFAULTS['notify_duration'], int)
             )
 
-    def open_in_explorer(self) -> None:
+    def open_in_explorer(self):
         """Open unique parent directories in a file explorer."""
         # TODO: select files in file explorer
         for p in self.unique_parent_dirs:
-            run_subprocess([self.command, str(p)])
+            run_subprocess([self.command, str(p)])  # noqa: S603, PLW1510
 
-    def parse_selected(self) -> None:
+    def parse_selected(self):
         """Parse selected layers. Populate self.locs."""
         for lyr in self.selected_layers:
             path, query = self.parse_path(lyr.source())
@@ -61,50 +65,49 @@ class Pathfinder(QObject):
                 self.locs.append((path, query))
 
     @property
-    def unique_parent_dirs(self) -> Set[Path]:
+    def unique_parent_dirs(self):
         """Return set of unique parent directories from list of paths.
 
         Returns:
-            Set of unique parent directories from list of paths
+            set[Path]: Set of unique parent directories from list of paths
         """
-        return set([path.parent for path, query in self.locs])
+        return {path.parent for path, query in self.locs}
 
     @property
-    def layers_selected(self) -> bool:
+    def layers_selected(self):
         """Return whether there are any layers selected.
 
         Returns:
-            Whether there are any layers selected.
+            bool: Whether there are any layers selected.
         """
         return len(self.selected_layers) > 0
 
     @property
-    def selected_layers(self) -> list:
+    def selected_layers(self):
         """Return list of selected layers.
 
         Returns:
-            List of selected layers.
+            list[QgsMapLayer]: List of selected layers.
         """
         return iface.layerTreeView().selectedLayers()
 
     @staticmethod
-    def build_string(paths: List[tuple]) -> str:
+    def build_string(paths):
         """Construct a string using pathfinders current settings.
 
         Args:
-            paths: A list of tuples (path, query) where the first item contains
+            paths (list[tuple]): A list of tuples (path, query) where the first item contains
                 the valid file path and the second contains data provider information such
                 as the layer name and subset string.
 
         Returns:
-            Formatted string representing one or more file paths.
+           str: Formatted string representing one or more file paths.
         """
-
         settings = QSettings()
         settings.beginGroup('pathfinder')
         n = len(paths)
 
-        q, s = get_chars('quote_char', 'separ_char')
+        q, s = get_chars(q='quote_char', s='separ_char')
 
         pre = settings.value('prefix', DEFAULTS['prefix'])
         post = settings.value('postfix', DEFAULTS['postfix'])
@@ -129,15 +132,15 @@ class Pathfinder(QObject):
         return f'{pre}{out}{post}'
 
     @staticmethod
-    def parse_path(data_source: str, must_exist: bool = True) -> tuple:
+    def parse_path(data_source, must_exist=True):
         """Parse data_source and return path and query elements.
 
         Args:
-            data_source: Layer data source string
-            must_exist: Whether data_source must exist in the file system
+            data_source (str): Layer data source string
+            must_exist (bool): Whether data_source must exist in the file system
 
         Returns:
-            Tuple containing the path and query parts of the source
+            tuple: Tuple containing the path and query parts of the source
         """
         # TODO:
         #  - come up with a more clear return than a tuple

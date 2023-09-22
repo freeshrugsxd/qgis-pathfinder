@@ -1,40 +1,16 @@
-# -*- coding: utf-8 -*-
-"""
-/***************************************************************************
- pathfinder
- Add layer context menu entries that allow you to copy its source or open
- the file explorer at its location.
-                              -------------------
-        begin                : 2020-09-16
-        git sha              :
-        copyright            :
-        email                : silvio.bentzien@protonmail.com
- ***************************************************************************/
-
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
-
-"""
 from pathlib import Path
 
+from qgis.gui import QgisInterface
 from qgis.PyQt.QtCore import QCoreApplication, QSettings, QTranslator
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction
-from qgis.gui import QgisInterface
 
 from pathfinder.lib.core import Pathfinder
 from pathfinder.lib.eventfilter import PathfinderEventFilter
+from pathfinder.lib.i18n import tr
 from pathfinder.lib.layertreecontextmenumanager import LayerTreeContextMenuManager
 from pathfinder.lib.settingsdialog import PathfinderSettingsDialog
-from pathfinder.lib.i18n import tr
-
-from pathfinder.resources import *  # noqa
+from pathfinder.resources import qInitResources
 
 
 # noinspection PyAttributeOutsideInit
@@ -57,6 +33,7 @@ class PathfinderPlugin:
     # noinspection PyPep8Naming
     def initGui(self):
         """Register event filter and add toolbar icon."""
+        qInitResources()
         self.contextManager = LayerTreeContextMenuManager()
         self.contextManager.addProvider(PathfinderEventFilter())
 

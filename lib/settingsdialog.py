@@ -1,9 +1,9 @@
 from pathlib import Path
 
+from qgis.PyQt import uic
 from qgis.PyQt.QtCore import QSettings, Qt
 from qgis.PyQt.QtGui import QKeyEvent
 from qgis.PyQt.QtWidgets import QDialog, QDialogButtonBox
-from qgis.PyQt import uic
 
 from pathfinder.lib.core import Pathfinder
 from pathfinder.lib.i18n import tr
