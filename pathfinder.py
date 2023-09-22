@@ -30,10 +30,13 @@ class PathfinderPlugin:
             self.translator.load(str(locale_path))
             QCoreApplication.installTranslator(self.translator)
 
+        self.dialog = None
+
     # noinspection PyPep8Naming
     def initGui(self):
         """Register event filter and add toolbar icon."""
         qInitResources()
+
         self.contextManager = LayerTreeContextMenuManager()
         self.contextManager.addProvider(PathfinderEventFilter())
 
@@ -74,8 +77,11 @@ class PathfinderPlugin:
             getattr(pf, fn)()
 
     def show_settings_dialog(self):
-        self.dialog = PathfinderSettingsDialog()
+        if self.dialog is None:
+            self.dialog = PathfinderSettingsDialog(self.iface.mainWindow())
+
         self.dialog.show()
+        self.dialog.activateWindow()
 
     def unload(self):
         self.iface.removeToolBarIcon(self.settings_dialog)
@@ -85,4 +91,5 @@ class PathfinderPlugin:
         self.iface.unregisterMainWindowAction(self.copy_action1)
         self.iface.unregisterMainWindowAction(self.copy_action2)
         self.iface.unregisterMainWindowAction(self.show_action)
+        del self.dialog
         del self.contextManager
