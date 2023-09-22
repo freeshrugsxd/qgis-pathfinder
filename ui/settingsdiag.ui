@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
-    <height>650</height>
+    <width>396</width>
+    <height>467</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -15,6 +15,9 @@
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
+  </property>
+  <property name="focusPolicy">
+   <enum>Qt::NoFocus</enum>
   </property>
   <property name="windowTitle">
    <string>pathfinder Settings</string>
@@ -80,14 +83,14 @@
    </item>
    <item row="6" column="1">
     <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
       <set>QDialogButtonBox::Close|QDialogButtonBox::RestoreDefaults</set>
-     </property>
-     <property name="centerButtons">
-      <bool>false</bool>
      </property>
     </widget>
    </item>
@@ -157,7 +160,7 @@
         <item row="1" column="0">
          <widget class="QLabel" name="qoute_label">
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The character sorrounding individual paths.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The character surrounding individual paths.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string>Quoting Character</string>
@@ -374,17 +377,7 @@
      <property name="title">
       <string>Vector Layer</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout_4">
-      <item row="0" column="0">
-       <widget class="QCheckBox" name="incl_layer_name">
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Whether to append the layername part to the path. Useful for file formats that can contain multiple layers.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="text">
-         <string>include layer name</string>
-        </property>
-       </widget>
-      </item>
+     <layout class="QGridLayout" name="gridLayout_4" columnstretch="1,1,2">
       <item row="0" column="1">
        <widget class="QCheckBox" name="incl_subset_str">
         <property name="toolTip">
@@ -395,6 +388,29 @@
         </property>
        </widget>
       </item>
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="incl_layer_name">
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Whether to append the layer name part to the path. Useful for file formats that can containing multiple layers.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>include layer name</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <spacer name="horizontalSpacer_7">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
      </layout>
     </widget>
    </item>
@@ -403,7 +419,7 @@
      <property name="title">
       <string>Multiselection</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout">
+     <layout class="QGridLayout" name="gridLayout" columnstretch="1,1,2">
       <item row="0" column="0">
        <widget class="QCheckBox" name="single_path_quote">
         <property name="toolTip">
@@ -434,6 +450,22 @@
         </property>
        </widget>
       </item>
+      <item row="0" column="2">
+       <spacer name="horizontalSpacer_6">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Preferred</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
      </layout>
     </widget>
    </item>
@@ -442,7 +474,17 @@
      <property name="title">
       <string>File Layer</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout_3">
+     <layout class="QGridLayout" name="gridLayout_3" columnstretch="1,1,2">
+      <item row="1" column="1">
+       <widget class="QCheckBox" name="original_vrt_ds">
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Whether to return the path to the underlying data source of an OGR VRT dataset (e.g. the source XLSX Excel file of a spreadsheet layer) instead of the path to the VRT file.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>path to spreadsheet</string>
+        </property>
+       </widget>
+      </item>
       <item row="1" column="0">
        <widget class="QCheckBox" name="incl_file_name">
         <property name="toolTip">
@@ -453,15 +495,18 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QCheckBox" name="original_vrt_ds">
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Whether to return the path to the underlying data source of an OGR VRT dataset (e.g. the source XLSX Excel file of a spreadsheet layer) instead of the path to the virtual VRT file.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <item row="1" column="2">
+       <spacer name="horizontalSpacer_5">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
         </property>
-        <property name="text">
-         <string>path to spreadsheet</string>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
         </property>
-       </widget>
+       </spacer>
       </item>
      </layout>
     </widget>
@@ -494,8 +539,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>275</x>
-     <y>640</y>
+     <x>284</x>
+     <y>457</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -510,8 +555,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>343</x>
-     <y>640</y>
+     <x>328</x>
+     <y>457</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -526,12 +571,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>111</x>
-     <y>571</y>
+     <x>130</x>
+     <y>416</y>
     </hint>
     <hint type="destinationlabel">
-     <x>225</x>
-     <y>571</y>
+     <x>192</x>
+     <y>418</y>
     </hint>
    </hints>
   </connection>
