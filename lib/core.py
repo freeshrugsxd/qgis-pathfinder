@@ -152,11 +152,8 @@ class Pathfinder(QObject):
             return None, None
 
         try:
-            if parts[0].startswith('file:'):
-                # convert uri to path
-                path = Path(url2pathname(urlparse(parts[0]).path))
-            else:
-                path = Path(parts[0])
+            path = Path(url2pathname(urlparse(parts[0]).path) if parts[0].startswith('file:') else parts[0])
+
         except OSError:
             # return None for now
             return None, None
