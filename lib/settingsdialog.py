@@ -14,7 +14,7 @@ FORM_CLASS, _ = uic.loadUiType(Path(__file__).parents[1] / 'ui' / 'settingsdiag.
 
 class PathfinderSettingsDialog(QDialog, FORM_CLASS):
     def __init__(self, parent=None):
-        super(PathfinderSettingsDialog, self).__init__(parent)
+        super().__init__(parent)
         self.setupUi(self)
 
         self.settings = QSettings()
