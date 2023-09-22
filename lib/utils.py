@@ -5,14 +5,14 @@ from pathfinder.lib.i18n import tr
 
 class PathfinderMaps:
     # platform specific commands to open the system's *most likely* file explorer
-    COMMANDS = {
+    COMMANDS = {  # noqa: RUF012
         'Windows': 'explorer',
         'Linux': 'xdg-open',
         'Darwin': 'open'
     }
 
     # map combobox label to actual character
-    MAPPINGS = {
+    MAPPINGS = {  # noqa: RUF012
         'quote_char': {
             '\"': '\"',
             '\'': '\'',
@@ -31,7 +31,7 @@ class PathfinderMaps:
     }
 
     # reasonable defaults for pathfinder settings
-    DEFAULTS = {
+    DEFAULTS = {  # noqa: RUF012
         'quote_char': '"',
         'separ_char': tr('Space'),
         'quote_char_custom': '',
