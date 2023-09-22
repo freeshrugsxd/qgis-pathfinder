@@ -14,8 +14,8 @@ class PathfinderMaps:
     # map combobox label to actual character
     MAPPINGS = {  # noqa: RUF012
         'quote_char': {
-            '\"': '\"',
-            '\'': '\'',
+            '"': '"',
+            "'": "'",
             '´': '´',
             '`': '`',
             tr('Space'): ' ',
