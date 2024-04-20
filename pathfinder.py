@@ -53,9 +53,9 @@ class PathfinderPlugin:
         self.iface.addPluginToMenu('&pathfinder', self.show_action)
 
         # bind actions
-        self.copy_action1.triggered.connect(lambda: self.on_key_pressed('copy'))
-        self.copy_action2.triggered.connect(lambda: self.on_key_pressed('copy_double_backslash'))
-        self.show_action.triggered.connect(lambda: self.on_key_pressed('open_in_explorer'))
+        self.copy_action1.triggered.connect(lambda: self.on_triggered('copy'))
+        self.copy_action2.triggered.connect(lambda: self.on_triggered('copy_double_backslash'))
+        self.show_action.triggered.connect(lambda: self.on_triggered('open_in_explorer'))
 
         # register settings dialog
         self.settings_dialog = QAction(
@@ -63,12 +63,12 @@ class PathfinderPlugin:
             tr('pathfinder Settings'),
             self.iface.mainWindow()
         )
-
         self.settings_dialog.triggered.connect(self.show_settings_dialog)
         self.iface.addToolBarIcon(self.settings_dialog)
 
+
     # noinspection PyMethodMayBeStatic
-    def on_key_pressed(self, fn):
+    def on_triggered(self, fn):
         if (pf := Pathfinder()).layers_selected:
             pf.parse_selected()
             getattr(pf, fn)()
