@@ -1,10 +1,10 @@
-import xml.etree.ElementTree as ET
-from html import escape as escape_html
+from html import escape
 from pathlib import Path
-from platform import system as pf_system
-from subprocess import run as run_subprocess
+from platform import system
+from subprocess import run
 from urllib.parse import urlparse
 from urllib.request import url2pathname
+from xml.etree import ElementTree
 
 from qgis.PyQt.QtCore import QObject, QSettings
 from qgis.PyQt.QtWidgets import QApplication
@@ -20,7 +20,7 @@ COMMANDS = PathfinderMaps.COMMANDS
 class Pathfinder(QObject):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.command = COMMANDS[pf_system()]
+        self.command = COMMANDS[system()]
         self.locs = []
         self.settings = QSettings()
         self.settings.beginGroup('pathfinder')
@@ -29,36 +29,38 @@ class Pathfinder(QObject):
         """Copy paths to clipboard."""
         text = self.build_string(self.locs)
         QApplication.clipboard().setText(text)
-        self.notify(text)
+        self.notify(message=text)
 
     def copy_double_backslash(self):
         """Copy paths to clipboard with double backslashes."""
         text = self.build_string(self.locs).replace('\\', '\\\\')
         QApplication.clipboard().setText(text)
-        self.notify(msg=text)
+        self.notify(message=text)
 
-    def notify(self, msg):
-        """Show QGIS notification.
+    def notify(self, message):
+        """Show QGIS notification, if desired.
 
         Args:
-            msg (str): Message to be displayed in QGIS notification.
+            message (str): Message to be displayed in the notification.
+
         """
-        if self.settings.value('show_notification', type=bool):
+        if (settings := QSettings()).value('show_notification', type=bool):
             iface.messageBar().pushMessage(
                 tr('Copied to clipboard'),
-                escape_html(msg),
+                escape(message),
                 level=0,
-                duration=self.settings.value('notify_duration', DEFAULTS['notify_duration'], int)
+                duration=settings.value('notify_duration', DEFAULTS['notify_duration'], int)
             )
+
 
     def open_in_explorer(self):
         """Open unique parent directories in a file explorer."""
         # TODO: select files in file explorer
         for p in self.unique_parent_dirs:
-            run_subprocess([self.command, str(p)])  # noqa: S603, PLW1510
+            run([self.command, str(p)])  # noqa: S603, PLW1510
 
     def parse_selected(self):
-        """Parse selected layers. Populate self.locs."""
+        """Parse selected layers and populate self.locs."""
         for lyr in self.selected_layers:
             path, query = self.parse_path(lyr.source())
             if path is not None:
@@ -183,7 +185,7 @@ class Pathfinder(QObject):
 
         if path.suffix == '.vrt' and settings.value('original_vrt_ds', type=bool):
             # return path to data source instead of virtual file
-            ds = ET.fromstring(path.read_text()).find('OGRVRTLayer').find('SrcDataSource')  # noqa: S314
+            ds = ElementTree.fromstring(path.read_text()).find('OGRVRTLayer').find('SrcDataSource')  # noqa: S314
             try:
                 if ds.attrib['relativeToVRT'] == '1' and path.parent.joinpath(ds.text).is_file():
                     path = path.parent / ds.text
