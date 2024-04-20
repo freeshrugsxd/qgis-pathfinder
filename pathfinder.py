@@ -17,11 +17,9 @@ class PathfinderPlugin:
         self.iface = iface
         settings = QSettings()
 
-        plugin_dir = Path(__file__).resolve().parent
-
         # initialize locale and translator
         locale = settings.value('locale/userLocale')[0:2]
-        locale_path = plugin_dir / 'i18n' / f'pathfinder_{locale}.qm'
+        locale_path = Path(__file__).parent / 'i18n' / f'pathfinder_{locale}.qm'
 
         if locale_path.exists():
             self.translator = QTranslator()
