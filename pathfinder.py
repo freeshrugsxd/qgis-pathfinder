@@ -89,4 +89,3 @@ class PathfinderPlugin:
         self.iface.unregisterMainWindowAction(self.copy_action2)
         self.iface.unregisterMainWindowAction(self.show_action)
         del self.dialog
-        del self.contextManager
