@@ -1,7 +1,6 @@
 from pathlib import Path
 from shutil import copy2, copystat, make_archive, rmtree
 
-
 parents = Path(__file__).parents
 src = parents[1]
 dest = parents[0]
@@ -21,10 +20,8 @@ flist = [
     'icons/resources.qrc',
     'lib/core.py',
     'lib/i18n.py',
-    'lib/layertreecontextmenumanager.py',
-    'lib/eventfilter.py',
     'lib/utils.py',
-    'lib/settingsdialog.py',
+    'lib/gui.py',
     'ui/settingsdiag.ui'
 ]
 
