@@ -2,15 +2,73 @@ from pathlib import Path
 
 from qgis.PyQt import uic
 from qgis.PyQt.QtCore import QSettings, Qt
-from qgis.PyQt.QtGui import QKeyEvent
-from qgis.PyQt.QtWidgets import QDialog, QDialogButtonBox
+from qgis.PyQt.QtGui import QIcon, QKeyEvent
+from qgis.PyQt.QtWidgets import QAction, QDialog, QDialogButtonBox
 
 from pathfinder.lib.core import Pathfinder
 from pathfinder.lib.i18n import tr
 from pathfinder.lib.utils import PathfinderMaps
 
-FORM_CLASS, _ = uic.loadUiType(Path(__file__).parents[1] / 'ui' / 'settingsdiag.ui')
+DEFAULTS = PathfinderMaps.DEFAULTS
 
+
+def modify_context_menu(menu):
+    """Add pathfinder entries to context menu.
+
+    Args:
+        menu (QMenu): context menu object
+
+    """
+    # return default context menu if no layer is selected
+    if (pf := Pathfinder()).layers_selected:
+        # parse data sources of selected layers and populate pf.locs
+        pf.parse_selected()
+
+        cp_action_label = tr('Copy Paths') if len(pf.locs) > 1 else tr('Copy Path')
+
+        # determine position within context menu
+        menu_idx = determine_menu_position(menu)
+
+        # adding stuff bottom to top, so we can just reuse menu_idx for insertion
+        menu.insertSeparator(menu.actions()[menu_idx])  # separator below entry
+        open_in_explorer = QAction(QIcon(':/plugins/pathfinder/icons/open_in_explorer.svg'), tr('Show in Explorer'), menu)
+        open_in_explorer.triggered.connect(lambda: pf.open_in_explorer())
+        menu.insertAction(menu.actions()[menu_idx], open_in_explorer)
+
+        # only show entries if there are files selected
+        if any(path.exists() for path, _ in pf.locs):
+            cp_src = QAction(QIcon(':/plugins/pathfinder/icons/copy.svg'), cp_action_label, menu)
+            cp_src.triggered.connect(lambda: pf.copy())
+            menu.insertAction(menu.actions()[menu_idx], cp_src)
+
+        menu.insertSeparator(menu.actions()[menu_idx])  # seperator above entry, hidden if on top
+
+def determine_menu_position(menu, idx=-3):
+    """Return menu index of the idxᵗʰ separator object.
+
+    If idx is out of bounds, gradually change its value towards 0.
+
+    Note:
+        We position the pathfinder menu items based on already available
+        separator items in the menu. I want to place it roughly next to the
+        Export sub menu, that's why we default to -3.
+
+    Args:
+        menu (QMenu): QMenu object.
+        idx (int): Index of desired separator object.
+
+    Returns:
+        int: Index of the target separator.
+
+    """
+    try:
+        return [i for i, a in enumerate(menu.actions()) if a.isSeparator()][idx]
+    except IndexError:
+        return determine_menu_position(menu, idx - 1 if idx > 0 else idx + 1)
+
+
+
+FORM_CLASS, _ = uic.loadUiType(Path(__file__).parents[1] / 'ui' / 'settingsdiag.ui')
 
 class PathfinderSettingsDialog(QDialog, FORM_CLASS):
     def __init__(self, parent=None):
@@ -82,6 +140,7 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
         Args:
             key: The name of the setting.
             value: The new value of the setting.
+
         """
         getattr(self, f'{key}_custom').setEnabled(value == tr('Other'))
         self.on_changed(key, value)
@@ -92,6 +151,7 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
         Args:
             key: The name of the setting.
             value: The new value of the setting.
+
         """
         self.settings.setValue(key, value)
         self.update_preview()
@@ -101,6 +161,7 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
 
         Args:
             n: The number of mock paths to be displayed in the preview. Optional. [default: 2]
+
         """
         pf = Pathfinder()
         # TODO: allow user to manipulate n
@@ -122,6 +183,7 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
 
         Args:
             event: Mouse click event
+
         """
         # close dialog on Escape
         if event.key() == Qt.Key_Escape:

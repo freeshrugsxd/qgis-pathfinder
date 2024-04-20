@@ -6,10 +6,8 @@ from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction
 
 from pathfinder.lib.core import Pathfinder
-from pathfinder.lib.eventfilter import PathfinderEventFilter
+from pathfinder.lib.gui import PathfinderSettingsDialog, modify_context_menu
 from pathfinder.lib.i18n import tr
-from pathfinder.lib.layertreecontextmenumanager import LayerTreeContextMenuManager
-from pathfinder.lib.settingsdialog import PathfinderSettingsDialog
 from pathfinder.resources import qInitResources
 
 
@@ -37,8 +35,7 @@ class PathfinderPlugin:
         """Register event filter and add toolbar icon."""
         qInitResources()
 
-        self.contextManager = LayerTreeContextMenuManager()
-        self.contextManager.addProvider(PathfinderEventFilter())
+        self.iface.layerTreeView().contextMenuAboutToShow.connect(modify_context_menu)
 
         # setting up keyboard shortcut actions
         self.copy_action1 = QAction(QIcon(':/plugins/pathfinder/icons/copy.svg'), tr('Copy Path'), self.iface.mainWindow())
