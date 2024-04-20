@@ -11,7 +11,7 @@ from qgis.PyQt.QtWidgets import QApplication
 from qgis.utils import iface
 
 from pathfinder.lib.i18n import tr
-from pathfinder.lib.utils import PathfinderMaps, get_chars
+from pathfinder.lib.utils import PathfinderMaps
 
 DEFAULTS = PathfinderMaps.DEFAULTS
 COMMANDS = PathfinderMaps.COMMANDS
@@ -91,8 +91,7 @@ class Pathfinder(QObject):
         """
         return iface.layerTreeView().selectedLayers()
 
-    @staticmethod
-    def build_string(paths):
+    def build_string(self, paths):
         """Construct a string using pathfinders current settings.
 
         Args:
@@ -107,7 +106,7 @@ class Pathfinder(QObject):
         settings.beginGroup('pathfinder')
         n = len(paths)
 
-        q, s = get_chars(q='quote_char', s='separ_char')
+        q, s = self.get_chars(quote='quote_char', sep='separ_char')
 
         pre = settings.value('prefix', DEFAULTS['prefix'])
         post = settings.value('postfix', DEFAULTS['postfix'])
@@ -208,3 +207,36 @@ class Pathfinder(QObject):
                 path = shp_path
 
         return path, query
+
+
+    @staticmethod
+    def get_chars(quote='quote_char', sep='separ_char') -> str:
+        """Return the character equivalent to s or its respective custom character.
+
+        Args:
+            quote: Quotation character
+            sep: Separation character
+
+        Yields:
+            Generator[str, None, None]: generator containing representation of quote and sep
+                or their respective custom characters.
+
+        """
+        settings = QSettings()
+        settings.beginGroup('pathfinder')
+
+        defs = PathfinderMaps.DEFAULTS
+        maps = PathfinderMaps.MAPPINGS
+
+        for s in (quote, sep):
+            if settings.value(s) == tr('Other'):
+                yield settings.value(f'{s}_custom', defs[f'{s}_custom'])
+            else:
+                try:
+                    yield maps[s][settings.value(s, defs[s])]
+                except KeyError:
+                    # after switching languages, the values of some named characters can't be retrieved.
+                    # For now, we will reset these values to their default.
+                    # TODO: find way to make these settings persistent across languages
+                    settings.setValue(s, defs[s])
+                    yield maps[s][settings.value(s)]
