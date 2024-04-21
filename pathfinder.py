@@ -56,22 +56,25 @@ class PathfinderPlugin:
         self.show_action.triggered.connect(lambda: self.on_triggered('open_in_explorer'))
 
         # register settings dialog
-        self.settings_dialog = QAction(
-            QIcon(':/plugins/pathfinder/icons/copy.svg'),
-            tr('pathfinder Settings'),
-            self.iface.mainWindow()
-        )
+        self.settings_dialog = QAction(QIcon(':/plugins/pathfinder/icons/copy.svg'), tr('pathfinder Settings'), self.iface.mainWindow())
         self.settings_dialog.triggered.connect(self.show_settings_dialog)
         self.iface.addToolBarIcon(self.settings_dialog)
 
 
     # noinspection PyMethodMayBeStatic
     def on_triggered(self, fn):
+        """Call pathfinder method.
+
+        Args:
+            fn: method name
+
+        """
         if (pf := Pathfinder()).layers_selected:
             pf.parse_selected()
             getattr(pf, fn)()
 
     def show_settings_dialog(self):
+        """Show pathfinder settings dialog."""
         if self.dialog is None:
             self.dialog = PathfinderSettingsDialog(self.iface.mainWindow())
 

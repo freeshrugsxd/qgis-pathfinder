@@ -31,65 +31,16 @@ class Pathfinder:
 
     def copy_double_backslash(self):
         """Copy paths to clipboard with double backslashes."""
+        # TODO: make this one usable again via context menu
         text = self.build_string(self.locs).replace('\\', '\\\\')
         QApplication.clipboard().setText(text)
         self.notify(message=text)
-
-    def notify(self, message):
-        """Show QGIS notification, if desired.
-
-        Args:
-            message (str): Message to be displayed in the notification.
-
-        """
-        if (settings := QSettings()).value('show_notification', type=bool):
-            iface.messageBar().pushMessage(
-                tr('Copied to clipboard'),
-                escape(message),
-                level=0,
-                duration=settings.value('notify_duration', DEFAULTS['notify_duration'], int)
-            )
-
 
     def open_in_explorer(self):
         """Open unique parent directories in a file explorer."""
         # TODO: select files in file explorer
         for p in self.unique_parent_dirs:
             run([self.command, str(p)])  # noqa: S603, PLW1510
-
-    def parse_selected(self):
-        """Parse selected layers and populate self.locs."""
-        self.locs = [p for p in (self.parse(lyr) for lyr in self.selected_layers) if p is not None]
-
-    @property
-    def unique_parent_dirs(self):
-        """Return set of unique parent directories from list of paths.
-
-        Returns
-            set[Path]: Set of unique parent directories from list of paths
-
-        """
-        return {Path(d['path']).parent for d in self.locs}
-
-    @property
-    def layers_selected(self):
-        """Return whether there are any layers selected.
-
-        Returns
-            bool: Whether there are any layers selected.
-
-        """
-        return len(self.selected_layers) > 0
-
-    @property
-    def selected_layers(self):
-        """Return list of selected layers.
-
-        Returns
-            list[QgsMapLayer]: List of selected layers.
-
-        """
-        return iface.layerTreeView().selectedLayers()
 
     def build_string(self, paths):
         """Construct a string using pathfinders current settings.
@@ -132,6 +83,59 @@ class Pathfinder:
 
         out = s.join([f'{q}{qpr.encodeUri(d.pop("provider"), d)}{q}' for d in paths])
         return f'{pre}{out}{post}'
+
+    def notify(self, message):
+        """Show QGIS notification, if setting is enabled.
+
+        Args:
+            message (str): Message to be displayed in the notification.
+
+        """
+        if (settings := QSettings()).value('show_notification', type=bool):
+            iface.messageBar().pushMessage(
+                tr('Copied to clipboard'),
+                escape(message),
+                level=0,
+                duration=settings.value('notify_duration', DEFAULTS['notify_duration'], int)
+            )
+
+    def parse_selected(self):
+        """Parse selected layers and populate self.locs."""
+        self.locs = [p for p in (self.parse(lyr) for lyr in self.selected_layers) if p is not None]
+
+
+    @staticmethod
+    def get_chars(quote='quote_char', sep='separ_char'):
+        """Return the character equivalent to s or its respective custom character.
+
+        Args:
+            quote: Quotation character
+            sep: Separation character
+
+        Yields:
+            Generator[str, None, None]: generator containing representation of quote and sep
+                or their respective custom characters.
+
+        """
+        settings = QSettings()
+        settings.beginGroup('pathfinder')
+
+        defs = PathfinderMaps.DEFAULTS
+        maps = PathfinderMaps.MAPPINGS
+
+        for s in (quote, sep):
+            if settings.value(s) == tr('Other'):
+                yield settings.value(f'{s}_custom', defs[f'{s}_custom'])
+            else:
+                try:
+                    yield maps[s][settings.value(s, defs[s])]
+                except KeyError:
+                    # after switching languages, the values of some named characters can't be retrieved.
+                    # For now, we will reset these values to their default.
+                    # TODO: find way to make these settings persistent across languages
+                    settings.setValue(s, defs[s])
+                    yield maps[s][settings.value(s)]
+
 
     @staticmethod
     def parse(layer, must_exist=True):
@@ -186,35 +190,32 @@ class Pathfinder:
         out['path'] = str(path)
         return out
 
+    @property
+    def unique_parent_dirs(self):
+        """Return set of unique parent directories from list of paths.
 
-    @staticmethod
-    def get_chars(quote='quote_char', sep='separ_char') -> str:
-        """Return the character equivalent to s or its respective custom character.
-
-        Args:
-            quote: Quotation character
-            sep: Separation character
-
-        Yields:
-            Generator[str, None, None]: generator containing representation of quote and sep
-                or their respective custom characters.
+        Returns
+            set[Path]: Set of unique parent directories from list of paths
 
         """
-        settings = QSettings()
-        settings.beginGroup('pathfinder')
+        return {Path(d['path']).parent for d in self.locs}
 
-        defs = PathfinderMaps.DEFAULTS
-        maps = PathfinderMaps.MAPPINGS
+    @property
+    def layers_selected(self):
+        """Return whether there are any layers selected.
 
-        for s in (quote, sep):
-            if settings.value(s) == tr('Other'):
-                yield settings.value(f'{s}_custom', defs[f'{s}_custom'])
-            else:
-                try:
-                    yield maps[s][settings.value(s, defs[s])]
-                except KeyError:
-                    # after switching languages, the values of some named characters can't be retrieved.
-                    # For now, we will reset these values to their default.
-                    # TODO: find way to make these settings persistent across languages
-                    settings.setValue(s, defs[s])
-                    yield maps[s][settings.value(s)]
+        Returns
+            bool: Whether there are any layers selected.
+
+        """
+        return len(self.selected_layers) > 0
+
+    @property
+    def selected_layers(self):
+        """Return list of selected layers.
+
+        Returns
+            list[QgsMapLayer]: List of selected layers.
+
+        """
+        return iface.layerTreeView().selectedLayers()
