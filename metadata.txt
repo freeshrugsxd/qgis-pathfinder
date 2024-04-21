@@ -2,7 +2,7 @@
 name=pathfinder
 email=silvio.bentzien@protonmail.com
 author=silvio bentzien
-qgisMinimumVersion=3.18
+qgisMinimumVersion=3.32
 description=Copy file paths and open file explorer
 about=
     Add actions to the layer context menu which allow you to copy its source or open the file explorer at its location.
