@@ -138,11 +138,11 @@ class Pathfinder:
 
     @staticmethod
     def parse(layer, must_exist=True):
-        """Parse data_source and return path and query elements.
+        """Parse layer and return dictionary from which to encode an uri again.
 
         Args:
-            layer (QgsMapLayer): Layer data source string
-            must_exist (bool): Whether data_source must exist in the file system
+            layer (QgsMapLayer): A QGIS layer.
+            must_exist (bool): Whether layer's data source must exist in the file system
 
         Returns:
             dict: dictionary containing the parts needed to reencode the uri
