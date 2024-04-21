@@ -1,5 +1,6 @@
 from pathlib import Path
 
+from qgis.core import QgsVectorLayer
 from qgis.PyQt import uic
 from qgis.PyQt.QtCore import QSettings, Qt
 from qgis.PyQt.QtGui import QIcon, QKeyEvent
@@ -36,7 +37,7 @@ def modify_context_menu(menu):
         menu.insertAction(menu.actions()[menu_idx], open_in_explorer)
 
         # only show entries if there are files selected
-        if any(path.exists() for path, _ in pf.locs):
+        if any(Path(d['path']).exists() for d in pf.locs):
             cp_src = QAction(QIcon(':/plugins/pathfinder/icons/copy.svg'), cp_action_label, menu)
             cp_src.triggered.connect(lambda: pf.copy())
             menu.insertAction(menu.actions()[menu_idx], cp_src)
@@ -166,7 +167,7 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
         pf = Pathfinder()
         # TODO: allow user to manipulate n
         paths = n * ['dir/subdir/file.ext|layername=lyr|subset=id > 0']
-        parsed = [pf.parse_path(path, must_exist=False) for path in paths]
+        parsed = [pf.parse(QgsVectorLayer(path), must_exist=False) for path in paths]
         out = pf.build_string(parsed)
         self.paths_preview.setText(out)
 

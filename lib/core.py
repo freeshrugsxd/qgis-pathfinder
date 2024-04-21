@@ -2,10 +2,9 @@ from html import escape
 from pathlib import Path
 from platform import system
 from subprocess import run
-from urllib.parse import urlparse
-from urllib.request import url2pathname
 from xml.etree import ElementTree
 
+from qgis.core import QgsProviderRegistry
 from qgis.PyQt.QtCore import QObject, QSettings
 from qgis.PyQt.QtWidgets import QApplication
 from qgis.utils import iface
@@ -61,26 +60,25 @@ class Pathfinder(QObject):
 
     def parse_selected(self):
         """Parse selected layers and populate self.locs."""
-        for lyr in self.selected_layers:
-            path, query = self.parse_path(lyr.source())
-            if path is not None:
-                self.locs.append((path, query))
+        self.locs = [p for p in (self.parse(lyr) for lyr in self.selected_layers) if p is not None]
 
     @property
     def unique_parent_dirs(self):
         """Return set of unique parent directories from list of paths.
 
-        Returns:
+        Returns
             set[Path]: Set of unique parent directories from list of paths
+
         """
-        return {path.parent for path, query in self.locs}
+        return {Path(d['path']).parent for d in self.locs}
 
     @property
     def layers_selected(self):
         """Return whether there are any layers selected.
 
-        Returns:
+        Returns
             bool: Whether there are any layers selected.
+
         """
         return len(self.selected_layers) > 0
 
@@ -88,8 +86,9 @@ class Pathfinder(QObject):
     def selected_layers(self):
         """Return list of selected layers.
 
-        Returns:
+        Returns
             list[QgsMapLayer]: List of selected layers.
+
         """
         return iface.layerTreeView().selectedLayers()
 
@@ -97,12 +96,12 @@ class Pathfinder(QObject):
         """Construct a string using pathfinders current settings.
 
         Args:
-            paths (list[tuple]): A list of tuples (path, query) where the first item contains
-                the valid file path and the second contains data provider information such
-                as the layer name and subset string.
+            paths (list[dict]): A list of dicts with at least a 'path'
+            and 'provider' key.
 
         Returns:
-           str: Formatted string representing one or more file paths.
+           str: Formatted string representing one or more file uris.
+
         """
         settings = QSettings()
         settings.beginGroup('pathfinder')
@@ -114,7 +113,9 @@ class Pathfinder(QObject):
         post = settings.value('postfix', DEFAULTS['postfix'])
 
         # should file name be included?
-        fn = settings.value('incl_file_name', type=bool)
+        if not settings.value('incl_file_name', type=bool):
+            for d in paths:
+                d['path'] = str(Path(d['path']).parent)
 
         if n == 1:
             # should a single path be quoted?
@@ -129,65 +130,50 @@ class Pathfinder(QObject):
         if n > 1 and settings.value('paths_on_new_line', type=bool):
             s += '\n'
 
-        out = s.join([f'{q}{p if fn else p.parent}{i}{q}' for p, i in paths])
+        qpr = QgsProviderRegistry.instance()
+        out = s.join([f'{q}{qpr.encodeUri(d.pop("provider"), d)}{q}' for d in paths])
         return f'{pre}{out}{post}'
 
     @staticmethod
-    def parse_path(data_source, must_exist=True):
+    def parse(layer, must_exist=True):
         """Parse data_source and return path and query elements.
 
         Args:
-            data_source (str): Layer data source string
+            layer (QgsMapLayer): Layer data source string
             must_exist (bool): Whether data_source must exist in the file system
 
         Returns:
-            tuple: Tuple containing the path and query parts of the source
+            dict: dictionary containing the parts needed to reencode the uri
+
         """
-        # TODO:
-        #  - come up with a more clear return than a tuple
         settings = QSettings()
         settings.beginGroup('pathfinder')
-        parts = data_source.split('?')[0].split('|')
+        pr_name = layer.dataProvider().name()
+        parts = QgsProviderRegistry.instance().decodeUri(pr_name, layer.source())
 
-        if not parts[0]:
-            return None, None
+        if 'path' not in parts or parts['path'] is None:
+            return None
 
-        try:
-            path = Path(url2pathname(urlparse(parts[0]).path) if parts[0].startswith('file:') else parts[0])
-
-        except OSError:
-            # return None for now
-            return None, None
+        out = {}
+        path = Path(parts['path'])
 
         if must_exist and not path.exists():
-            return None, None
+            return None
 
-        has_layer_name_or_id = False
-        layer_name_or_id = ''
-        is_subset = False
-        subset_string = ''
+        out['provider'] = pr_name
 
-        if len(parts) > 1:
-            for part in parts[1:]:
-                if has_layer_name_or_id := 'layername=' in part or 'layerid=' in part:
-                    layer_name_or_id = part
+        if settings.value('incl_layer_name', type=bool):
+            out['layerId'] = parts.pop('layerId', None)
+            out['layerName'] = parts.pop('layerName', None)
 
-                elif is_subset := 'subset=' in part:
-                    subset_string = part
-
-        query = ''
-
-        if has_layer_name_or_id and settings.value('incl_layer_name', type=bool):
-            query += f'|{layer_name_or_id}'
-
-        if is_subset and settings.value('incl_subset_str', type=bool):
-            query += f'|{subset_string}'
+        if settings.value('incl_subset_str', type=bool):
+            out['subset'] = parts.pop('subset', None)
 
         if path.suffix == '.vrt' and settings.value('original_vrt_ds', type=bool):
             # return path to data source instead of virtual file
             ds = ElementTree.fromstring(path.read_text()).find('OGRVRTLayer').find('SrcDataSource')  # noqa: S314
             try:
-                if ds.attrib['relativeToVRT'] == '1' and path.parent.joinpath(ds.text).is_file():
+                if ds.attrib['relativeToVRT'] == '1' and (path.parent / ds.text).is_file():
                     path = path.parent / ds.text
                 elif ds.attrib['relativeToVRT'] == '0':
                     ds_path = Path(ds.text)
@@ -199,16 +185,8 @@ class Pathfinder(QObject):
                 if ds_path.is_file():
                     path = ds_path
 
-        # in case a shapefile was loaded from a directory
-        elif path.is_dir():
-            # we slice the layername instead of splitting to account for the
-            # unlikely case that the shapefile name contains an equal sign (=)
-            layername = parts[1][parts[1].index('=') + 1:]
-            shp_path = path.joinpath(layername).with_suffix('.shp')
-            if shp_path.is_file():
-                path = shp_path
-
-        return path, query
+        out['path'] = str(path)
+        return out
 
 
     @staticmethod
