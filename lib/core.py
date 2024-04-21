@@ -5,7 +5,7 @@ from subprocess import run
 from xml.etree import ElementTree
 
 from qgis.core import QgsProviderRegistry
-from qgis.PyQt.QtCore import QObject, QSettings
+from qgis.PyQt.QtCore import QSettings
 from qgis.PyQt.QtWidgets import QApplication
 from qgis.utils import iface
 
