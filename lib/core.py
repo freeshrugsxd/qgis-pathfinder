@@ -31,7 +31,6 @@ class Pathfinder:
 
     def copy_double_backslash(self):
         """Copy paths to clipboard with double backslashes."""
-        # TODO: make this one usable again via context menu
         text = self.build_string(self.locs).replace('\\', '\\\\')
         QApplication.clipboard().setText(text)
         self.notify(message=text)

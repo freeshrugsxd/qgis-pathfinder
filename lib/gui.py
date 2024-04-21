@@ -1,6 +1,7 @@
 from pathlib import Path
+from platform import system
 
-from qgis.core import QgsVectorLayer
+from qgis.core import QgsApplication, QgsVectorLayer
 from qgis.PyQt import uic
 from qgis.PyQt.QtCore import QSettings, Qt
 from qgis.PyQt.QtGui import QIcon
@@ -179,6 +180,15 @@ def modify_context_menu(menu):
 
         # only show entries if there are files selected
         if any(Path(d['path']).exists() for d in pf.locs):
+            shift_mod = QgsApplication.keyboardModifiers() == Qt.KeyboardModifiers(Qt.KeyboardModifier.ShiftModifier)
+
+            # give option to copy location with double backslash when shift modifier is pressed
+            if system() == 'Windows' and shift_mod:
+                cp_src_double_backslash = QAction(QIcon(':/plugins/pathfinder/icons/copy.svg'), f'{cp_action_label} (\\\\)', menu)
+                cp_src_double_backslash.triggered.connect(lambda: pf.copy_double_backslash())
+                menu.insertAction(menu.actions()[menu_idx], cp_src_double_backslash)
+
+
             cp_src = QAction(QIcon(':/plugins/pathfinder/icons/copy.svg'), cp_action_label, menu)
             cp_src.triggered.connect(lambda: pf.copy())
             menu.insertAction(menu.actions()[menu_idx], cp_src)
