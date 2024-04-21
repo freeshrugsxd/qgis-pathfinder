@@ -16,9 +16,8 @@ DEFAULTS = PathfinderMaps.DEFAULTS
 COMMANDS = PathfinderMaps.COMMANDS
 
 
-class Pathfinder(QObject):
-    def __init__(self, parent=None):
-        super().__init__(parent)
+class Pathfinder:
+    def __init__(self):
         self.command = COMMANDS[system()]
         self.locs = []
         self.settings = QSettings()
