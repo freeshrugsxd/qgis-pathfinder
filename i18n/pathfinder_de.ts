@@ -4,57 +4,57 @@
 <context>
     <name>@default</name>
     <message>
-        <location filename="../lib/eventfilter.py" line="38"/>
+        <location filename="../lib/gui.py" line="170"/>
         <source>Copy Path</source>
         <translation>Pfad kopieren</translation>
     </message>
     <message>
-        <location filename="../pathfinder.py" line="45"/>
+        <location filename="../pathfinder.py" line="40"/>
         <source>Copy Path (\\)</source>
         <translation>Pfad kopieren (\\)</translation>
     </message>
     <message>
-        <location filename="../lib/eventfilter.py" line="47"/>
+        <location filename="../lib/gui.py" line="177"/>
         <source>Show in Explorer</source>
         <translation>In Explorer öffnen</translation>
     </message>
     <message>
-        <location filename="../pathfinder.py" line="64"/>
+        <location filename="../pathfinder.py" line="59"/>
         <source>pathfinder Settings</source>
         <translation>pathfinder Einstellungen</translation>
     </message>
     <message>
-        <location filename="../lib/core.py" line="47"/>
+        <location filename="../lib/core.py" line="95"/>
         <source>Copied to clipboard</source>
         <translation>Kopiert</translation>
     </message>
     <message>
-        <location filename="../lib/eventfilter.py" line="38"/>
+        <location filename="../lib/gui.py" line="170"/>
         <source>Copy Paths</source>
         <translation>Pfade kopieren</translation>
     </message>
     <message>
-        <location filename="../lib/utils.py" line="71"/>
+        <location filename="../lib/gui.py" line="87"/>
         <source>Other</source>
         <translation>Andere</translation>
     </message>
     <message>
-        <location filename="../lib/utils.py" line="36"/>
+        <location filename="../lib/utils.py" line="34"/>
         <source>Space</source>
         <translation>Leerzeichen</translation>
     </message>
     <message>
-        <location filename="../lib/utils.py" line="22"/>
+        <location filename="../lib/utils.py" line="20"/>
         <source>None</source>
         <translation>Keine</translation>
     </message>
     <message>
-        <location filename="../lib/utils.py" line="26"/>
+        <location filename="../lib/utils.py" line="24"/>
         <source>Tab</source>
         <translation>Tab</translation>
     </message>
     <message>
-        <location filename="../lib/utils.py" line="27"/>
+        <location filename="../lib/utils.py" line="25"/>
         <source>New Line</source>
         <translation>Zeilenumbruch</translation>
     </message>

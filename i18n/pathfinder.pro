@@ -4,7 +4,6 @@ FORMS        = ../ui/settingsdiag.ui
 
 SOURCES      = ../pathfinder.py \
                ../lib/core.py \
-               ../lib/eventfilter.py \
-               ../lib/settingsdialog.py \
+               ../lib/gui.py \
                ../lib/utils.py \
                ../lib/i18n.py
