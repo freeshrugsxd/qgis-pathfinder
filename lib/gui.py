@@ -167,30 +167,27 @@ def modify_context_menu(menu):
         # parse data sources of selected layers and populate pf.locs
         pf.parse_selected()
 
-        cp_action_label = tr('Copy Paths') if len(pf.locs) > 1 else tr('Copy Path')
-
-        # determine position within context menu
-        menu_idx = determine_menu_position(menu)
-
-        # adding stuff bottom to top, so we can just reuse menu_idx for insertion
-        menu.insertSeparator(menu.actions()[menu_idx])  # separator below entry
-        open_in_explorer = QAction(QIcon(':/plugins/pathfinder/icons/open_in_explorer.svg'), tr('Show in Explorer'), menu)
-        open_in_explorer.triggered.connect(lambda: pf.open_in_explorer())
-        menu.insertAction(menu.actions()[menu_idx], open_in_explorer)
-
         # only show entries if there are files selected
         if any(Path(d['path']).exists() for d in pf.locs):
-            shift_mod = QgsApplication.keyboardModifiers() == Qt.KeyboardModifiers(Qt.KeyboardModifier.ShiftModifier)
+            cp_action_label = tr('Copy Paths') if len(pf.locs) > 1 else tr('Copy Path')
+
+            # determine position within context menu
+            menu_idx = determine_menu_position(menu)
+
+            # adding stuff bottom to top, so we can just reuse menu_idx for insertion
+            menu.insertSeparator(menu.actions()[menu_idx])  # separator below entry
+            open_in_explorer = QAction(QIcon(':/plugins/pathfinder/icons/open_in_explorer.svg'), tr('Show in Explorer'), menu)
+            open_in_explorer.triggered.connect(lambda: pf.open_in_explorer())
+            menu.insertAction(menu.actions()[menu_idx], open_in_explorer)
 
             # give option to copy location with double backslash when shift modifier is pressed
+            shift_mod = QgsApplication.keyboardModifiers() == Qt.KeyboardModifiers(Qt.KeyboardModifier.ShiftModifier)
             if system() == 'Windows' and shift_mod:
                 cp_src_double_backslash = QAction(QIcon(':/plugins/pathfinder/icons/copy.svg'), f'{cp_action_label} (\\\\)', menu)
                 cp_src_double_backslash.triggered.connect(lambda: pf.copy_double_backslash())
                 menu.insertAction(menu.actions()[menu_idx], cp_src_double_backslash)
 
-
             cp_src = QAction(QIcon(':/plugins/pathfinder/icons/copy.svg'), cp_action_label, menu)
             cp_src.triggered.connect(lambda: pf.copy())
             menu.insertAction(menu.actions()[menu_idx], cp_src)
-
-        menu.insertSeparator(menu.actions()[menu_idx])  # seperator above entry, hidden if on top
+            menu.insertSeparator(menu.actions()[menu_idx])  # seperator above entry, hidden if on top
