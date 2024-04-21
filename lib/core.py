@@ -145,21 +145,20 @@ class Pathfinder:
             dict: dictionary containing the parts needed to reencode the uri
 
         """
-        settings = QSettings()
-        settings.beginGroup('pathfinder')
         pr_name = layer.dataProvider().name()
         parts = QgsProviderRegistry.instance().decodeUri(pr_name, layer.source())
 
-        if 'path' not in parts or parts['path'] is None:
+        if (path_str := parts.pop('path', None)) is None:
             return None
 
-        out = {}
-        path = Path(parts['path'])
+        path = Path(path_str)
 
-        if must_exist and not path.exists():
+        if not path.exists() and must_exist:
             return None
 
-        out['provider'] = pr_name
+        settings = QSettings()
+        settings.beginGroup('pathfinder')
+        out = {'provider': pr_name}
 
         if settings.value('incl_layer_name', type=bool):
             out['layerId'] = parts.pop('layerId', None)
