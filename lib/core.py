@@ -104,6 +104,7 @@ class Pathfinder:
         """
         settings = QSettings()
         settings.beginGroup('pathfinder')
+        qpr = QgsProviderRegistry.instance()
         n = len(paths)
 
         q, s = self.get_chars(quote='quote_char', sep='separ_char')
@@ -129,7 +130,6 @@ class Pathfinder:
         if n > 1 and settings.value('paths_on_new_line', type=bool):
             s += '\n'
 
-        qpr = QgsProviderRegistry.instance()
         out = s.join([f'{q}{qpr.encodeUri(d.pop("provider"), d)}{q}' for d in paths])
         return f'{pre}{out}{post}'
 
