@@ -38,8 +38,12 @@ class Pathfinder:
     def open_in_explorer(self):
         """Open unique parent directories in a file explorer."""
         # TODO: select files in file explorer
-        for p in self.unique_parent_dirs:
-            run([self.command, str(p)])  # noqa: S603, PLW1510
+        if system() == 'Windows':
+            for p in self.unique_file_paths:
+                run([self.command, '/select,', p])  # noqa: S603, PLW1510
+        else:
+            for p in self.unique_parent_dirs:
+                run([self.command, str(p)])  # noqa: S603, PLW1510
 
     def build_string(self, paths):
         """Construct a string using pathfinders current settings.
@@ -182,6 +186,15 @@ class Pathfinder:
 
         out['path'] = str(path)
         return out
+
+    @property
+    def unique_file_paths(self):
+        """Return set of unique file paths.
+
+        Returns:
+            set[Path]: Set of unique file paths
+        """
+        return {Path(d['path']) for d in self.locs}
 
     @property
     def unique_parent_dirs(self):
