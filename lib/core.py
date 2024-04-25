@@ -90,12 +90,12 @@ class Pathfinder:
             message (str): Message to be displayed in the notification.
 
         """
-        if (settings := QSettings()).value('show_notification', type=bool):
+        if self.settings.value('show_notification', type=bool):
             iface.messageBar().pushMessage(
                 tr('Copied to clipboard'),
                 escape(message),
                 level=0,
-                duration=settings.value('notify_duration', DEFAULTS['notify_duration'], int)
+                duration=self.settings.value('notify_duration', DEFAULTS['notify_duration'], int)
             )
 
     def parse_selected(self):
