@@ -89,4 +89,5 @@ class PathfinderPlugin:
         self.iface.unregisterMainWindowAction(self.copy_action1)
         self.iface.unregisterMainWindowAction(self.copy_action2)
         self.iface.unregisterMainWindowAction(self.show_action)
+        self.iface.layerTreeView().contextMenuAboutToShow.disconnect(modify_context_menu)
         del self.dialog
