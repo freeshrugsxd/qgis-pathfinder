@@ -173,18 +173,12 @@ class Pathfinder:
         if path.suffix == '.vrt' and settings.value('original_vrt_ds', type=bool):
             # return path to data source instead of virtual file
             ds = ElementTree.fromstring(path.read_text()).find('OGRVRTLayer').find('SrcDataSource')  # noqa: S314
-            try:
-                if ds.attrib['relativeToVRT'] == '1' and (path.parent / ds.text).is_file():
-                    path = path.parent / ds.text
-                elif ds.attrib['relativeToVRT'] == '0':
-                    ds_path = Path(ds.text)
-                    if ds_path.is_file():
-                        path = ds_path
+            if 'relativeToVRT' in ds.attrib:
+                path = path.parent / ds.text if ds.attrib['relativeToVRT'] == '1' else Path(ds.text)
 
-            except KeyError:
-                ds_path = Path(ds.text)
-                if ds_path.is_file():
-                    path = ds_path
+        # in case a shapefile was loaded from a directory
+        elif path.is_dir() and 'layerName' in parts and (shp := (path / parts['layerName']).with_suffix('.shp')).is_file():
+            path = shp
 
         out['path'] = str(path)
         return out
