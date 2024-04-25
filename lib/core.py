@@ -77,7 +77,7 @@ class Pathfinder:
                 post = ''
 
         # should paths go onto separate lines?
-        if n > 1 and settings.value('paths_on_new_line', type=bool):
+        elif n > 1 and settings.value('paths_on_new_line', type=bool):
             s += '\n'
 
         out = s.join([f'{q}{qpr.encodeUri(d.pop("provider"), d)}{q}' for d in paths])
