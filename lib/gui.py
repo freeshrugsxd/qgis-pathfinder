@@ -172,7 +172,9 @@ def modify_context_menu(menu):
             cp_action_label = tr('Copy Paths') if len(pf.locs) > 1 else tr('Copy Path')
 
             # determine position within context menu
-            menu_idx = determine_menu_position(menu)
+            # there is an invisible separator that is gone when more than one layer is selected ???
+            idx = -2 if len(pf.selected_layers) > 1 else -3
+            menu_idx = determine_menu_position(menu, idx)
 
             # adding stuff bottom to top, so we can just reuse menu_idx for insertion
             menu.insertSeparator(menu.actions()[menu_idx])  # separator below entry
