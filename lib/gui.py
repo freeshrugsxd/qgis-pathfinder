@@ -162,12 +162,10 @@ def modify_context_menu(menu):
         menu (QMenu): context menu object
 
     """
-    # return default context menu if no layer is selected
     if (pf := Pathfinder()).layers_selected:
-        # parse data sources of selected layers and populate pf.locs
-        pf.parse_selected()
+        pf.parse_selected()  # parse selected layers and populate pf.locs
 
-        # only show entries if there are files selected
+        # only show entries if there are existing files selected
         if any(Path(d['path']).exists() for d in pf.locs):
             cp_action_label = tr('Copy Paths') if len(pf.locs) > 1 else tr('Copy Path')
 
