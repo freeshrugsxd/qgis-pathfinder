@@ -43,7 +43,7 @@ class Pathfinder:
                 run([self.command, '/select,', p])  # noqa: S603, PLW1510
         else:
             for p in self.unique_parent_dirs:
-                run([self.command, str(p)])  # noqa: S603, PLW1510
+                run([self.command, p])  # noqa: S603, PLW1510
 
     def build_string(self, paths):
         """Construct a string using pathfinders current settings.
