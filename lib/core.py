@@ -200,7 +200,8 @@ class Pathfinder:
             path = shp
 
         out['path'] = str(path)
-        return out
+
+        return {k: v for k, v in out.items() if v is not None}
 
     @property
     def unique_file_paths(self):
