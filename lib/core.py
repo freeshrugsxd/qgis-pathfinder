@@ -38,7 +38,6 @@ class Pathfinder:
 
     def open_in_explorer(self):
         """Open unique parent directories in a file explorer."""
-        # TODO: select files in file explorer
         if system() == 'Windows':
             for p in self.unique_file_paths:
                 run([self.command, '/select,', p])  # noqa: S603, PLW1510
