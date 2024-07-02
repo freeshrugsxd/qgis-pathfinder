@@ -177,7 +177,7 @@ def modify_context_menu(menu):
             # adding stuff bottom to top, so we can just reuse menu_idx for insertion
             menu.insertSeparator(menu.actions()[menu_idx])  # separator below entry
             open_in_explorer = QAction(QIcon(':/plugins/pathfinder/icons/open_in_explorer.svg'), tr('Show in Explorer'), menu)
-            open_in_explorer.triggered.connect(lambda: pf.open_in_explorer())
+            open_in_explorer.triggered.connect(pf.open_in_explorer)
             menu.insertAction(menu.actions()[menu_idx], open_in_explorer)
 
             # give option to copy location with double backslash when shift modifier is pressed
