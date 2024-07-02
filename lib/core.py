@@ -2,6 +2,7 @@ from html import escape
 from pathlib import Path
 from platform import system
 from subprocess import run
+from urllib.parse import unquote
 from xml.etree import ElementTree
 
 from qgis.core import QgsProviderRegistry
@@ -84,8 +85,22 @@ class Pathfinder:
         elif n > 1 and settings.value('paths_on_new_line', type=bool):
             s += '\n'
 
-        out = s.join([f'{q}{qpr.encodeUri(d.pop("provider"), d)}{q}' for d in paths])
-        return f'{pre}{out}{post}'
+        enc = []
+        for parts in paths:
+            provider = parts.pop('provider')
+            encoded = qpr.encodeUri(provider, parts)
+
+            # TODO: check on linux before 0.5 release
+            if 'file:///' in encoded:
+                encoded = encoded.split('file:///', 1)[1]
+
+            if provider == 'delimitedtext' and '%' in encoded:
+                encoded = unquote(encoded)
+
+            enc.append(encoded)
+
+        inner = s.join(f'{q}{path}{q}' for path in enc)
+        return f'{pre}{inner}{post}'
 
     def notify(self, message):
         """Show QGIS notification, if setting is enabled.
