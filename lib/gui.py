@@ -182,7 +182,7 @@ def modify_context_menu(menu):
 
             # give option to copy location with double backslash when shift modifier is pressed
             shift_mod = QgsApplication.keyboardModifiers() == Qt.KeyboardModifiers(Qt.KeyboardModifier.ShiftModifier)
-            if system() == 'Windows' and shift_mod:
+            if shift_mod and system() == 'Windows':
                 cp_src_double_backslash = QAction(QIcon(':/plugins/pathfinder/icons/copy.svg'), f'{cp_action_label} (\\\\)', menu)
                 cp_src_double_backslash.triggered.connect(lambda: pf.copy_double_backslash())
                 menu.insertAction(menu.actions()[menu_idx], cp_src_double_backslash)
