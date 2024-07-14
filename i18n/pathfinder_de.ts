@@ -14,7 +14,7 @@
         <translation>Pfad kopieren (\\)</translation>
     </message>
     <message>
-        <location filename="../lib/gui.py" line="177"/>
+        <location filename="../lib/gui.py" line="179"/>
         <source>Show in Explorer</source>
         <translation>In Explorer öffnen</translation>
     </message>
@@ -24,7 +24,7 @@
         <translation>pathfinder Einstellungen</translation>
     </message>
     <message>
-        <location filename="../lib/core.py" line="95"/>
+        <location filename="../lib/core.py" line="114"/>
         <source>Copied to clipboard</source>
         <translation>Kopiert</translation>
     </message>
