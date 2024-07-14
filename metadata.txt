@@ -17,11 +17,11 @@ about=
 version=version 0.5
 
 changelog=
-    0.5
+    0.5 2024-07-14
         * bumped required minimum QGIS version to 3.32
         * support wider range of providers
         * Show in Explorer now selects files on Windows
-    0.4.2
+    0.4.2 2022-05-21
         * bumped required minimum QGIS version to 3.18
         * improved/fixed detection of layername and subset string
         * added setting for custom notification duration
