@@ -2,7 +2,7 @@ from html import escape
 from pathlib import Path
 from platform import system
 from subprocess import run
-from urllib.parse import unquote
+from urllib.parse import unquote, urlparse
 from xml.etree import ElementTree
 
 from qgis.core import QgsProviderRegistry
@@ -89,9 +89,11 @@ class Pathfinder:
             provider = parts.pop('provider')
             encoded = qpr.encodeUri(provider, parts)
 
-            # TODO: check on linux before 0.5 release
             if 'file:///' in encoded:
-                encoded = encoded.split('file:///', 1)[1]
+                encoded = urlparse(encoded).path
+
+                if system() == 'Windows':
+                    encoded = encoded.strip('/')
 
             if provider == 'delimitedtext' and '%' in encoded:
                 encoded = unquote(encoded)
