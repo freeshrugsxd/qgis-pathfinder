@@ -5,14 +5,11 @@ author=silvio bentzien
 qgisMinimumVersion=3.32
 description=Copy file paths and open file explorer
 about=
-    Add actions to the layer context menu which allow you to copy its source or open the file explorer at its location.
-    Several customization options - like quoting and separation characters - are available in the pathfinder settings dialog.
-    Shift + Right Click reveals and extra Copy Path command where backslashes are substituted by double backslashes.
-    These actions are also available via keyboard shortcuts:
+    Add actions to the layer context menu for copying its source or opening the file location. Customize quoting and separation characters in the pathfinder settings. Shift + Right Click adds a Copy Path command with double backslashes. Use these keyboard shortcuts:
 
-        Copy Path:          Ctrl + E
-        Copy Path (\\):     Ctrl + Shift + E
-        Show in Explorer:   Ctrl + R
+        - Copy Path:         Ctrl + E
+        - Copy Path (\\):    Ctrl + Shift + E
+        - Show in Explorer:  Ctrl + R
 
 version=version 0.5
 
@@ -26,7 +23,7 @@ changelog=
         * improved/fixed detection of layername and subset string
         * added setting for custom notification duration
     0.4.1 2021-09-28
-	    * fix for shapefiles added via directory
+        * fix for shapefiles added via directory
     0.4 2021-09-18
         * support for shapefiles added via "directory"
         * added German translation [looking for translators! get in touch]
