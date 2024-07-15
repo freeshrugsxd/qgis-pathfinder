@@ -176,7 +176,7 @@ class Pathfinder:
 
         path = Path(path_str)
 
-        if not path.exists() and must_exist:
+        if must_exist and not path.exists():
             return None
 
         settings = QSettings()
