@@ -1,3 +1,5 @@
+from platform import system
+
 from pathfinder.lib.i18n import tr
 
 
@@ -47,3 +49,8 @@ class PathfinderMaps:
         'notify_duration': 5
     }
 
+SYSTEM = system()
+SYSTEM_IS_WINDOWS = SYSTEM == 'Windows'
+COMMAND = PathfinderMaps.COMMANDS[SYSTEM]
+DEFAULTS = PathfinderMaps.DEFAULTS
+MAPPINGS = PathfinderMaps.MAPPINGS

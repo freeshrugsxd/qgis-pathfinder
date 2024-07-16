@@ -1,5 +1,4 @@
 from pathlib import Path
-from platform import system
 
 from qgis.core import QgsApplication, QgsVectorLayer
 from qgis.PyQt import uic
@@ -9,9 +8,8 @@ from qgis.PyQt.QtWidgets import QAction, QDialog, QDialogButtonBox
 
 from pathfinder.lib.core import Pathfinder
 from pathfinder.lib.i18n import tr
-from pathfinder.lib.utils import PathfinderMaps
+from pathfinder.lib.utils import DEFAULTS, SYSTEM_IS_WINDOWS
 
-DEFAULTS = PathfinderMaps.DEFAULTS
 FORM_CLASS, _ = uic.loadUiType(Path(__file__).parents[1] / 'ui' / 'settingsdiag.ui')
 
 class PathfinderSettingsDialog(QDialog, FORM_CLASS):
@@ -114,7 +112,7 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
 
     def restore_defaults(self):
         """Reset settings to their default values."""
-        for k, v in PathfinderMaps.DEFAULTS.items():
+        for k, v in DEFAULTS.items():
             self.settings.setValue(k, v)
 
         self.restore_settings()
@@ -182,7 +180,7 @@ def modify_context_menu(menu):
 
             # give option to copy location with double backslash when shift modifier is pressed
             shift_mod = QgsApplication.keyboardModifiers() == Qt.KeyboardModifiers(Qt.KeyboardModifier.ShiftModifier)
-            if shift_mod and system() == 'Windows':
+            if shift_mod and SYSTEM_IS_WINDOWS:
                 cp_src_double_backslash = QAction(QIcon(':/plugins/pathfinder/icons/copy.svg'), f'{cp_action_label} (\\\\)', menu)
                 cp_src_double_backslash.triggered.connect(lambda: pf.copy_double_backslash())
                 menu.insertAction(menu.actions()[menu_idx], cp_src_double_backslash)

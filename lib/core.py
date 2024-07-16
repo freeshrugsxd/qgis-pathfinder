@@ -1,6 +1,5 @@
 from html import escape
 from pathlib import Path
-from platform import system
 from urllib.parse import unquote, urlparse
 from xml.etree import ElementTree
 
@@ -10,15 +9,11 @@ from qgis.PyQt.QtWidgets import QApplication
 from qgis.utils import iface
 
 from pathfinder.lib.i18n import tr
-from pathfinder.lib.utils import PathfinderMaps
-
-DEFAULTS = PathfinderMaps.DEFAULTS
-COMMANDS = PathfinderMaps.COMMANDS
+from pathfinder.lib.utils import COMMAND, DEFAULTS, MAPPINGS, SYSTEM_IS_WINDOWS
 
 
 class Pathfinder:
     def __init__(self):
-        self.command = COMMANDS[system()]
         self.locs = []
         self.settings = QSettings()
         self.settings.beginGroup('pathfinder')
@@ -37,12 +32,12 @@ class Pathfinder:
 
     def open_in_explorer(self):
         """Open unique parent directories in a file explorer."""
-        if system() == 'Windows':
+        if SYSTEM_IS_WINDOWS:
             for p in self.unique_file_paths:
-                QProcess.startDetached(self.command, ['/select,', str(p)])
+                QProcess.startDetached(COMMAND, ['/select,', str(p)])
         else:
             for p in self.unique_parent_dirs:
-                QProcess.startDetached(self.command, [str(p)])
+                QProcess.startDetached(COMMAND, [str(p)])
 
     def build_string(self, paths):
         """Construct a string using pathfinders current settings.
@@ -91,7 +86,7 @@ class Pathfinder:
             if 'file:///' in encoded:
                 encoded = urlparse(encoded).path
 
-                if system() == 'Windows':
+                if SYSTEM_IS_WINDOWS:
                     encoded = encoded.strip('/')
 
             if provider == 'delimitedtext' and '%' in encoded:
@@ -138,21 +133,18 @@ class Pathfinder:
         settings = QSettings()
         settings.beginGroup('pathfinder')
 
-        defs = PathfinderMaps.DEFAULTS
-        maps = PathfinderMaps.MAPPINGS
-
         for s in (quote, sep):
             if settings.value(s) == tr('Other'):
-                yield settings.value(f'{s}_custom', defs[f'{s}_custom'])
+                yield settings.value(f'{s}_custom', DEFAULTS[f'{s}_custom'])
             else:
                 try:
-                    yield maps[s][settings.value(s, defs[s])]
+                    yield MAPPINGS[s][settings.value(s, DEFAULTS[s])]
                 except KeyError:
                     # after switching languages, the values of some named characters can't be retrieved.
                     # For now, we will reset these values to their default.
                     # TODO: find way to make these settings persistent across languages
-                    settings.setValue(s, defs[s])
-                    yield maps[s][settings.value(s)]
+                    settings.setValue(s, DEFAULTS[s])
+                    yield MAPPINGS[s][settings.value(s)]
 
 
     @staticmethod
@@ -216,7 +208,7 @@ class Pathfinder:
     def unique_parent_dirs(self):
         """Return set of unique parent directories from list of paths.
 
-        Returns
+        Returns:
             set[Path]: Set of unique parent directories from list of paths
 
         """
@@ -226,7 +218,7 @@ class Pathfinder:
     def layers_selected(self):
         """Return whether there are any layers selected.
 
-        Returns
+        Returns:
             bool: Whether there are any layers selected.
 
         """
@@ -236,7 +228,7 @@ class Pathfinder:
     def selected_layers(self):
         """Return list of selected layers.
 
-        Returns
+        Returns:
             list[QgsMapLayer]: List of selected layers.
 
         """
