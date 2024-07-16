@@ -1,12 +1,11 @@
 from html import escape
 from pathlib import Path
 from platform import system
-from subprocess import run
 from urllib.parse import unquote, urlparse
 from xml.etree import ElementTree
 
 from qgis.core import QgsProviderRegistry
-from qgis.PyQt.QtCore import QSettings
+from qgis.PyQt.QtCore import QProcess, QSettings
 from qgis.PyQt.QtWidgets import QApplication
 from qgis.utils import iface
 
@@ -40,10 +39,10 @@ class Pathfinder:
         """Open unique parent directories in a file explorer."""
         if system() == 'Windows':
             for p in self.unique_file_paths:
-                run([self.command, '/select,', p])  # noqa: S603, PLW1510
+                QProcess.startDetached(self.command, ['/select,', str(p)])
         else:
             for p in self.unique_parent_dirs:
-                run([self.command, p])  # noqa: S603, PLW1510
+                QProcess.startDetached(self.command, [str(p)])
 
     def build_string(self, paths):
         """Construct a string using pathfinders current settings.
