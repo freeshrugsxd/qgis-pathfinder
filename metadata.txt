@@ -18,24 +18,31 @@ changelog=
         * bumped required minimum QGIS version to 3.32
         * support wider range of providers
         * Show in Explorer now selects files on Windows
+
     0.4.2 2022-05-21
         * bumped required minimum QGIS version to 3.18
         * improved/fixed detection of layername and subset string
         * added setting for custom notification duration
+
     0.4.1 2021-09-28
         * fix for shapefiles added via directory
+
     0.4 2021-09-18
         * support for shapefiles added via "directory"
         * added German translation [looking for translators! get in touch]
         * added option to return path to original spreadsheet file of a spreadsheet layer
+
     0.3.3 2021-05-08
         * added actions for keyboard shortcuts
         * updated about and metadata
+
     0.3.2 2021-04-26
         * removed New Line separator and made it an option instead
         * fix Tab separator
+
     0.3.1 2021-04-13
         * fix vector layers not working correctly
+
     0.3 2021-04-11
         * added persistent plugin settings
         * added settings dialog and toolbar button
@@ -43,13 +50,16 @@ changelog=
         * added formatting preview within the settings dialog window
         * added option to display notification
         * restructured project
+
     0.2 2020-10-26
         * Remove pandas dependency
         * Make the context menu compatible with other plugins that modifies it
+
     0.1.1 2020-10-08
-        * Add homepage
+       * Add homepage
+
     0.1 2020-10-07
-        * First version
+       * First version
 
 tracker=https://github.com/freeshrugsxd/qgis-pathfinder/issues
 repository=https://github.com/freeshrugsxd/qgis-pathfinder
