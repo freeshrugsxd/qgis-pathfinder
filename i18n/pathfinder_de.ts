@@ -4,7 +4,7 @@
 <context>
     <name>@default</name>
     <message>
-        <location filename="../lib/gui.py" line="170"/>
+        <location filename="../lib/gui.py" line="168"/>
         <source>Copy Path</source>
         <translation>Pfad kopieren</translation>
     </message>
@@ -14,7 +14,7 @@
         <translation>Pfad kopieren (\\)</translation>
     </message>
     <message>
-        <location filename="../lib/gui.py" line="179"/>
+        <location filename="../lib/gui.py" line="177"/>
         <source>Show in Explorer</source>
         <translation>In Explorer öffnen</translation>
     </message>
@@ -24,17 +24,17 @@
         <translation>pathfinder Einstellungen</translation>
     </message>
     <message>
-        <location filename="../lib/core.py" line="114"/>
+        <location filename="../lib/core.py" line="108"/>
         <source>Copied to clipboard</source>
         <translation>Kopiert</translation>
     </message>
     <message>
-        <location filename="../lib/gui.py" line="170"/>
+        <location filename="../lib/gui.py" line="168"/>
         <source>Copy Paths</source>
         <translation>Pfade kopieren</translation>
     </message>
     <message>
-        <location filename="../lib/gui.py" line="87"/>
+        <location filename="../lib/gui.py" line="85"/>
         <source>Other</source>
         <translation>Andere</translation>
     </message>
