@@ -1,7 +1,7 @@
 from html import escape
 from pathlib import Path
 from urllib.parse import unquote, urlparse
-from xml.etree import ElementTree
+from xml.etree import ElementTree as ET
 
 from qgis.core import QgsProviderRegistry
 from qgis.PyQt.QtCore import QProcess, QSettings
@@ -183,7 +183,7 @@ class Pathfinder:
 
         if path.suffix == '.vrt' and settings.value('original_vrt_ds', type=bool):
             # return path to data source instead of virtual file
-            ds = ElementTree.fromstring(path.read_text()).find('OGRVRTLayer').find('SrcDataSource')  # noqa: S314
+            ds = ET.fromstring(path.read_text()).find('OGRVRTLayer').find('SrcDataSource')  # noqa: S314
             if 'relativeToVRT' in ds.attrib:
                 path = path.parent / ds.text if ds.attrib['relativeToVRT'] == '1' else Path(ds.text)
 
