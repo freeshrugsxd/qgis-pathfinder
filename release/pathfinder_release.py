@@ -10,7 +10,6 @@ release = release_root / 'pathfinder'
 flist = [
     '__init__.py',
     'pathfinder.py',
-    'resources.py',
     'metadata.txt',
     'i18n/pathfinder.pro',
     'i18n/pathfinder_de.qm',

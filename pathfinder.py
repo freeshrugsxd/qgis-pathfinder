@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from qgis.gui import QgisInterface
 from qgis.PyQt.QtCore import QCoreApplication, QSettings, QTranslator
 from qgis.PyQt.QtGui import QIcon
@@ -8,8 +6,7 @@ from qgis.PyQt.QtWidgets import QAction
 from pathfinder.lib.core import Pathfinder
 from pathfinder.lib.gui import PathfinderSettingsDialog, modify_context_menu
 from pathfinder.lib.i18n import tr
-from pathfinder.resources import qInitResources
-
+from pathfinder.lib.utils import PLUGIN_DIR
 
 # noinspection PyAttributeOutsideInit
 class PathfinderPlugin:
@@ -19,9 +16,8 @@ class PathfinderPlugin:
 
         # initialize locale and translator
         locale = settings.value('locale/userLocale')[0:2]
-        locale_path = Path(__file__).parent / 'i18n' / f'pathfinder_{locale}.qm'
 
-        if locale_path.exists():
+        if (locale_path := PLUGIN_DIR / 'i18n' / f'pathfinder_{locale}.qm').exists():
             self.translator = QTranslator()
             self.translator.load(str(locale_path))
             QCoreApplication.installTranslator(self.translator)
@@ -31,14 +27,12 @@ class PathfinderPlugin:
     # noinspection PyPep8Naming
     def initGui(self):
         """Register event filter and add toolbar icon."""
-        qInitResources()
-
         self.iface.layerTreeView().contextMenuAboutToShow.connect(modify_context_menu)
 
         # setting up keyboard shortcut actions
-        self.copy_action1 = QAction(QIcon(':/plugins/pathfinder/icons/copy.svg'), tr('Copy Path'), self.iface.mainWindow())
-        self.copy_action2 = QAction(QIcon(':/plugins/pathfinder/icons/copy.svg'),tr('Copy Path (\\\\)'), self.iface.mainWindow())
-        self.show_action = QAction(QIcon(':/plugins/pathfinder/icons/open_in_explorer.svg'), tr('Show in Explorer'), self.iface.mainWindow())
+        self.copy_action1 = QAction(QIcon(f'{PLUGIN_DIR}/icons/copy.svg'), tr('Copy Path'), self.iface.mainWindow())
+        self.copy_action2 = QAction(QIcon(f'{PLUGIN_DIR}/icons/copy.svg'), tr('Copy Path (\\\\)'), self.iface.mainWindow())
+        self.show_action = QAction(QIcon(f'{PLUGIN_DIR}/icons/open_in_explorer.svg'), tr('Show in Explorer'), self.iface.mainWindow())
 
         # register shortcuts
         self.iface.registerMainWindowAction(self.copy_action1, 'Ctrl+E')
@@ -56,7 +50,7 @@ class PathfinderPlugin:
         self.show_action.triggered.connect(lambda: self.on_triggered('open_in_explorer'))
 
         # register settings dialog
-        self.settings_dialog = QAction(QIcon(':/plugins/pathfinder/icons/copy.svg'), tr('pathfinder Settings'), self.iface.mainWindow())
+        self.settings_dialog = QAction(QIcon(f'{PLUGIN_DIR}/icons/copy.svg'), tr('pathfinder Settings'), self.iface.mainWindow())
         self.settings_dialog.triggered.connect(self.show_settings_dialog)
         self.iface.addToolBarIcon(self.settings_dialog)
 

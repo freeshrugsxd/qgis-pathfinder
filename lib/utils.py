@@ -1,3 +1,4 @@
+from pathlib import Path
 from platform import system
 
 from pathfinder.lib.i18n import tr
@@ -50,3 +51,4 @@ DEFAULTS = {
 SYSTEM = system()
 SYSTEM_IS_WINDOWS = SYSTEM == 'Windows'
 COMMAND = COMMANDS[SYSTEM]
+PLUGIN_DIR = Path(__file__).parent.parent

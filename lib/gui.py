@@ -8,9 +8,9 @@ from qgis.PyQt.QtWidgets import QAction, QDialog, QDialogButtonBox
 
 from pathfinder.lib.core import Pathfinder
 from pathfinder.lib.i18n import tr
-from pathfinder.lib.utils import DEFAULTS, SYSTEM_IS_WINDOWS
+from pathfinder.lib.utils import DEFAULTS, PLUGIN_DIR, SYSTEM_IS_WINDOWS
 
-FORM_CLASS, _ = uic.loadUiType(Path(__file__).parents[1] / 'ui' / 'settingsdiag.ui')
+FORM_CLASS, _ = uic.loadUiType(PLUGIN_DIR / 'ui' / 'settingsdiag.ui')
 
 class PathfinderSettingsDialog(QDialog, FORM_CLASS):
     def __init__(self, parent=None):
@@ -104,8 +104,8 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
 
         """
         pf = Pathfinder()
-        # TODO: allow user to manipulate n
         paths = n * ['dir/subdir/file.ext|layername=lyr|subset=id > 0']
+        # TODO: the call to QgsVectorLayer spams OGR message log with warnings
         parsed = [pf.parse(QgsVectorLayer(path), must_exist=False) for path in paths]
         out = pf.build_string(parsed)
         self.paths_preview.setText(out)
@@ -174,18 +174,18 @@ def modify_context_menu(menu):
 
             # adding stuff bottom to top, so we can just reuse menu_idx for insertion
             menu.insertSeparator(menu.actions()[menu_idx])  # separator below entry
-            open_in_explorer = QAction(QIcon(':/plugins/pathfinder/icons/open_in_explorer.svg'), tr('Show in Explorer'), menu)
+            open_in_explorer = QAction(QIcon(f'{PLUGIN_DIR}/icons/open_in_explorer.svg'), tr('Show in Explorer'), menu)
             open_in_explorer.triggered.connect(pf.open_in_explorer)
             menu.insertAction(menu.actions()[menu_idx], open_in_explorer)
 
             # give option to copy location with double backslash when shift modifier is pressed
             shift_mod = QgsApplication.keyboardModifiers() == Qt.KeyboardModifiers(Qt.KeyboardModifier.ShiftModifier)
             if shift_mod and SYSTEM_IS_WINDOWS:
-                cp_src_double_backslash = QAction(QIcon(':/plugins/pathfinder/icons/copy.svg'), f'{cp_action_label} (\\\\)', menu)
+                cp_src_double_backslash = QAction(QIcon(f'{PLUGIN_DIR}/icons/copy.svg'), f'{cp_action_label} (\\\\)', menu)
                 cp_src_double_backslash.triggered.connect(lambda: pf.copy_double_backslash())
                 menu.insertAction(menu.actions()[menu_idx], cp_src_double_backslash)
 
-            cp_src = QAction(QIcon(':/plugins/pathfinder/icons/copy.svg'), cp_action_label, menu)
+            cp_src = QAction(QIcon(f'{PLUGIN_DIR}/icons/copy.svg'), cp_action_label, menu)
             cp_src.triggered.connect(lambda: pf.copy())
             menu.insertAction(menu.actions()[menu_idx], cp_src)
             menu.insertSeparator(menu.actions()[menu_idx])  # seperator above entry, hidden if on top
