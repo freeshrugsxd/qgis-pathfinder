@@ -3,7 +3,7 @@ from pathlib import Path
 from urllib.parse import unquote, urlparse
 from xml.etree import ElementTree as ET
 
-from qgis.core import QgsProviderRegistry
+from qgis.core import QgsProviderRegistry, Qgis
 from qgis.PyQt.QtCore import QProcess, QSettings
 from qgis.PyQt.QtWidgets import QApplication
 from qgis.utils import iface
@@ -108,7 +108,7 @@ class Pathfinder:
             iface.messageBar().pushMessage(
                 tr('Copied to clipboard'),
                 escape(message),
-                level=0,
+                level=Qgis.MessageLevel.Info,
                 duration=self.settings.value('notify_duration', DEFAULTS['notify_duration'], int)
             )
 

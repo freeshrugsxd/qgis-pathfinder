@@ -37,14 +37,14 @@ DEFAULTS = {
     'separ_char_custom': '',
     'prefix': '',
     'postfix': '',
-    'single_path_quote': 0,
-    'single_path_affix': 0,
-    'incl_file_name': 2,
-    'incl_layer_name': 0,
-    'incl_subset_str': 0,
-    'show_notification': 0,
-    'paths_on_new_line': 0,
-    'original_vrt_ds': 0,
+    'single_path_quote': False,
+    'single_path_affix': False,
+    'incl_file_name': True,
+    'incl_layer_name': False,
+    'incl_subset_str': False,
+    'show_notification': False,
+    'paths_on_new_line': False,
+    'original_vrt_ds': False,
     'notify_duration': 5
 }
 

@@ -50,7 +50,7 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
         self.notify_duration.valueChanged.connect(lambda v: self.on_changed('notify_duration', v))
 
         # buttons https://doc.qt.io/qtforpython-5/PySide2/QtWidgets/QDialogButtonBox.html
-        self.buttonBox.button(QDialogButtonBox.RestoreDefaults).clicked.connect(self.restore_defaults)
+        self.buttonBox.button(QDialogButtonBox.StandardButton.RestoreDefaults).clicked.connect(self.restore_defaults)
 
     def restore_settings(self):
         """Reflect pathfinder's current settings inside the settings dialog."""
@@ -63,14 +63,14 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
         self.postfix.setText(self.settings.value('postfix', DEFAULTS['postfix']))
 
         # cast state to int because the value is returned as string from persistent storage
-        self.incl_file_name.setCheckState(self.settings.value('incl_file_name', DEFAULTS['incl_file_name'], int))
-        self.incl_layer_name.setCheckState(self.settings.value('incl_layer_name', DEFAULTS['incl_layer_name'], int))
-        self.incl_subset_str.setCheckState(self.settings.value('incl_subset_str', DEFAULTS['incl_subset_str'], int))
-        self.single_path_quote.setCheckState(self.settings.value('single_path_quote', DEFAULTS['single_path_quote'], int))
-        self.single_path_affix.setCheckState(self.settings.value('single_path_affix', DEFAULTS['single_path_affix'], int))
-        self.paths_on_new_line.setCheckState(self.settings.value('paths_on_new_line', DEFAULTS['paths_on_new_line'], int))
-        self.show_notification.setCheckState(self.settings.value('show_notification', DEFAULTS['show_notification'], int))
-        self.original_vrt_ds.setCheckState(self.settings.value('original_vrt_ds', DEFAULTS['original_vrt_ds'], int))
+        self.incl_file_name.setChecked(self.settings.value('incl_file_name', DEFAULTS['incl_file_name'], bool))
+        self.incl_layer_name.setChecked(self.settings.value('incl_layer_name', DEFAULTS['incl_layer_name'], bool))
+        self.incl_subset_str.setChecked(self.settings.value('incl_subset_str', DEFAULTS['incl_subset_str'], bool))
+        self.single_path_quote.setChecked(self.settings.value('single_path_quote', DEFAULTS['single_path_quote'], bool))
+        self.single_path_affix.setChecked(self.settings.value('single_path_affix', DEFAULTS['single_path_affix'], bool))
+        self.paths_on_new_line.setChecked(self.settings.value('paths_on_new_line', DEFAULTS['paths_on_new_line'], bool))
+        self.show_notification.setChecked(self.settings.value('show_notification', DEFAULTS['show_notification'], bool))
+        self.original_vrt_ds.setChecked(self.settings.value('original_vrt_ds', DEFAULTS['original_vrt_ds'], bool))
 
         self.notify_duration.setValue(self.settings.value('notify_duration', DEFAULTS['notify_duration'], int))
 
@@ -126,7 +126,7 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
 
         """
         # close dialog on Escape
-        if event.key() == Qt.Key_Escape:
+        if event.key() == Qt.Key.Key_Escape:
             self.close()
 
 
@@ -179,7 +179,7 @@ def modify_context_menu(menu):
             menu.insertAction(menu.actions()[menu_idx], open_in_explorer)
 
             # give option to copy location with double backslash when shift modifier is pressed
-            shift_mod = QgsApplication.keyboardModifiers() == Qt.KeyboardModifiers(Qt.KeyboardModifier.ShiftModifier)
+            shift_mod = QgsApplication.keyboardModifiers() == Qt.KeyboardModifier.ShiftModifier
             if shift_mod and SYSTEM_IS_WINDOWS:
                 cp_src_double_backslash = QAction(QIcon(f'{PLUGIN_DIR}/icons/copy.svg'), f'{cp_action_label} (\\\\)', menu)
                 cp_src_double_backslash.triggered.connect(lambda: pf.copy_double_backslash())
