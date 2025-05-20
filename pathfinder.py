@@ -24,16 +24,22 @@ class PathfinderPlugin:
 
         self.dialog = None
         self.menu = None
+        self.icon_copy = None
+        self.icon_open_in_explorer = None
 
     # noinspection PyPep8Naming
     def initGui(self):
         """Register event filter and add toolbar icon."""
         self.iface.layerTreeView().contextMenuAboutToShow.connect(modify_context_menu)
 
+        # set up icon references
+        self.icon_copy = QIcon(f'{PLUGIN_DIR}/icons/copy.svg')
+        self.icon_open_in_explorer = QIcon(f'{PLUGIN_DIR}/icons/open_in_explorer.svg')
+
         # setting up keyboard shortcut actions
-        self.copy_action1 = QAction(QIcon(f'{PLUGIN_DIR}/icons/copy.svg'), tr('Copy Path'), self.iface.mainWindow())
-        self.copy_action2 = QAction(QIcon(f'{PLUGIN_DIR}/icons/copy.svg'), tr('Copy Path (\\\\)'), self.iface.mainWindow())
-        self.show_action = QAction(QIcon(f'{PLUGIN_DIR}/icons/open_in_explorer.svg'), tr('Show in Explorer'), self.iface.mainWindow())
+        self.copy_action1 = QAction(self.icon_copy, tr('Copy Path'), self.iface.mainWindow())
+        self.copy_action2 = QAction(self.icon_copy, tr('Copy Path (\\\\)'), self.iface.mainWindow())
+        self.show_action = QAction(self.icon_open_in_explorer, tr('Show in Explorer'), self.iface.mainWindow())
 
         # register shortcuts
         self.iface.registerMainWindowAction(self.copy_action1, 'Ctrl+E')
@@ -46,12 +52,12 @@ class PathfinderPlugin:
         self.show_action.triggered.connect(lambda: self.on_triggered('open_in_explorer'))
 
         # register settings dialog
-        self.settings_dialog = QAction(QIcon(f'{PLUGIN_DIR}/icons/copy.svg'), tr('pathfinder Settings'), self.iface.mainWindow())
+        self.settings_dialog = QAction(self.icon_copy, tr('pathfinder Settings…'), self.iface.mainWindow())
         self.settings_dialog.triggered.connect(self.show_settings_dialog)
         self.iface.addToolBarIcon(self.settings_dialog)
 
         # shortcuts won't work unless actions are added to this menu
-        self.menu = self.iface.pluginMenu().addMenu(QIcon(f'{PLUGIN_DIR}/icons/copy.svg'), '&pathfinder')
+        self.menu = self.iface.pluginMenu().addMenu(self.icon_copy, '&pathfinder')
         self.menu.addAction(self.copy_action1)
         self.menu.addAction(self.copy_action2)
         self.menu.addAction(self.show_action)
