@@ -16,7 +16,6 @@ flist = [
     'i18n/pathfinder_de.ts',
     'icons/open_in_explorer.svg',
     'icons/copy.svg',
-    'icons/resources.qrc',
     'lib/core.py',
     'lib/i18n.py',
     'lib/utils.py',
