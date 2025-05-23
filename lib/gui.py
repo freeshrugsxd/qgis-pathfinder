@@ -49,7 +49,7 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
         self.notify_duration.valueChanged.connect(lambda v: self.on_changed('notify_duration', v))
 
         # buttons https://doc.qt.io/qtforpython-5/PySide2/QtWidgets/QDialogButtonBox.html
-        self.buttonBox.button(QDialogButtonBox.RestoreDefaults).clicked.connect(self.restore_defaults)
+        self.buttonBox.button(QDialogButtonBox.StandardButton.RestoreDefaults).clicked.connect(self.restore_defaults)
 
     def restore_settings(self):
         """Reflect pathfinder's current settings inside the settings dialog."""
@@ -124,7 +124,7 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
 
         """
         # close dialog on Escape
-        if event.key() == Qt.Key_Escape:
+        if event.key() == Qt.Key.Key_Escape:
             self.close()
 
 
@@ -177,7 +177,7 @@ def modify_context_menu(menu):
             menu.insertAction(menu.actions()[menu_idx], open_in_explorer)
 
             # give option to copy location with double backslash when shift modifier is pressed
-            shift_mod = QgsApplication.keyboardModifiers() == Qt.KeyboardModifiers(Qt.KeyboardModifier.ShiftModifier)
+            shift_mod = QgsApplication.keyboardModifiers() == Qt.KeyboardModifier.ShiftModifier
             if shift_mod and SYSTEM_IS_WINDOWS:
                 cp_src_double_backslash = QAction(QIcon(f'{PLUGIN_DIR}/icons/copy.svg'), f'{cp_action_label} (\\\\)', menu)
                 cp_src_double_backslash.triggered.connect(lambda: pf.copy_double_backslash())
