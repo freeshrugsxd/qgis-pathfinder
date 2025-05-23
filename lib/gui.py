@@ -2,13 +2,14 @@ from pathlib import Path
 
 from qgis.core import QgsApplication, QgsVectorLayer
 from qgis.PyQt import uic
-from qgis.PyQt.QtCore import QSettings, Qt
+from qgis.PyQt.QtCore import Qt
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QDialog, QDialogButtonBox
 
 from pathfinder.lib.core import Pathfinder
 from pathfinder.lib.i18n import tr
-from pathfinder.lib.utils import DEFAULTS, PLUGIN_DIR, SYSTEM_IS_WINDOWS
+from pathfinder.lib.settings import Settings
+from pathfinder.lib.utils import PLUGIN_DIR, SYSTEM_IS_WINDOWS
 
 FORM_CLASS, _ = uic.loadUiType(PLUGIN_DIR / 'ui' / 'settingsdiag.ui')
 
@@ -17,15 +18,13 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
         super().__init__(parent)
         self.setupUi(self)
 
-        self.settings = QSettings()
-        self.settings.beginGroup('pathfinder')
+        self.settings = Settings()
 
-        self.create_bindings()
+        self.connect_handlers()
         self.restore_settings()
         self.update_preview()
 
-    def create_bindings(self):
-        """Create bindings for the all elements."""
+    def connect_handlers(self):
         # comboboxes https://doc.qt.io/qtforpython-5/PySide2/QtWidgets/QComboBox.html
         self.quote_cbox.currentTextChanged.connect(lambda v: self.on_curr_changed('quote_char', v))
         self.separ_cbox.currentTextChanged.connect(lambda v: self.on_curr_changed('separ_char', v))
@@ -54,25 +53,24 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
 
     def restore_settings(self):
         """Reflect pathfinder's current settings inside the settings dialog."""
-        self.quote_cbox.setCurrentText(self.settings.value('quote_char', DEFAULTS['quote_char']))
-        self.separ_cbox.setCurrentText(self.settings.value('separ_char', DEFAULTS['separ_char']))
+        self.quote_cbox.setCurrentText(self.settings.quote_char.value())
+        self.separ_cbox.setCurrentText(self.settings.separ_char.value())
 
-        self.quote_char_custom.setText(self.settings.value('quote_char_custom', DEFAULTS['quote_char_custom']))
-        self.separ_char_custom.setText(self.settings.value('separ_char_custom', DEFAULTS['separ_char_custom']))
-        self.prefix.setText(self.settings.value('prefix', DEFAULTS['prefix']))
-        self.postfix.setText(self.settings.value('postfix', DEFAULTS['postfix']))
+        self.quote_char_custom.setText(self.settings.quote_char_custom.value())
+        self.separ_char_custom.setText(self.settings.separ_char_custom.value())
+        self.prefix.setText(self.settings.prefix.value())
+        self.postfix.setText(self.settings.postfix.value())
 
-        # cast state to int because the value is returned as string from persistent storage
-        self.incl_file_name.setCheckState(self.settings.value('incl_file_name', DEFAULTS['incl_file_name'], int))
-        self.incl_layer_name.setCheckState(self.settings.value('incl_layer_name', DEFAULTS['incl_layer_name'], int))
-        self.incl_subset_str.setCheckState(self.settings.value('incl_subset_str', DEFAULTS['incl_subset_str'], int))
-        self.single_path_quote.setCheckState(self.settings.value('single_path_quote', DEFAULTS['single_path_quote'], int))
-        self.single_path_affix.setCheckState(self.settings.value('single_path_affix', DEFAULTS['single_path_affix'], int))
-        self.paths_on_new_line.setCheckState(self.settings.value('paths_on_new_line', DEFAULTS['paths_on_new_line'], int))
-        self.show_notification.setCheckState(self.settings.value('show_notification', DEFAULTS['show_notification'], int))
-        self.original_vrt_ds.setCheckState(self.settings.value('original_vrt_ds', DEFAULTS['original_vrt_ds'], int))
+        self.incl_file_name.setChecked(self.settings.incl_file_name.value())
+        self.incl_layer_name.setChecked(self.settings.incl_layer_name.value())
+        self.incl_subset_str.setChecked(self.settings.incl_subset_str.value())
+        self.single_path_quote.setChecked(self.settings.single_path_quote.value())
+        self.single_path_affix.setChecked(self.settings.single_path_affix.value())
+        self.paths_on_new_line.setChecked(self.settings.paths_on_new_line.value())
+        self.show_notification.setChecked(self.settings.show_notification.value())
+        self.original_vrt_ds.setChecked(self.settings.original_vrt_ds.value())
 
-        self.notify_duration.setValue(self.settings.value('notify_duration', DEFAULTS['notify_duration'], int))
+        self.notify_duration.setValue(self.settings.notify_duration.value())
 
     def on_curr_changed(self, key, value):
         """Enable/disable custom character lineEdit and forward key and value to on_changed().
@@ -93,7 +91,7 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
             value (str): The new value of the setting.
 
         """
-        self.settings.setValue(key, value)
+        getattr(self.settings, key).setValue(value)
         self.update_preview()
 
     def update_preview(self, n=2):
@@ -112,8 +110,8 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
 
     def restore_defaults(self):
         """Reset settings to their default values."""
-        for k, v in DEFAULTS.items():
-            self.settings.setValue(k, v)
+        for setting in self.settings.settings_node.childrenSettings():
+            setting.setValue(setting.defaultValue())
 
         self.restore_settings()
         self.show()
