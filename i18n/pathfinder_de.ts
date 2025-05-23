@@ -9,7 +9,7 @@
         <translation>Pfad kopieren</translation>
     </message>
     <message>
-        <location filename="../pathfinder.py" line="40"/>
+        <location filename="../pathfinder.py" line="41"/>
         <source>Copy Path (\\)</source>
         <translation>Pfad kopieren (\\)</translation>
     </message>
@@ -21,7 +21,7 @@
     <message>
         <location filename="../pathfinder.py" line="59"/>
         <source>pathfinder Settings</source>
-        <translation>pathfinder Einstellungen</translation>
+        <translation type="obsolete">pathfinder Einstellungen</translation>
     </message>
     <message>
         <location filename="../lib/core.py" line="108"/>
@@ -39,24 +39,29 @@
         <translation>Andere</translation>
     </message>
     <message>
-        <location filename="../lib/utils.py" line="34"/>
+        <location filename="../lib/utils.py" line="35"/>
         <source>Space</source>
         <translation>Leerzeichen</translation>
     </message>
     <message>
-        <location filename="../lib/utils.py" line="20"/>
+        <location filename="../lib/utils.py" line="21"/>
         <source>None</source>
         <translation>Keine</translation>
     </message>
     <message>
-        <location filename="../lib/utils.py" line="24"/>
+        <location filename="../lib/utils.py" line="25"/>
         <source>Tab</source>
         <translation>Tab</translation>
     </message>
     <message>
-        <location filename="../lib/utils.py" line="25"/>
+        <location filename="../lib/utils.py" line="26"/>
         <source>New Line</source>
         <translation>Zeilenumbruch</translation>
+    </message>
+    <message>
+        <location filename="../pathfinder.py" line="55"/>
+        <source>Settings…</source>
+        <translation>Einstellungen…</translation>
     </message>
 </context>
 <context>
