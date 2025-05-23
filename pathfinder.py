@@ -52,7 +52,7 @@ class PathfinderPlugin:
         self.show_action.triggered.connect(lambda: self.on_triggered('open_in_explorer'))
 
         # register settings dialog
-        self.settings_dialog = QAction(self.icon_copy, tr('pathfinder Settings…'), self.iface.mainWindow())
+        self.settings_dialog = QAction(self.icon_copy, tr('Settings…'), self.iface.mainWindow())
         self.settings_dialog.triggered.connect(self.show_settings_dialog)
         self.iface.addToolBarIcon(self.settings_dialog)
 
