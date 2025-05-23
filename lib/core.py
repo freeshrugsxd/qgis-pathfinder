@@ -32,12 +32,8 @@ class Pathfinder:
 
     def open_in_explorer(self):
         """Open unique parent directories in a file explorer."""
-        if SYSTEM_IS_WINDOWS:
-            for p in self.unique_file_paths:
-                QProcess.startDetached(COMMAND, ['/select,', str(p)])
-        else:
-            for p in self.unique_parent_dirs:
-                QProcess.startDetached(COMMAND, [str(p)])
+        for p in self.unique_file_paths:
+            QProcess.startDetached(COMMAND, ['/select,', str(p)] if SYSTEM_IS_WINDOWS else [str(p)])
 
     def build_string(self, paths):
         """Construct a string using pathfinders current settings.
