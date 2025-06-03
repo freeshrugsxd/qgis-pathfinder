@@ -12,9 +12,14 @@ about=
         - Copy Path (\\):    Ctrl + Shift + E
         - Show in Explorer:  Ctrl + R
 
-version=version 0.5
+version=version 1.0
 
 changelog=
+    1.0 2025-06-03
+        * Qt6 support
+        * settings dialog added to plugin menu [thanks, mblesius]
+        * support new settings tree widget in the advanced settings editor
+
     0.5 2024-07-14
         * bumped required minimum QGIS version to 3.32
         * support wider range of providers
