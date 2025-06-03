@@ -11,6 +11,7 @@ flist = [
     '__init__.py',
     'pathfinder.py',
     'metadata.txt',
+    'LICENSE',
     'i18n/pathfinder.pro',
     'i18n/pathfinder_de.qm',
     'i18n/pathfinder_de.ts',
