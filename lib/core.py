@@ -4,19 +4,19 @@ from urllib.parse import unquote, urlparse
 from xml.etree import ElementTree as ET
 
 from qgis.core import QgsProviderRegistry
-from qgis.PyQt.QtCore import QProcess, QSettings
+from qgis.PyQt.QtCore import QProcess
 from qgis.PyQt.QtWidgets import QApplication
 from qgis.utils import iface
 
 from pathfinder.lib.i18n import tr
-from pathfinder.lib.utils import COMMAND, DEFAULTS, MAPPINGS, SYSTEM_IS_WINDOWS
+from pathfinder.lib.settings import Settings
+from pathfinder.lib.utils import COMMAND, MAPPINGS, SYSTEM_IS_WINDOWS
 
 
 class Pathfinder:
     def __init__(self):
         self.locs = []
-        self.settings = QSettings()
-        self.settings.beginGroup('pathfinder')
+        self.settings = Settings()
 
     def copy(self):
         """Copy paths to clipboard."""
@@ -50,32 +50,31 @@ class Pathfinder:
            str: Formatted string representing one or more file uris.
 
         """
-        settings = QSettings()
-        settings.beginGroup('pathfinder')
+        settings = Settings()
         qpr = QgsProviderRegistry.instance()
         n = len(paths)
 
         q, s = self.get_chars(quote='quote_char', sep='separ_char')
 
-        pre = settings.value('prefix', DEFAULTS['prefix'])
-        post = settings.value('postfix', DEFAULTS['postfix'])
+        pre = settings.prefix.value()
+        post = settings.postfix.value()
 
         # should file name be included?
-        if not settings.value('incl_file_name', type=bool):
+        if not settings.incl_file_name.value('incl_file_name'):
             for d in paths:
                 d['path'] = str(Path(d['path']).parent)
 
         if n == 1:
             # should a single path be quoted?
-            if not settings.value('single_path_quote', type=bool):
+            if not settings.single_path_quote.value():
                 q = ''
             # should pre- and postfix be applied to single path?
-            if not settings.value('single_path_affix', type=bool):
+            if not settings.single_path_affix.value():
                 pre = ''
                 post = ''
 
         # should paths go onto separate lines?
-        elif n > 1 and settings.value('paths_on_new_line', type=bool):
+        elif n > 1 and settings.paths_on_new_line.value():
             s += '\n'
 
         enc = []
@@ -104,18 +103,17 @@ class Pathfinder:
             message (str): Message to be displayed in the notification.
 
         """
-        if self.settings.value('show_notification', type=bool):
+        if self.settings.show_notification.value():
             iface.messageBar().pushMessage(
                 tr('Copied to clipboard'),
                 escape(message),
                 level=0,
-                duration=self.settings.value('notify_duration', DEFAULTS['notify_duration'], int)
+                duration=self.settings.notify_duration.value()
             )
 
     def parse_selected(self):
         """Parse selected layers and populate self.locs."""
         self.locs = [p for p in (self.parse(lyr) for lyr in self.selected_layers) if p is not None]
-
 
     @staticmethod
     def get_chars(quote='quote_char', sep='separ_char'):
@@ -130,22 +128,13 @@ class Pathfinder:
                 or their respective custom characters.
 
         """
-        settings = QSettings()
-        settings.beginGroup('pathfinder')
+        settings = Settings()
 
         for s in (quote, sep):
-            if settings.value(s) == tr('Other'):
-                yield settings.value(f'{s}_custom', DEFAULTS[f'{s}_custom'])
+            if getattr(settings, s).value() == tr('Other'):
+                yield getattr(settings, f'{s}_custom').value()
             else:
-                try:
-                    yield MAPPINGS[s][settings.value(s, DEFAULTS[s])]
-                except KeyError:
-                    # after switching languages, the values of some named characters can't be retrieved.
-                    # For now, we will reset these values to their default.
-                    # TODO: find way to make these settings persistent across languages
-                    settings.setValue(s, DEFAULTS[s])
-                    yield MAPPINGS[s][settings.value(s)]
-
+                yield MAPPINGS[s][getattr(settings, s).value()]
 
     @staticmethod
     def parse(layer, must_exist=True):
@@ -170,18 +159,17 @@ class Pathfinder:
         if must_exist and not path.exists():
             return None
 
-        settings = QSettings()
-        settings.beginGroup('pathfinder')
+        settings = Settings()
         out = {'provider': pr_name}
 
-        if settings.value('incl_layer_name', type=bool):
+        if settings.incl_layer_name.value():
             out['layerId'] = parts.pop('layerId', None)
             out['layerName'] = parts.pop('layerName', None)
 
-        if settings.value('incl_subset_str', type=bool):
+        if settings.incl_subset_str.value():
             out['subset'] = parts.pop('subset', None)
 
-        if path.suffix == '.vrt' and settings.value('original_vrt_ds', type=bool):
+        if path.suffix == '.vrt' and settings.original_vrt_ds.value():
             # return path to data source instead of virtual file
             ds = ET.fromstring(path.read_text()).find('OGRVRTLayer').find('SrcDataSource')  # noqa: S314
             if 'relativeToVRT' in ds.attrib:

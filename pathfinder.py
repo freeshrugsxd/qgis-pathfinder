@@ -6,6 +6,7 @@ from qgis.PyQt.QtWidgets import QAction
 from pathfinder.lib.core import Pathfinder
 from pathfinder.lib.gui import PathfinderSettingsDialog, modify_context_menu
 from pathfinder.lib.i18n import tr
+from pathfinder.lib.settings import Settings
 from pathfinder.lib.utils import PLUGIN_DIR
 
 # noinspection PyAttributeOutsideInit
@@ -31,6 +32,9 @@ class PathfinderPlugin:
     def initGui(self):
         """Register event filter and add toolbar icon."""
         self.iface.layerTreeView().contextMenuAboutToShow.connect(modify_context_menu)
+
+        # register settings
+        Settings()
 
         # set up icon references
         self.icon_copy = QIcon(f'{PLUGIN_DIR}/icons/copy.svg')
@@ -92,4 +96,5 @@ class PathfinderPlugin:
         self.iface.unregisterMainWindowAction(self.copy_action2)
         self.iface.unregisterMainWindowAction(self.show_action)
         self.iface.layerTreeView().contextMenuAboutToShow.disconnect(modify_context_menu)
+        Settings.unregister()
         del self.dialog
