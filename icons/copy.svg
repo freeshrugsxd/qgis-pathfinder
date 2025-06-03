@@ -8,4 +8,6 @@
   stroke-linejoin="round">
 <path d="M 17,3 H 57 V 51"/>
 <path d="M 7,13 V 61 H 47 V 13 H 7"/>
+<rect x="14" y="3" width="3" height="3" fill="#b3b3b3" stroke-width="0"/>
+<rect x="54" y="51" width="3" height="3" fill="#b3b3b3" stroke-width="0"/>
 </svg>
