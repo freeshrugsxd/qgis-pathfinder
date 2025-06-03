@@ -18,7 +18,7 @@ flist = [
     'icons/copy.svg',
     'lib/core.py',
     'lib/i18n.py',
-    'lib/utils.py',
+    'lib/constants.py',
     'lib/gui.py',
     'ui/settingsdiag.ui'
 ]

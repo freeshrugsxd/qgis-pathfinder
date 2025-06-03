@@ -9,7 +9,7 @@ from qgis.PyQt.QtWidgets import QAction, QDialog, QDialogButtonBox
 from pathfinder.lib.core import Pathfinder
 from pathfinder.lib.i18n import tr
 from pathfinder.lib.settings import Settings
-from pathfinder.lib.utils import PLUGIN_DIR, SYSTEM_IS_WINDOWS
+from pathfinder.lib.constants import PLUGIN_DIR, SYSTEM_IS_WINDOWS
 
 FORM_CLASS, _ = uic.loadUiType(PLUGIN_DIR / 'ui' / 'settingsdiag.ui')
 

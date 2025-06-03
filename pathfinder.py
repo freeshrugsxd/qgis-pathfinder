@@ -7,7 +7,7 @@ from pathfinder.lib.core import Pathfinder
 from pathfinder.lib.gui import PathfinderSettingsDialog, modify_context_menu
 from pathfinder.lib.i18n import tr
 from pathfinder.lib.settings import Settings
-from pathfinder.lib.utils import PLUGIN_DIR
+from pathfinder.lib.constants import PLUGIN_DIR
 
 # noinspection PyAttributeOutsideInit
 class PathfinderPlugin:

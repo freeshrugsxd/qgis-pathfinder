@@ -4,17 +4,17 @@
 <context>
     <name>@default</name>
     <message>
-        <location filename="../lib/gui.py" line="168"/>
+        <location filename="../lib/gui.py" line="166"/>
         <source>Copy Path</source>
         <translation>Pfad kopieren</translation>
     </message>
     <message>
-        <location filename="../pathfinder.py" line="41"/>
+        <location filename="../pathfinder.py" line="42"/>
         <source>Copy Path (\\)</source>
         <translation>Pfad kopieren (\\)</translation>
     </message>
     <message>
-        <location filename="../lib/gui.py" line="177"/>
+        <location filename="../lib/gui.py" line="175"/>
         <source>Show in Explorer</source>
         <translation>In Explorer öffnen</translation>
     </message>
@@ -24,42 +24,42 @@
         <translation type="obsolete">pathfinder Einstellungen</translation>
     </message>
     <message>
-        <location filename="../lib/core.py" line="108"/>
+        <location filename="../lib/core.py" line="103"/>
         <source>Copied to clipboard</source>
         <translation>Kopiert</translation>
     </message>
     <message>
-        <location filename="../lib/gui.py" line="168"/>
+        <location filename="../lib/gui.py" line="166"/>
         <source>Copy Paths</source>
         <translation>Pfade kopieren</translation>
     </message>
     <message>
-        <location filename="../lib/gui.py" line="85"/>
+        <location filename="../lib/gui.py" line="83"/>
         <source>Other</source>
         <translation>Andere</translation>
     </message>
     <message>
-        <location filename="../lib/utils.py" line="35"/>
+        <location filename="../lib/constants.py" line="26"/>
         <source>Space</source>
         <translation>Leerzeichen</translation>
     </message>
     <message>
-        <location filename="../lib/utils.py" line="21"/>
+        <location filename="../lib/constants.py" line="23"/>
         <source>None</source>
         <translation>Keine</translation>
     </message>
     <message>
-        <location filename="../lib/utils.py" line="25"/>
+        <location filename="../lib/constants.py" line="27"/>
         <source>Tab</source>
         <translation>Tab</translation>
     </message>
     <message>
-        <location filename="../lib/utils.py" line="26"/>
+        <location filename="../lib/constants.py" line="28"/>
         <source>New Line</source>
         <translation>Zeilenumbruch</translation>
     </message>
     <message>
-        <location filename="../pathfinder.py" line="55"/>
+        <location filename="../pathfinder.py" line="56"/>
         <source>Settings…</source>
         <translation>Einstellungen…</translation>
     </message>

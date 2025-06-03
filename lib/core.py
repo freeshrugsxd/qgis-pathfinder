@@ -10,7 +10,7 @@ from qgis.utils import iface
 
 from pathfinder.lib.i18n import tr
 from pathfinder.lib.settings import Settings
-from pathfinder.lib.utils import COMMAND, MAPPINGS, SYSTEM_IS_WINDOWS
+from pathfinder.lib.constants import COMMAND, Constants, SYSTEM_IS_WINDOWS
 
 
 class Pathfinder:
@@ -124,13 +124,19 @@ class Pathfinder:
                 or their respective custom characters.
 
         """
+        mappings = Constants().mappings
         settings = Settings()
 
         for s in (quote, sep):
             if getattr(settings, s).value() == tr('Other'):
                 yield getattr(settings, f'{s}_custom').value()
             else:
-                yield MAPPINGS[s][getattr(settings, s).value()]
+                try:
+                    yield mappings[s][getattr(settings, s).value()]
+                except KeyError:
+                    setting = getattr(settings, s)
+                    setting.setValue(setting.defaultValue())
+                    yield mappings[s][setting.value()]
 
     @staticmethod
     def parse(layer, must_exist=True):
