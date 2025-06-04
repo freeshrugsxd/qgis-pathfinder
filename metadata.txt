@@ -2,7 +2,7 @@
 name=pathfinder
 email=silvio.bentzien@protonmail.com
 author=silvio bentzien
-qgisMinimumVersion=3.32
+qgisMinimumVersion=3.40
 supportsQt6=True
 description=Copy file paths and open file explorer
 about=
