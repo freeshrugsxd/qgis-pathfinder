@@ -21,6 +21,7 @@ flist = [
     'lib/i18n.py',
     'lib/constants.py',
     'lib/gui.py',
+    'lib/settings.py',
     'ui/settingsdiag.ui'
 ]
 
