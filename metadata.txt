@@ -8,10 +8,6 @@ description=Copy file paths and open file explorer
 about=
     Add actions to the layer context menu for copying its source or opening the file location. Customize quoting and separation characters in the pathfinder settings. Shift + Right Click adds a Copy Path command with double backslashes. Use these keyboard shortcuts:
 
-        - Copy Path:         Ctrl + E
-        - Copy Path (\\):    Ctrl + Shift + E
-        - Show in Explorer:  Ctrl + R
-
 version=version 1.0
 
 changelog=

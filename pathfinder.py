@@ -46,9 +46,9 @@ class PathfinderPlugin:
         self.show_action = QAction(self.icon_open_in_explorer, tr('Show in Explorer'), self.iface.mainWindow())
 
         # register shortcuts
-        self.iface.registerMainWindowAction(self.copy_action1, 'Ctrl+E')
-        self.iface.registerMainWindowAction(self.copy_action2, 'Ctrl+Shift+E')
-        self.iface.registerMainWindowAction(self.show_action,  'Ctrl+R')
+        self.iface.registerMainWindowAction(action=self.copy_action1, defaultShortcut=None)
+        self.iface.registerMainWindowAction(action=self.copy_action2, defaultShortcut=None)
+        self.iface.registerMainWindowAction(action=self.show_action, defaultShortcut=None)
 
         # bind actions
         self.copy_action1.triggered.connect(lambda: self.on_triggered('copy'))
