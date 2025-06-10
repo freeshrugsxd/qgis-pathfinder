@@ -216,7 +216,7 @@ class Pathfinder:
             bool: Whether there are any layers selected.
 
         """
-        return len(self.selected_layers) > 0
+        return bool(iface.layerTreeView().selectedLayers())
 
     @property
     def selected_layers(self):
