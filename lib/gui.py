@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from qgis.core import QgsApplication, QgsVectorLayer
+from qgis.core import QgsApplication
 from qgis.PyQt import uic
 from qgis.PyQt.QtCore import Qt
 from qgis.PyQt.QtGui import QIcon
@@ -102,9 +102,19 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
 
         """
         pf = Pathfinder()
-        paths = n * ['dir/subdir/file.ext|layername=lyr|subset=id > 0']
-        # TODO: the call to QgsVectorLayer spams OGR message log with warnings
-        parsed = [pf.parse(QgsVectorLayer(path), must_exist=False) for path in paths]
+
+        base_dict = {
+            'provider': 'ogr',
+            'path': 'dir/subdir/file.ext',
+        }
+
+        if self.settings.incl_layer_name.value():
+            base_dict['layerName'] = 'lyr'
+
+        if self.settings.incl_subset_str.value():
+            base_dict['subset'] = 'id > 0'
+
+        parsed = [base_dict.copy() for _ in range(n)]
         out = pf.build_string(parsed)
         self.paths_preview.setText(out)
 
