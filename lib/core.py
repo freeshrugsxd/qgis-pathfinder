@@ -60,7 +60,7 @@ class Pathfinder:
         post = settings.postfix.value()
 
         # should file name be included?
-        if not settings.incl_file_name.value('incl_file_name'):
+        if not settings.incl_file_name.value():
             for d in paths:
                 d['path'] = str(Path(d['path']).parent)
 
