@@ -8,9 +8,13 @@ description=Copy file paths and open file explorer
 about=
     Add actions to the layer context menu for copying its source or opening the file location. Customize quoting and separation characters in the pathfinder settings. Shift + Right Click adds a Copy Path command with double backslashes.
 
-version=version 1.0.1
+version=version 1.0.2
 
 changelog=
+    1.0.2 2025-06-10
+        * restore Open in Explorer functionality on Linux & Mac
+        * handfull of small fixes and optimizations
+
     1.0.1 2025-06-04
         * fix ModuleNotFoundError, whoops
         * bump minimum QGIS version
