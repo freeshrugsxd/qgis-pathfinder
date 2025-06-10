@@ -156,10 +156,16 @@ def determine_menu_position(menu, idx=-3):
         int: Index of the target separator.
 
     """
-    try:
-        return [i for i, a in enumerate(menu.actions()) if a.isSeparator()][idx]
-    except IndexError:
-        return determine_menu_position(menu, idx - 1 if idx > 0 else idx + 1)
+    if not (separators:=[i for i, a in enumerate(menu.actions()) if a.isSeparator()]):
+        return 0
+
+    while idx < -len(separators):
+        idx += 1
+    while idx >= len(separators):
+        idx -= 1
+
+    return separators[idx]
+
 
 def modify_context_menu(menu):
     """Add pathfinder entries to context menu.
