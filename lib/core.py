@@ -7,9 +7,9 @@ from qgis.PyQt.QtCore import QProcess
 from qgis.PyQt.QtWidgets import QApplication
 from qgis.utils import iface
 
+from pathfinder.lib.constants import COMMAND, SYSTEM_IS_WINDOWS, Constants
 from pathfinder.lib.i18n import tr
 from pathfinder.lib.settings import Settings
-from pathfinder.lib.constants import COMMAND, Constants, SYSTEM_IS_WINDOWS
 
 
 class Pathfinder:

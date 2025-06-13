@@ -4,6 +4,7 @@ from platform import system
 from pathfinder.lib.i18n import tr
 
 class Constants:
+    # this needs to be a class and instanced for the dict keys to be translated
     def __init__(self):
         # platform specific commands to open file explorer
         self.commands = {
@@ -35,7 +36,6 @@ class Constants:
         self.system_is_windows = self.system == 'Windows'
         self.command = self.commands[self.system]
         self.plugin_dir = Path(__file__).parent.parent
-
 
 constants = Constants()
 COMMAND = constants.command

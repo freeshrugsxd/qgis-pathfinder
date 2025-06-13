@@ -2,6 +2,7 @@ from qgis.core import QgsSettingsEntryBool, QgsSettingsEntryInteger, QgsSettings
 
 from pathfinder.lib.i18n import tr
 
+
 class Settings:
     instance = None
 
