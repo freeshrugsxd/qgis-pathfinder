@@ -6,6 +6,7 @@ from qgis.PyQt.QtCore import Qt
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QDialog, QDialogButtonBox
 
+from pathfinder.icons import icon_copy_path, icon_open_in_explorer
 from pathfinder.lib.core import Pathfinder
 from pathfinder.lib.i18n import tr
 from pathfinder.lib.settings import Settings
@@ -188,18 +189,18 @@ def modify_context_menu(menu):
 
             # adding stuff bottom to top, so we can just reuse menu_idx for insertion
             menu.insertSeparator(menu.actions()[menu_idx])  # separator below entry
-            open_in_explorer = QAction(QIcon(f'{PLUGIN_DIR}/icons/open_in_explorer.svg'), tr('Show in Explorer'), menu)
+            open_in_explorer = QAction(icon_open_in_explorer, tr('Show in Explorer'), menu)
             open_in_explorer.triggered.connect(pf.open_in_explorer)
             menu.insertAction(menu.actions()[menu_idx], open_in_explorer)
 
             # give option to copy location with double backslash when shift modifier is pressed
             shift_mod = QgsApplication.keyboardModifiers() == Qt.KeyboardModifier.ShiftModifier
             if shift_mod and SYSTEM_IS_WINDOWS:
-                cp_src_double_backslash = QAction(QIcon(f'{PLUGIN_DIR}/icons/copy.svg'), f'{cp_action_label} (\\\\)', menu)
+                cp_src_double_backslash = QAction(icon_copy_path, f'{cp_action_label} (\\\\)', menu)
                 cp_src_double_backslash.triggered.connect(lambda: pf.copy_double_backslash())
                 menu.insertAction(menu.actions()[menu_idx], cp_src_double_backslash)
 
-            cp_src = QAction(QIcon(f'{PLUGIN_DIR}/icons/copy.svg'), cp_action_label, menu)
+            cp_src = QAction(icon_copy_path, cp_action_label, menu)
             cp_src.triggered.connect(lambda: pf.copy())
             menu.insertAction(menu.actions()[menu_idx], cp_src)
             menu.insertSeparator(menu.actions()[menu_idx])  # seperator above entry, hidden if on top

@@ -13,6 +13,7 @@ flist = [
     'metadata.txt',
     'LICENSE',
     'i18n/pathfinder_de.qm',
+    'icons/__init__.py',
     'icons/open_in_explorer.svg',
     'icons/copy.svg',
     'lib/core.py',
