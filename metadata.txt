@@ -4,7 +4,7 @@ email=silvio.bentzien@protonmail.com
 author=silvio bentzien
 qgisMinimumVersion=3.40
 supportsQt6=True
-description=Copy file paths and open file explorer
+description=A QGIS plugin that helps you locate and work with your layer file paths.
 about=
     Add actions to the layer context menu for copying its source or opening the file location. Customize quoting and separation characters in the pathfinder settings. Shift + Right Click adds a Copy Path command with double backslashes.
 
