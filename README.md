@@ -1,6 +1,4 @@
-<img src="/icons/copy.svg" align="left" height="64px">
-
-# pathfinder
+# <img src="/icons/copy.svg" align="left" height="40px"> pathfinder
 
 > A QGIS plugin that helps you locate and work with your layer file paths.
 
@@ -32,14 +30,13 @@
 
 ### Keyboard Shortcuts
 
-You can configure keyboard shortcuts for any of these in QGIS settings:
 1. Go to **Settings** → **Keyboard Shortcuts**
-2. Assign your preferred shortcuts
+2. Assign hotkey to any of the pathfinder actions
 
 ## ⚙️ Configuration
 
 Access pathfinder settings through:
-- The pathfinder icon in the toolbar
+- The pathfinder icon in the Plugins toolbar
 - The pathfinder menu in the Plugins menu
 
 ### Formatting Options
@@ -53,5 +50,5 @@ Access pathfinder settings through:
 
 ### Special Features
 
-- **Spreadsheet Layers**: Option to return original data source instead of VRT file
+- [**Spreadsheet Layers**](https://github.com/camptocamp/QGIS-SpreadSheetLayers): Option to return original data source instead of VRT file
 - **Notifications**: Show notification with copied text (configurable duration)
