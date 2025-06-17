@@ -32,14 +32,13 @@
 
 ### Keyboard Shortcuts
 
-You can configure keyboard shortcuts for any of these in QGIS settings:
 1. Go to **Settings** → **Keyboard Shortcuts**
-2. Assign your preferred shortcuts
+2. Assign hotkey to any of the pathfinder actions
 
 ## ⚙️ Configuration
 
 Access pathfinder settings through:
-- The pathfinder icon in the toolbar
+- The pathfinder icon in the Plugins toolbar
 - The pathfinder menu in the Plugins menu
 
 ### Formatting Options
