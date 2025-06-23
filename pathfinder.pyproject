@@ -1,7 +1,0 @@
-{
-    "files":
-        [
-        "pathfinder.py","layertreecontextmenumanager.py","ui/settingsdiag.ui", "lib/utils.py", "lib/settingsdialog.py", "lib/eventfilter.py",
-        "icons/resources.qrc", "i18n/pathfinder.pro", "i18n/pathfinder_de.ts", "i18n/pathfinder_en.ts", "i18n/pathfinder_es.ts", "i18n/pathfinder_fr.ts", "i18n/pathfinder_pl.ts", "i18n/pathfinder_ru.ts"
-        ]
-}
