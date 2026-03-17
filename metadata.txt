@@ -11,7 +11,7 @@ about=
 version=1.0.4
 
 changelog=
-    1.0.4 2025-01-19
+    1.0.4 2026-01-19
         * add toolbar icon toggle in plugin menu
 
     1.0.3 2025-09-30
