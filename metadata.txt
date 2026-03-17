@@ -9,9 +9,12 @@ description=A QGIS plugin that helps you locate and work with your layer file pa
 about=
     Add actions to the layer context menu for copying its source or opening the file location. Customize quoting and separation characters in the pathfinder settings. Shift + Right Click adds a Copy Path command with double backslashes.
 
-version=version 1.0.3
+version=version 1.0.4
 
 changelog=
+    1.0.4 2025-01-19
+        * add toolbar icon toggle in plugin menu
+
     1.0.3 2025-09-30
         * QGIS4 support
 
