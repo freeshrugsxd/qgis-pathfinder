@@ -1,16 +1,14 @@
 from pathlib import Path
 
-from qgis.core import QgsApplication
-from qgis.PyQt import uic
-from qgis.PyQt.QtCore import Qt
-from qgis.PyQt.QtWidgets import QAction, QDialog, QDialogButtonBox
-
 from pathfinder.icons import icon_copy_path, icon_open_in_explorer
 from pathfinder.lib.constants import PLUGIN_DIR, SYSTEM_IS_WINDOWS
 from pathfinder.lib.core import Pathfinder
 from pathfinder.lib.i18n import tr
 from pathfinder.lib.settings import Settings
-
+from qgis.core import QgsApplication
+from qgis.PyQt import uic
+from qgis.PyQt.QtCore import Qt
+from qgis.PyQt.QtWidgets import QAction, QDialog, QDialogButtonBox
 
 FORM_CLASS, _ = uic.loadUiType(PLUGIN_DIR / 'ui' / 'settingsdiag.ui')
 

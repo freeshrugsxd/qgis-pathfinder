@@ -1,5 +1,5 @@
-from qgis.PyQt.QtWidgets import QApplication
+from qgis.PyQt.QtCore import QCoreApplication
 
 
 def tr(text, context='@default'):
-    return QApplication.translate(context, text)
+    return QCoreApplication.translate(context, text)

@@ -3,11 +3,12 @@ from qgis.PyQt.QtCore import QCoreApplication, QSettings, QTranslator
 from qgis.PyQt.QtWidgets import QAction
 
 from pathfinder.icons import icon_copy_path, icon_open_in_explorer
+from pathfinder.lib.constants import PLUGIN_DIR
 from pathfinder.lib.core import Pathfinder
 from pathfinder.lib.gui import PathfinderSettingsDialog, modify_context_menu
 from pathfinder.lib.i18n import tr
 from pathfinder.lib.settings import Settings
-from pathfinder.lib.constants import PLUGIN_DIR
+
 
 # noinspection PyAttributeOutsideInit
 class PathfinderPlugin:
@@ -93,7 +94,7 @@ class PathfinderPlugin:
         """Call pathfinder method.
 
         Args:
-            fn: method name
+            fn (str): method name
         """
         if (pf := Pathfinder()).layers_selected:
             pf.parse_selected()

@@ -3,6 +3,7 @@ from platform import system
 
 from pathfinder.lib.i18n import tr
 
+
 class Constants:
     # this needs to be a class and instanced for the dict keys to be translated
     def __init__(self):

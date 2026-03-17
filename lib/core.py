@@ -1,14 +1,13 @@
 from html import escape
 from pathlib import Path
 
+from pathfinder.lib.constants import COMMAND, SYSTEM_IS_WINDOWS, Constants
+from pathfinder.lib.i18n import tr
+from pathfinder.lib.settings import Settings
 from qgis.core import Qgis, QgsProviderRegistry
 from qgis.PyQt.QtCore import QProcess
 from qgis.PyQt.QtWidgets import QApplication
 from qgis.utils import iface
-
-from pathfinder.lib.constants import COMMAND, SYSTEM_IS_WINDOWS, Constants
-from pathfinder.lib.i18n import tr
-from pathfinder.lib.settings import Settings
 
 
 class Pathfinder:
@@ -120,8 +119,8 @@ class Pathfinder:
         """Return the character equivalent to s or its respective custom character.
 
         Args:
-            quote: Quotation character
-            sep: Separation character
+            quote (str): Quotation character
+            sep (str): Separation character
 
         Yields:
             Generator[str, None, None]: generator containing representation of quote and sep

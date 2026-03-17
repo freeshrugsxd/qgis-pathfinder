@@ -1,6 +1,5 @@
-from qgis.core import QgsSettingsEntryBool, QgsSettingsEntryInteger, QgsSettingsEntryString, QgsSettingsTree
-
 from pathfinder.lib.i18n import tr
+from qgis.core import QgsSettingsEntryBool, QgsSettingsEntryInteger, QgsSettingsEntryString, QgsSettingsTree
 
 
 class Settings:

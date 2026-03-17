@@ -174,12 +174,12 @@
           </property>
           <item>
            <property name="text">
-            <string notr="true" comment="fgaeqge" extracomment="Double Quotes">&quot;</string>
+            <string notr="true">&quot;</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string notr="true" extracomment="Single Quote">'</string>
+            <string notr="true">'</string>
            </property>
           </item>
           <item>
@@ -260,7 +260,7 @@
            </size>
           </property>
           <property name="toolTip">
-           <string extracomment="qqqq">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Prefix character/s prepended to paths.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string >&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Prefix character/s prepended to paths.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string/>
