@@ -17,7 +17,6 @@ flist = [
     'icons/open_in_explorer.svg',
     'icons/copy.svg',
     'lib/core.py',
-    'lib/i18n.py',
     'lib/constants.py',
     'lib/gui.py',
     'lib/settings.py',

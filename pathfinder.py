@@ -6,7 +6,6 @@ from pathfinder.icons import icon_copy_path, icon_open_in_explorer
 from pathfinder.lib.constants import PLUGIN_DIR
 from pathfinder.lib.core import Pathfinder
 from pathfinder.lib.gui import PathfinderSettingsDialog, modify_context_menu
-from pathfinder.lib.i18n import tr
 from pathfinder.lib.settings import Settings
 
 
@@ -39,9 +38,9 @@ class PathfinderPlugin:
         self.settings = Settings()
 
         # setting up keyboard shortcut actions
-        self.copy_action1 = QAction(icon_copy_path, tr('Copy Path'), self.iface.mainWindow())
-        self.copy_action2 = QAction(icon_copy_path, tr('Copy Path (\\\\)'), self.iface.mainWindow())
-        self.show_action = QAction(icon_open_in_explorer, tr('Show in Explorer'), self.iface.mainWindow())
+        self.copy_action1 = QAction(icon_copy_path, self.tr('Copy Path'), self.iface.mainWindow())
+        self.copy_action2 = QAction(icon_copy_path, self.tr('Copy Path (\\\\)'), self.iface.mainWindow())
+        self.show_action = QAction(icon_open_in_explorer, self.tr('Show in Explorer'), self.iface.mainWindow())
 
         # register shortcuts
         self.iface.registerMainWindowAction(action=self.copy_action1, defaultShortcut=None)
@@ -54,7 +53,7 @@ class PathfinderPlugin:
         self.show_action.triggered.connect(lambda: self.on_triggered('open_in_explorer'))
 
         # register settings dialog
-        self.settings_dialog = QAction(icon_copy_path, tr('Settings…'), self.iface.mainWindow())
+        self.settings_dialog = QAction(icon_copy_path, self.tr('Settings…'), self.iface.mainWindow())
         self.settings_dialog.triggered.connect(self.show_settings_dialog)
 
         # conditionally add to toolbar
@@ -71,7 +70,7 @@ class PathfinderPlugin:
         self.menu.addAction(self.settings_dialog)
 
         # toggle for toolbar icon
-        self.toggle_toolbar_icon_action = QAction(tr('Show Toolbar Icon'), self.iface.mainWindow())
+        self.toggle_toolbar_icon_action = QAction(self.tr('Show Toolbar Icon'), self.iface.mainWindow())
         self.toggle_toolbar_icon_action.setCheckable(True)
         self.toggle_toolbar_icon_action.setChecked(self.settings.show_toolbar_icon.value())
         self.toggle_toolbar_icon_action.toggled.connect(self.on_toggle_toolbar_icon)
@@ -117,3 +116,6 @@ class PathfinderPlugin:
         self.iface.layerTreeView().contextMenuAboutToShow.disconnect(modify_context_menu)
         self.settings.unregister()
         del self.dialog
+
+    def tr(self, text):
+        return QCoreApplication.translate('PathfinderPlugin', text)

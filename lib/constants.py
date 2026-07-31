@@ -1,45 +1,30 @@
 from pathlib import Path
 from platform import system
 
-from pathfinder.lib.i18n import tr
+system = system()
 
+COMMAND = {
+    'Windows': 'explorer',
+    'Linux': 'xdg-open',
+    'Darwin': 'open',
+}[system]
 
-class Constants:
-    # this needs to be a class and instanced for the dict keys to be translated
-    def __init__(self):
-        # platform specific commands to open file explorer
-        self.commands = {
-            'Windows': 'explorer',
-            'Linux': 'xdg-open',
-            'Darwin': 'open'
-        }
+MAPPINGS = {
+    'quote_char': {
+        'double_quote': '"',
+        'single_quote': "'",
+        'acute_accent': '´',
+        'backtick': '`',
+        'space': ' ',
+        'none': '',
+    },
+    'separ_char': {
+        'space': ' ',
+        'tab': '\t',
+        'comma': ',',
+        'semicolon': ';',
+    }
+}
 
-        # map combobox label to actual character
-        self.mappings = {
-            'quote_char': {
-                '"': '"',
-                "'": "'",
-                '´': '´',
-                '`': '`',
-                tr('Space'): ' ',
-                tr('None'): '',
-            },
-            'separ_char': {
-                tr('Space'): ' ',
-                tr('Tab'): '\t',
-                tr('New Line'): '\n',
-                ',': ',',
-                ';': ';',
-            }
-        }
-
-        self.system = system()
-        self.system_is_windows = self.system == 'Windows'
-        self.command = self.commands[self.system]
-        self.plugin_dir = Path(__file__).parent.parent
-
-constants = Constants()
-COMMAND = constants.command
-MAPPINGS = constants.mappings
-PLUGIN_DIR = constants.plugin_dir
-SYSTEM_IS_WINDOWS = constants.system_is_windows
+PLUGIN_DIR = Path(__file__).parent.parent
+SYSTEM_IS_WINDOWS = system == 'Windows'

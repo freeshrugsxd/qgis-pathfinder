@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>PathfinderSettingsDialog</class>
+ <widget class="QDialog" name="PathfinderSettingsDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>396</width>
-    <height>467</height>
+    <height>536</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -106,35 +106,10 @@
       <item>
        <layout class="QGridLayout" name="gridLayout_2" columnstretch="6,4,3,6">
         <item row="2" column="1">
-         <widget class="QComboBox" name="separ_cbox">
+         <widget class="QComboBox" name="separ_cobox">
           <property name="toolTip">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The character separating multiple paths.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
-          <item>
-           <property name="text">
-            <string>Space</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Tab</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string notr="true">,</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string notr="true">;</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Other</string>
-           </property>
-          </item>
          </widget>
         </item>
         <item row="2" column="0">
@@ -158,7 +133,7 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QLabel" name="qoute_label">
+         <widget class="QLabel" name="quote_label">
           <property name="toolTip">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The character surrounding individual paths.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -168,45 +143,10 @@
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QComboBox" name="quote_cbox">
+         <widget class="QComboBox" name="quote_cobox">
           <property name="toolTip">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The character sorrounding individual paths.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
-          <item>
-           <property name="text">
-            <string notr="true">&quot;</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string notr="true">'</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string notr="true">´</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string notr="true">`</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Space</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>None</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Other</string>
-           </property>
-          </item>
          </widget>
         </item>
         <item row="2" column="2">
@@ -260,7 +200,7 @@
            </size>
           </property>
           <property name="toolTip">
-           <string >&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Prefix character/s prepended to paths.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Prefix character/s prepended to paths.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string/>
@@ -514,9 +454,9 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>quote_cbox</tabstop>
+  <tabstop>quote_cobox</tabstop>
   <tabstop>quote_char_custom</tabstop>
-  <tabstop>separ_cbox</tabstop>
+  <tabstop>separ_cobox</tabstop>
   <tabstop>separ_char_custom</tabstop>
   <tabstop>prefix</tabstop>
   <tabstop>postfix</tabstop>
@@ -535,7 +475,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>Dialog</receiver>
+   <receiver>PathfinderSettingsDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -551,7 +491,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>Dialog</receiver>
+   <receiver>PathfinderSettingsDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

@@ -1,4 +1,3 @@
-from pathfinder.lib.i18n import tr
 from qgis.core import QgsSettingsEntryBool, QgsSettingsEntryInteger, QgsSettingsEntryString, QgsSettingsTree
 
 
@@ -11,8 +10,8 @@ class Settings:
             settings_node = QgsSettingsTree.createPluginTreeNode(pluginName='pathfinder')
             cls.show_toolbar_icon = QgsSettingsEntryBool(name='show_toolbar_icon', parent=settings_node, defaultValue=True, description='Whether to show a toolbar button for the settings dialog.')
 
-            cls.quote_char = QgsSettingsEntryString(name='quote_char', parent=settings_node, defaultValue='"', description='The character surrounding individual paths.')
-            cls.separ_char = QgsSettingsEntryString(name='separ_char', parent=settings_node, defaultValue=tr('Space'), description='The character separating multiple paths.')
+            cls.quote_char = QgsSettingsEntryString(name='quote_char', parent=settings_node, defaultValue='double_quote', description='The character surrounding individual paths.')
+            cls.separ_char = QgsSettingsEntryString(name='separ_char', parent=settings_node, defaultValue='space', description='The character separating multiple paths.')
 
             cls.quote_char_custom = QgsSettingsEntryString(name='quote_char_custom', parent=settings_node, defaultValue='', description='The character surrounding individual paths.')
             cls.separ_char_custom = QgsSettingsEntryString(name='separ_char_custom', parent=settings_node, defaultValue='', description='The character separating multiple paths.')

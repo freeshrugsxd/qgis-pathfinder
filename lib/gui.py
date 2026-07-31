@@ -3,11 +3,10 @@ from pathlib import Path
 from pathfinder.icons import icon_copy_path, icon_open_in_explorer
 from pathfinder.lib.constants import PLUGIN_DIR, SYSTEM_IS_WINDOWS
 from pathfinder.lib.core import Pathfinder
-from pathfinder.lib.i18n import tr
 from pathfinder.lib.settings import Settings
 from qgis.core import QgsApplication
 from qgis.PyQt import uic
-from qgis.PyQt.QtCore import Qt
+from qgis.PyQt.QtCore import QCoreApplication, Qt
 from qgis.PyQt.QtWidgets import QAction, QDialog, QDialogButtonBox
 
 FORM_CLASS, _ = uic.loadUiType(PLUGIN_DIR / 'ui' / 'settingsdiag.ui')
@@ -20,13 +19,14 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
         self.settings = Settings()
 
         self.connect_handlers()
+        self.populate_comboboxes()
         self.restore_settings()
         self.update_preview()
 
     def connect_handlers(self):
         # comboboxes https://doc.qt.io/qtforpython-5/PySide2/QtWidgets/QComboBox.html
-        self.quote_cbox.currentTextChanged.connect(lambda v: self.on_curr_changed('quote_char', v))
-        self.separ_cbox.currentTextChanged.connect(lambda v: self.on_curr_changed('separ_char', v))
+        self.quote_cobox.currentIndexChanged.connect(lambda: self.on_curr_changed('quote_char', self.quote_cobox.currentData()))
+        self.separ_cobox.currentIndexChanged.connect(lambda: self.on_curr_changed('separ_char', self.separ_cobox.currentData()))
 
         # lineedits https://doc.qt.io/qtforpython-5/PySide2/QtWidgets/QLineEdit.html
         self.quote_char_custom.textChanged.connect(lambda v: self.on_changed('quote_char_custom', v))
@@ -50,10 +50,26 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
         # buttons https://doc.qt.io/qtforpython-5/PySide2/QtWidgets/QDialogButtonBox.html
         self.buttonBox.button(QDialogButtonBox.StandardButton.RestoreDefaults).clicked.connect(self.restore_defaults)
 
+    def populate_comboboxes(self):
+        """Set display text and userData for available options."""
+        self.quote_cobox.addItem('"', 'double_quote')
+        self.quote_cobox.addItem("'", 'single_quote')
+        self.quote_cobox.addItem('´', 'acute_accent')
+        self.quote_cobox.addItem('`', 'backtick')
+        self.quote_cobox.addItem(self.tr('Space'), 'space')
+        self.quote_cobox.addItem(self.tr('None'), 'none')
+        self.quote_cobox.addItem(self.tr('Other'), 'other')
+
+        self.separ_cobox.addItem(self.tr('Space'), 'space')
+        self.separ_cobox.addItem(self.tr('Tab'), 'tab')
+        self.separ_cobox.addItem(',', 'comma')
+        self.separ_cobox.addItem(';', 'semicolon')
+        self.separ_cobox.addItem(self.tr('Other'), 'other')
+
     def restore_settings(self):
         """Reflect pathfinder's current settings inside the settings dialog."""
-        self.quote_cbox.setCurrentText(self.settings.quote_char.value())
-        self.separ_cbox.setCurrentText(self.settings.separ_char.value())
+        self.quote_cobox.setCurrentIndex(self.quote_cobox.findData(self.settings.quote_char.value()))
+        self.separ_cobox.setCurrentIndex(self.separ_cobox.findData(self.settings.separ_char.value()))
 
         self.quote_char_custom.setText(self.settings.quote_char_custom.value())
         self.separ_char_custom.setText(self.settings.separ_char_custom.value())
@@ -79,7 +95,7 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
             value (str): The new value of the setting.
 
         """
-        getattr(self, f'{key}_custom').setEnabled(value == tr('Other'))
+        getattr(self, f'{key}_custom').setEnabled(value == 'other')
         self.on_changed(key, value)
 
     def on_changed(self, key, value):
@@ -136,6 +152,9 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
         if event.key() == Qt.Key.Key_Escape:
             self.close()
 
+    def tr(self, text):
+        return QCoreApplication.translate('PathfinderSettingsDialog', text)
+
 
 def determine_menu_position(menu, idx=-3):
     """Return menu index of the idxᵗʰ separator object.
@@ -178,7 +197,10 @@ def modify_context_menu(menu):
 
         # only show entries if there are existing files selected
         if any(Path(d['path']).exists() for d in pf.locs):
-            cp_action_label = tr('Copy Paths') if len(pf.locs) > 1 else tr('Copy Path')
+            if len(pf.locs) > 1:
+                copy_action_label = QCoreApplication.translate('PathfinderPlugin', 'Copy Paths')
+            else:
+                copy_action_label = QCoreApplication.translate('PathfinderPlugin', 'Copy Path')
 
             # determine position within context menu
             # there is an invisible separator that is gone when more than one layer is selected ???
@@ -187,18 +209,22 @@ def modify_context_menu(menu):
 
             # adding stuff bottom to top, so we can just reuse menu_idx for insertion
             menu.insertSeparator(menu.actions()[menu_idx])  # separator below entry
-            open_in_explorer = QAction(icon_open_in_explorer, tr('Show in Explorer'), menu)
+            open_in_explorer = QAction(
+                icon_open_in_explorer,
+                QCoreApplication.translate('PathfinderPlugin', 'Show in Explorer'),
+                menu
+            )
             open_in_explorer.triggered.connect(pf.open_in_explorer)
             menu.insertAction(menu.actions()[menu_idx], open_in_explorer)
 
             # give option to copy location with double backslash when shift modifier is pressed
             shift_mod = QgsApplication.keyboardModifiers() == Qt.KeyboardModifier.ShiftModifier
             if shift_mod and SYSTEM_IS_WINDOWS:
-                cp_src_double_backslash = QAction(icon_copy_path, f'{cp_action_label} (\\\\)', menu)
+                cp_src_double_backslash = QAction(icon_copy_path, f'{copy_action_label} (\\\\)', menu)
                 cp_src_double_backslash.triggered.connect(lambda: pf.copy_double_backslash())
                 menu.insertAction(menu.actions()[menu_idx], cp_src_double_backslash)
 
-            cp_src = QAction(icon_copy_path, cp_action_label, menu)
+            cp_src = QAction(icon_copy_path, copy_action_label, menu)
             cp_src.triggered.connect(lambda: pf.copy())
             menu.insertAction(menu.actions()[menu_idx], cp_src)
             menu.insertSeparator(menu.actions()[menu_idx])  # seperator above entry, hidden if on top

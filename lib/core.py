@@ -1,11 +1,10 @@
 from html import escape
 from pathlib import Path
 
-from pathfinder.lib.constants import COMMAND, SYSTEM_IS_WINDOWS, Constants
-from pathfinder.lib.i18n import tr
+from pathfinder.lib.constants import COMMAND, MAPPINGS, SYSTEM_IS_WINDOWS
 from pathfinder.lib.settings import Settings
 from qgis.core import Qgis, QgsProviderRegistry
-from qgis.PyQt.QtCore import QProcess
+from qgis.PyQt.QtCore import QCoreApplication, QProcess
 from qgis.PyQt.QtWidgets import QApplication
 from qgis.utils import iface
 
@@ -80,14 +79,14 @@ class Pathfinder:
             encoded = qpr.encodeUri(provider, parts)
 
             if 'file:///' in encoded:
-                from urllib.parse import urlparse
+                from urllib.parse import urlparse  # noqa: PLC0415
                 encoded = urlparse(encoded).path
 
                 if SYSTEM_IS_WINDOWS:
                     encoded = encoded.strip('/')
 
             if provider == 'delimitedtext' and '%' in encoded:
-                from urllib.parse import unquote
+                from urllib.parse import unquote  # noqa: PLC0415
                 encoded = unquote(encoded)
 
             enc.append(encoded)
@@ -104,7 +103,7 @@ class Pathfinder:
         """
         if self.settings.show_notification.value():
             iface.messageBar().pushMessage(
-                tr('Copied to clipboard'),
+                self.tr('Copied to clipboard'),
                 escape(message),
                 level=Qgis.MessageLevel.Info,
                 duration=self.settings.notify_duration.value()
@@ -127,19 +126,18 @@ class Pathfinder:
                 or their respective custom characters.
 
         """
-        mappings = Constants().mappings
         settings = Settings()
 
         for s in (quote, sep):
-            if getattr(settings, s).value() == tr('Other'):
+            val = getattr(settings, s).value()
+            if val == 'other':
                 yield getattr(settings, f'{s}_custom').value()
+            elif val in MAPPINGS[s]:
+                yield MAPPINGS[s][val]
             else:
-                try:
-                    yield mappings[s][getattr(settings, s).value()]
-                except KeyError:
-                    setting = getattr(settings, s)
-                    setting.setValue(setting.defaultValue())
-                    yield mappings[s][setting.value()]
+                setting = getattr(settings, s)
+                setting.setValue(setting.defaultValue())
+                yield MAPPINGS[s][setting.value()]
 
     @staticmethod
     def parse(layer, must_exist=True):
@@ -175,7 +173,7 @@ class Pathfinder:
             out['subset'] = parts.pop('subset', None)
 
         if path.suffix == '.vrt' and settings.original_vrt_ds.value():
-            from xml.etree import ElementTree as ET
+            from xml.etree import ElementTree as ET  # noqa: PLC0415
             # return path to data source instead of virtual file
             ds = ET.fromstring(path.read_text()).find('OGRVRTLayer').find('SrcDataSource')  # noqa: S314
             if 'relativeToVRT' in ds.attrib:
@@ -188,6 +186,9 @@ class Pathfinder:
         out['path'] = str(path)
 
         return {k: v for k, v in out.items() if v is not None}
+
+    def tr(self, text):
+        return QCoreApplication.translate('Pathfinder', text)
 
     @property
     def unique_file_paths(self):
