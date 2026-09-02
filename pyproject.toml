@@ -1,0 +1,95 @@
+[project]
+name = 'pathfinder'
+description = 'Copy Path and Open in Explorer for QGIS'
+
+authors = [
+  { name = 'silvio bentzien', email='silvio.bentzien@protonmail.com' },
+]
+
+requires-python = '>=3.12'
+
+[tool.ruff]
+output-format = "concise"
+line-length = 120
+
+src = [".."]
+
+[tool.ruff.lint]
+
+select = [
+  "ARG",         # flake8-unused-arguments
+  "B",           # flake8-bugbear
+  "C4",          # flake8-comprehensions
+  "D",
+  "E",           # flake8
+  "EM",          # flake8-errmsg
+  "EXE",         # flake8-executable
+  "F",           # flake8
+  "G",           # flake8-logging-format
+  "I",           # isort
+  "ICN",         # flake8-import-conventions
+  "INT",
+  "ISC",         # flake8-implicit-str-concat
+  "NPY",         # NumPy specific rules
+  "PD",          # pandas-vet,
+  "PGH",         # pygrep-hooks
+  "PIE",         # flake8-pie
+  "PL",          # pylint
+  "PLC",
+  "PLE",
+  "PLR",
+  "PLW",
+  "PT",          # flake8-pytest-style
+  "PTH",         # flake8-use-pathlib
+  "Q",
+  "RET",         # flake8-return
+  "RSE",
+  "RUF",         # Ruff-specific
+  "S",
+  "SIM",         # flake8-simplify
+  "T20",         # flake8-print
+  "TCH",
+  "TID",         # flake8-tidy-imports
+  "TRY",
+  "UP",          # pyupgrade
+  "W",           # flake8
+  "YTT",         # flake8-2020
+]
+
+ignore = [
+  "ANN",    # Type Annotations
+  "D101",   # Docstring in public class
+  "D203",   # 1 blank line required before class docstring
+  "D213",   # Multi-line docstring summary should start at the second line
+  "D401",   # First line of docstring should be in imperative mood
+  "D407",   # Missing dashed underline after section
+  "DTZ006", # The use of `datetime.datetime.fromtimestamp()` without `tz` argument is not allowed
+  "E501",   # line length
+  "I001",   # unorganized imports
+  "FBT003", # Boolean positional value in function call
+  "S311",   # Standard pseudo-random generators are not suitable for cryptographic purposes
+]
+
+ignore-init-module-imports = true
+
+exclude = [
+    ".git",
+    ".ruff_cache",
+    "__pypackages__",
+    ".idea"
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.flake8-quotes]
+docstring-quotes = "double"
+inline-quotes = "single"
+multiline-quotes = "single"
+
+[tool.ruff.lint.mccabe]
+# Unlike Flake8, default to a complexity level of 10.
+max-complexity = 10
+
+[tool.ruff.lint.per-file-ignores]
+# "__init__.py" = ["F401"]
