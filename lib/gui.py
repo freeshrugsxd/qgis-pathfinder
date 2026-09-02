@@ -18,8 +18,8 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
 
         self.settings = Settings()
 
-        self.connect_handlers()
         self.populate_comboboxes()
+        self.connect_handlers()
         self.restore_settings()
         self.update_preview()
 
